@@ -1,0 +1,120 @@
+[08-Sep-2016 06:56:27 Europe/Berlin] Uncaught exception: 'Exception'With message 'No route matched'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/public/index.php(26): Core\Router->dispatch('search.php&sear...')
+#1 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/Core/Router.php' on line89
+[08-Sep-2016 06:57:33 Europe/Berlin] Uncaught exception: 'Exception'With message 'No route matched'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/public/index.php(26): Core\Router->dispatch('search.php&sear...')
+#1 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/Core/Router.php' on line89
+[08-Sep-2016 06:57:36 Europe/Berlin] Uncaught exception: 'Exception'With message 'No route matched'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/public/index.php(26): Core\Router->dispatch('search.php&sear...')
+#1 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/Core/Router.php' on line89
+[08-Sep-2016 06:59:49 Europe/Berlin] Uncaught exception: 'Exception'With message 'No route matched'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/public/index.php(26): Core\Router->dispatch('search.php&sear...')
+#1 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/Core/Router.php' on line89
+[08-Sep-2016 07:02:03 Europe/Berlin] Uncaught exception: 'ErrorException'With message 'Illegal string offset 'controller''
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/Core/Router.php(64): Core\Error::errorHandler(2, 'Illegal string ...', '/Applications/M...', 64, Array)
+#1 /Applications/MAMP/htdocs/web/menuFake/public/index.php(30): Core\Router->dispatch('')
+#2 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/Core/Router.php' on line64
+[08-Sep-2016 07:02:04 Europe/Berlin] Uncaught exception: 'ErrorException'With message 'Illegal string offset 'controller''
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/Core/Router.php(64): Core\Error::errorHandler(2, 'Illegal string ...', '/Applications/M...', 64, Array)
+#1 /Applications/MAMP/htdocs/web/menuFake/public/index.php(30): Core\Router->dispatch('')
+#2 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/Core/Router.php' on line64
+[08-Sep-2016 07:02:35 Europe/Berlin] Uncaught exception: 'Exception'With message 'No route matched'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/public/index.php(30): Core\Router->dispatch('search.php&sear...')
+#1 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/Core/Router.php' on line89
+[08-Sep-2016 07:04:47 Europe/Berlin] Uncaught exception: 'Exception'With message 'No route matched'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/public/index.php(28): Core\Router->dispatch('search.php&sear...')
+#1 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/Core/Router.php' on line89
+[08-Sep-2016 07:04:51 Europe/Berlin] Uncaught exception: 'Exception'With message 'No route matched'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/public/index.php(28): Core\Router->dispatch('search.php&sear...')
+#1 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/Core/Router.php' on line89
+[08-Sep-2016 07:05:34 Europe/Berlin] Uncaught exception: 'Exception'With message 'No route matched'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/public/index.php(28): Core\Router->dispatch('Search.php&sear...')
+#1 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/Core/Router.php' on line89
+[08-Sep-2016 07:06:36 Europe/Berlin] Uncaught exception: 'Exception'With message 'No route matched'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/public/index.php(28): Core\Router->dispatch('Search.php&sear...')
+#1 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/Core/Router.php' on line89
+[08-Sep-2016 07:06:40 Europe/Berlin] Uncaught exception: 'Exception'With message 'No route matched'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/public/index.php(28): Core\Router->dispatch('search.php&sear...')
+#1 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/Core/Router.php' on line89
+[08-Sep-2016 07:07:04 Europe/Berlin] Uncaught exception: 'Exception'With message 'No route matched'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/public/index.php(28): Core\Router->dispatch('search.php&sear...')
+#1 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/Core/Router.php' on line89
+[08-Sep-2016 07:07:10 Europe/Berlin] Uncaught exception: 'ErrorException'With message 'Illegal string offset 'controller''
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/Core/Router.php(64): Core\Error::errorHandler(2, 'Illegal string ...', '/Applications/M...', 64, Array)
+#1 /Applications/MAMP/htdocs/web/menuFake/public/index.php(28): Core\Router->dispatch('search&search=f...')
+#2 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/Core/Router.php' on line64
+[08-Sep-2016 07:10:00 Europe/Berlin] Uncaught exception: 'ErrorException'With message 'Undefined property: App\Controllers\Search::$params'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/App/Controllers/Search.php(12): Core\Error::errorHandler(8, 'Undefined prope...', '/Applications/M...', 12, Array)
+#1 /Applications/MAMP/htdocs/web/menuFake/Core/Router.php(76): App\Controllers\Search->index()
+#2 /Applications/MAMP/htdocs/web/menuFake/public/index.php(28): Core\Router->dispatch('search/index&se...')
+#3 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/App/Controllers/Search.php' on line12
+[08-Sep-2016 07:11:59 Europe/Berlin] Uncaught exception: 'Exception'With message 'No route matched'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/public/index.php(26): Core\Router->dispatch('search/index&se...')
+#1 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/Core/Router.php' on line89
+[08-Sep-2016 07:12:04 Europe/Berlin] Uncaught exception: 'ErrorException'With message 'Illegal string offset 'controller''
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/Core/Router.php(64): Core\Error::errorHandler(2, 'Illegal string ...', '/Applications/M...', 64, Array)
+#1 /Applications/MAMP/htdocs/web/menuFake/public/index.php(26): Core\Router->dispatch('search&search=g...')
+#2 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/Core/Router.php' on line64
+[08-Sep-2016 07:12:47 Europe/Berlin] Uncaught exception: 'Error'With message 'Cannot access empty property'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/Core/Router.php(76): App\Controllers\Search->index()
+#1 /Applications/MAMP/htdocs/web/menuFake/public/index.php(26): Core\Router->dispatch('search&search=g...')
+#2 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/App/Controllers/Search.php' on line12
+[08-Sep-2016 07:13:51 Europe/Berlin] Uncaught exception: 'Error'With message 'Cannot access empty property'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/Core/Router.php(76): App\Controllers\Search->index()
+#1 /Applications/MAMP/htdocs/web/menuFake/public/index.php(26): Core\Router->dispatch('search&search=g...')
+#2 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/App/Controllers/Search.php' on line12
+[08-Sep-2016 07:13:53 Europe/Berlin] Uncaught exception: 'Error'With message 'Cannot access empty property'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/Core/Router.php(76): App\Controllers\Search->index()
+#1 /Applications/MAMP/htdocs/web/menuFake/public/index.php(26): Core\Router->dispatch('search&search=g...')
+#2 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/App/Controllers/Search.php' on line12
+[08-Sep-2016 07:13:56 Europe/Berlin] Uncaught exception: 'Error'With message 'Cannot access empty property'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/Core/Router.php(76): App\Controllers\Search->index()
+#1 /Applications/MAMP/htdocs/web/menuFake/public/index.php(26): Core\Router->dispatch('search&search=d...')
+#2 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/App/Controllers/Search.php' on line12
+[08-Sep-2016 07:14:49 Europe/Berlin] Uncaught exception: 'Error'With message 'Cannot access empty property'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/Core/Router.php(76): App\Controllers\Search->index()
+#1 /Applications/MAMP/htdocs/web/menuFake/public/index.php(26): Core\Router->dispatch('search&search=d...')
+#2 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/App/Controllers/Search.php' on line12
+[08-Sep-2016 07:14:53 Europe/Berlin] Uncaught exception: 'Error'With message 'Cannot access empty property'
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/Core/Router.php(76): App\Controllers\Search->index()
+#1 /Applications/MAMP/htdocs/web/menuFake/public/index.php(26): Core\Router->dispatch('search&search=e...')
+#2 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/App/Controllers/Search.php' on line12
+[08-Sep-2016 07:30:41 Europe/Berlin] Uncaught exception: 'ParseError'With message 'syntax error, unexpected 'List' (T_LIST), expecting identifier (T_STRING) or '{''
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/vendor/composer/ClassLoader.php(301): Composer\Autoload\includeFile('/Applications/M...')
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Controllers...')
+#2 [internal function]: spl_autoload_call('App\\Controllers...')
+#3 /Applications/MAMP/htdocs/web/menuFake/Core/Router.php(69): class_exists('App\\Controllers...')
+#4 /Applications/MAMP/htdocs/web/menuFake/public/index.php(26): Core\Router->dispatch('search&search=4...')
+#5 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/App/Controllers/Search.php' on line5
+[08-Sep-2016 07:30:46 Europe/Berlin] Uncaught exception: 'ParseError'With message 'syntax error, unexpected 'List' (T_LIST), expecting identifier (T_STRING) or '{''
+Stack trace:#0 /Applications/MAMP/htdocs/web/menuFake/vendor/composer/ClassLoader.php(301): Composer\Autoload\includeFile('/Applications/M...')
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Controllers...')
+#2 [internal function]: spl_autoload_call('App\\Controllers...')
+#3 /Applications/MAMP/htdocs/web/menuFake/Core/Router.php(69): class_exists('App\\Controllers...')
+#4 /Applications/MAMP/htdocs/web/menuFake/public/index.php(26): Core\Router->dispatch('search&search=d...')
+#5 {main}
+Thrown in '/Applications/MAMP/htdocs/web/menuFake/App/Controllers/Search.php' on line5

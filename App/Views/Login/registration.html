@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %} MenuFake {% endblock %}
+{% block body %}
+
+
+
+<div>
+	<form action="/registration" method="POST">
+		<label>
+			First Name:
+		</label>
+		<input type="text" name="firstName"> <br>
+		<label>
+			Last Name:
+		</label>
+		<input type="text" name="lastName"> <br>
+		<label>
+			User Name:
+		</label>
+		<input type="text" name="userName"> <br>
+		<label>
+			E-mail:
+		</label>
+		<input type="text" name="email"> <br>
+		<label>
+			Address:
+		</label>
+		<input type="text" name="address"> <br>
+		<label>
+			Password:
+		</label>
+		<input type="text" name="password"> <br>
+		<label>
+			Re-Password:
+		</label>
+		<input type="text" name="confirmPassword"> <br>
+		<input type="submit">
+		
+		
+	</form>
+</div>
+
+{% endblock %}

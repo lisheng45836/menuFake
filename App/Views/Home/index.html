@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %} Home {% endblock %}
+{% block body %}
+
+	<h1>Welcome, MenuFake</h1>
+
+	<div>
+		<form action="/search" method="get">
+			<input type="text" name="location" placeholder="Enter your suburb or postcode">
+			<input type="hidden" name="cartType" value="delivery">
+			<button type="submit">
+				Let's Go
+			</button>
+		</form>
+	</div>
+
+{% endblock %}

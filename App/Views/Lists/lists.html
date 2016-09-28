@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %} MenuFake {% endblock %}
+{% block body %}
+
+	<h1>Restaurants</h1>
+	<h1>{{ location }} Delivery and Takeawy</h1>
+
+	<div>
+		<ul class="main">
+			{% for restaurant in result %}
+				<li><h2>{{ restaurant.title }}<h2></li>
+				<li>cuisineName: {{ restaurant.cuisineName }}</li>
+				<li>openTime: {{ restaurant.openTime }}</li>
+				<li>minOrder: {{ restaurant.minOrder }}</li>
+				<li>description: {{ restaurant.description }}</li>
+				<li>image_path: {{ restaurant.image_path }}</li>
+				<li>address: {{ restaurant.address }}</li>
+				<li>cartType: {{ restaurant.cartType }}</li>
+				<a href="/restaurants/{{restaurant.title}}/order">See Menu</a>
+			{% endfor %}
+		</ul>
+	</div>
+
+	<div class="sideBar">
+	<div>
+		<div>
+			<label>Delivery</label>
+			<input type="radio" name="cartType" value="delivery" id="delivery" checked="checked">
+		</div>
+		<div>
+			<label>Pick-up</label>
+			<input type="radio" name="cartType" value="pickUp" id="pickUp">
+		</div>
+	</div>
+	<br>
+	<div>
+		<form action="/search/{{location}}/refind" method="get" id="target">
+			<input type="hidden" name="cartType" id="cartType" value="delivery">
+			<li>
+				<button type="submit"> Refind your search </button>
+			</li>
+			<li>
+				<label>All cuisines</label>
+				<input type="checkbox" name="cuisineNames[]" value="all" id="all" checked="checked">
+			</li>
+			<li>
+				<label>Chinese</label>
+				<input type="checkbox" name="cuisineNames[]" value="chinese" class="cuisineNames">
+			</li>
+			<li>
+				<label>Thai</label>
+				<input type="checkbox" name="cuisineNames[]" value="thai" class="cuisineNames">
+			</li>
+			<li>
+				<label>Pizza</label>
+				<input type="checkbox" name="cuisineNames[]" value="pizza" class="cuisineNames">
+			</li>
+			<li>
+				<label>Asian</label>
+				<input type="checkbox" name="cuisineNames[]" value="asian" class="cuisineNames">
+			</li>
+
+		</form>
+	</div>
+	<script type="text/javascript">
+		
+	</script>
+	</div>
+{% endblock %}
