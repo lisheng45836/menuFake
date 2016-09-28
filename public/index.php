@@ -20,6 +20,7 @@ $router->add('',['controller' => 'Home', 'action' => 'index']);
 $router->add('registration',['controller' => 'Register', 'action' => 'registration']);
 $router->add('search',['controller' => 'Search', 'action' => 'index']);
 // $router->add('restaurants',);
+$router->add('auth/{controller}/{action}',['namespace' => 'Auth']);
 
 $router->add('{controller}/{action}');
 $router->add('{controller}/{name:\w+\_*}/{action}');

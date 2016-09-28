@@ -45,3 +45,4 @@ class View
 		echo $twig->render($template,$arguments);
 	}
 }
+?>

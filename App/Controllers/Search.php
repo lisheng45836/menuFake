@@ -3,6 +3,7 @@
 namespace App\Controllers;
 use \Core\View;
 use App\Models\Restaurant;
+use App\Controllers\Auth\Users;
 
 class Search extends \Core\Controller
 {
@@ -13,7 +14,8 @@ class Search extends \Core\Controller
 			$cartType = $_GET["cartType"];
 			$location = ucfirst($location); // first character uppercase
 			$results = Restaurant::getLists($location,$cartType);
-			View::renderTemplate('Lists/lists.html',['result' => $results ,'location' => $location]);
+			$auth = Users::auth();
+			View::renderTemplate('Lists/lists.html',['result' => $results ,'location' => $location,'auth'=>$auth]);
 		}
 	}
 

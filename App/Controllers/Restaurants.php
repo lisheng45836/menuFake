@@ -4,6 +4,7 @@ namespace App\Controllers;
 use \Core\View;
 use App\Models\Restaurant;
 use App\Models\Menu;
+use App\Controllers\Auth\Users;
 class Restaurants extends \Core\Controller
 {
 	public function order(){
@@ -14,7 +15,8 @@ class Restaurants extends \Core\Controller
 		$id	= $info[0]['id'];
 		$menu = Menu::getMenu($id);
 		$menus = $this->unique_array($menu,'menuTitle');
-		View::renderTemplate('Lists/restaurant.html',['restaurant' => $info,'menus' => $menus]);
+		$auth = Users::auth();
+		View::renderTemplate('Lists/restaurant.html',['restaurant' => $info,'menus' => $menus,'auth'=>$auth]);
 
 	}
 

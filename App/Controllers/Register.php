@@ -1,7 +1,9 @@
 <?php
 namespace App\Controllers;
+use App\Controllers\Auth\Helper;
 use \Core\View;
 use App\Models\User;
+use App\Controllers\Auth\Users;
 
 /**
 * 
@@ -10,15 +12,14 @@ class Register extends \Core\Controller
 {
 	public $min = 3;
 	public $errors = [];
-	// 
-
-	// public function index(){
-
-	// 	View::renderTemplate('Login/registration.html');
-	// }
+	
 	public function registration(){
 
-		View::renderTemplate('Login/registration.html');
+		if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+
+			$auth = Users::auth();
+			View::renderTemplate('Auth/registration.html',['auth'=>$auth]);
+		}
 
 		if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
@@ -43,10 +44,10 @@ class Register extends \Core\Controller
 				$headers = "From: jinfang1969@gmail.com";
 
 				$this->sendMail($email, $subject, $msg, $headers);
-				//return header("Location: /");
+				Helper::redirect('/auth/users/login');
 
 			}else{
-				//echo "fuck";
+				
 			}
 
 		}
@@ -84,7 +85,7 @@ class Register extends \Core\Controller
 		if(!empty($this->errors)){
 
 			foreach ($this->errors as $error) {
-				echo $this->errorHandle($error);
+				echo Helper::errorHandle($error);
 			}
 			//return false;
 
@@ -107,28 +108,14 @@ class Register extends \Core\Controller
 
 			if(User::findUser($email,$validationCode)){ // Check if user exists 
 				User::activate($email,$validationCode);
-				$msg = "<p class='bg-success'>Your account has been activated please login</p>";
-				//View::renderTemplate('Login/activate.html',['msg' => $msg]);
-				echo $msg;
+				$msg = "Your account has been activated please login";
+				View::renderTemplate('Auth/login.html',['msg' => $msg]);
 			}else{
-				$msg = "<p class='bg-success'>Your account cannot be activate</p>";
-				//View::renderTemplate('Login/activate.html',['msg' => $msg]);
+				$msg = "Your account cannot be activate";
+				View::renderTemplate('Auth/login.html',['msg' => $msg]);
 				echo $msg;
 			}
 		}
 	}
-
-	// Handle Error message
-	protected function errorHandle($error){
-		$error= <<<HTML
-	<div class="alert alert-danger alert-dismissible" role="alert">
-	  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	  	<strong>Warning!</strong> $error
-	 </div>
-HTML;
-		return $error;
-	}
-
-
 
 }	

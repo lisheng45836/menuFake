@@ -8,6 +8,11 @@
 		<a href="/"> Home </a>
 		<a href="/posts"> p </a>
 		<a href="/registration"> registration </a>
+		{%if not (auth)%}
+		<a href="/auth/users/login"> login </a>
+		{%else%}
+		<a href="/auth/users/logOut"> logout </a>
+		{%endif%}
 	</nav>
 
 	{% block body %}
