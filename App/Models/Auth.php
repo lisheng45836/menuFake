@@ -22,4 +22,33 @@ class Auth extends \Core\Model
 		}
 
 	}
+
+	public static function updateValidation($code,$email){
+
+		try{
+
+			$db = static::getDB();
+			$stmt=$db->prepare("UPDATE customer set validationCode = :code WHERE email = :email");
+			$stmt->bindParam(':code',$code);
+			$stmt->bindParam(':email',$email);
+			$stmt->execute();
+			return true;
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public static function updatePassword($newPassword,$email){
+		$newPassword = md5($newPassword);
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("UPDATE customer SET password = :newPassword, validationCode = 0 WHERE email =:email");
+			$stmt->bindParam(':newPassword',$newPassword);
+			$stmt->bindParam(':email',$email);
+			$stmt->execute();
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+
+	}
 }

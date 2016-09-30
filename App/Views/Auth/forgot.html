@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %} MenuFake {% endblock %}
+{% block body %}
+
+<h1>Forgot Password</h1>
+<form action="/auth/users/forgot" method="POST">
+	<label>
+		Email:
+	</label>
+	<input type="text" name="email">
+	<input type="hidden" name="token" value="{{token}}">
+	<input type="submit" name="submit">
+</form>
+
+
+{% endblock %}

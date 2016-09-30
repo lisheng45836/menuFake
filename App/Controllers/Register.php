@@ -43,7 +43,7 @@ class Register extends \Core\Controller
 
 				$headers = "From: jinfang1969@gmail.com";
 
-				$this->sendMail($email, $subject, $msg, $headers);
+				Helper::sendMail($email, $subject, $msg, $headers);
 				Helper::redirect('/auth/users/login');
 
 			}else{
@@ -97,10 +97,6 @@ class Register extends \Core\Controller
 	}
 
 
-	protected function sendMail($email, $subject, $msg, $headers){
-		return mail($email, $subject, $msg, $headers);
-	}
-
 	public function activateUser(){
 		if($_SERVER['REQUEST_METHOD'] == 'GET'){
 			$email 			= htmlspecialchars($_GET['email']);
@@ -117,5 +113,7 @@ class Register extends \Core\Controller
 			}
 		}
 	}
+
+
 
 }	

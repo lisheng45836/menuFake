@@ -18,4 +18,7 @@ HTML;
 		exit;
 	}
 
+	public static function sendMail($email, $subject, $msg, $headers){
+		return mail($email, $subject, $msg, $headers);
+	}
 }

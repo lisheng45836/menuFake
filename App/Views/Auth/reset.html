@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %} MenuFake {% endblock %}
+{% block body %}
+
+<h1>Reset Password</h1>
+<form action="/auth/users/reset" method="POST">
+	<label>
+		Enter new password
+	</label>
+	<input type="password" name="password">
+	<label>
+		Confirm password
+	</label>
+	<input type="password" name="repassword">
+	<input type="hidden" name="token" value="{{token}}">
+	<input type="hidden" name="email" value="{{email}}">
+	<input type="submit" name="submit">
+</form>
+
+{% endblock %}
