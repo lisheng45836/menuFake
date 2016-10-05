@@ -30,16 +30,19 @@ class Users extends \Core\Controller
 
 	public function loginAction(){
 
-		//View::renderTemplate('Auth/login.html');
 		if($_SERVER['REQUEST_METHOD'] == 'GET'){
-			View::renderTemplate('Auth/login.html');
+			if(!$this->auth()){
+				View::renderTemplate('Auth/login.html');
+			}else{
+				Helper::redirect('/');
+			}
+			
 		}
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 			$email 			= htmlspecialchars($_POST['email']);
 			$password		= htmlspecialchars($_POST['password']);
 			$remember		= isset($_POST['remember']);
-
 			if(empty($email)){
 				$this->errors[] = "Email is empty";
 			}
@@ -52,15 +55,24 @@ class Users extends \Core\Controller
 					echo Helper::errorHandle($error);	
 				}
 			}else{
-				$dbPassword = Auth::getPassword($email);
+				$data = Auth::getUserInfo($email);
+				$dbPassword = $data['password'];
+				$role = $data['role'];
 				session_start();
 				if(md5($password) === $dbPassword){ //md5()
 					if($remember == "on"){
 						setcookie('email',$email,time() + 86400,'/');
 					}
 					$_SESSION['email'] = $email;
-	
-					Helper::redirect('/');
+					if($role == "1"){
+						Helper::redirect('/');
+					}
+					if($role == "2"){
+						Helper::redirect('/partner'); // issue penel.
+					}
+					if($role == "3"){
+						Helper::redirect('/admin');
+					}
 					
 				}else{
 					echo Helper::errorHandle("login nah");
@@ -76,6 +88,13 @@ class Users extends \Core\Controller
 		}else{
 			return false;
 		}
+	}
+
+	public static function getUser(){
+		
+			$email = $_SESSION['email'];
+			return Auth::getUserInfo($email);
+		
 	}
 
 	public function logOut(){

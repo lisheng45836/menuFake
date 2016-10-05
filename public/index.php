@@ -17,9 +17,11 @@ $router = new Core\Router();
 // Add the routes
 // home page
 $router->add('',['controller' => 'Home', 'action' => 'index']);
+$router->add('partner',['controller' => 'Partner', 'action' => 'index']);
+$router->add('admin',['controller' => 'Admin', 'action' => 'index']);
 $router->add('registration',['controller' => 'Register', 'action' => 'registration']);
 $router->add('search',['controller' => 'Search', 'action' => 'index']);
-// $router->add('restaurants',);
+
 $router->add('auth/{controller}/{action}',['namespace' => 'Auth']);
 
 $router->add('{controller}/{action}');

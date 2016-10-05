@@ -19,12 +19,25 @@ class Restaurant extends \Core\Model
 		}
 	}
 
-	public static function getRestaurant($name)
+	public static function getRestaurantByName($name)
 	{
 		try{
 			$db = static::getDB();
 			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType FROM restaurant WHERE title = ? ");
 			$stmt->execute(array($name));
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return $result;
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public static function getRestaurantByOwner($userId)
+	{
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType FROM restaurant WHERE owner = ? ");
+			$stmt->execute(array($userId));
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $result;
 		}catch(PODException $e){

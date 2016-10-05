@@ -2,7 +2,7 @@
 {% block title %} MenuFake {% endblock %}
 {% block body %}
 
-<h1>Customer registration</h1>
+<h1>Partner registration</h1>
 
 <div>
 	<form action="/registration" method="POST">
@@ -34,12 +34,11 @@
 			Re-Password:
 		</label>
 		<input type="text" name="confirmPassword"> <br>
-		<input type="hidden" name="role" value="1">
+		<input type="hidden" name="role" value="2">
 		<input type="submit">
 		
 		
 	</form>
 </div>
-<a href="/registration?partner">Partner registration</a>
 
 {% endblock %}

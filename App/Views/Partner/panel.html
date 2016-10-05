@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %} Partner Panel {% endblock %}
+
+{% block body %}
+	<h1>Partner Panel</h1>
+	<h2>My restaurant</h2>
+	{% for restaurant in restaurantData %}
+		<ul>
+		<form action="/edit/{{ restaurant.title }}/restaurant" method="POST">
+			<li> <a href="#"> {{ restaurant.title }} </a></li>
+			<a href="/edit/{{restaurant.title}}/menu">Edit Menu</a>
+			<a href="/edit/{{restaurant.title}}/addMenus">Add New menu</a>
+			<li><label>cuisineName:</label><input type="text" name="cuisineName" value="{{ restaurant.cuisineName }}"></li>
+			<li><label>openTime:</label> <input type="text" name="openTime" value="{{ restaurant.openTime }}"> </li>
+			<li><label>minOrder:</label> <input type="text" name="minOrder" value="{{ restaurant.minOrder }}"> </li>
+			<li><label>description:</label> <input type="text" name="description" value="{{ restaurant.description }}"></li>
+			<li><label>image_path:</label> <input type="text" name="image_path" value="{{ restaurant.image_path }}"> </li>
+			<li><label>address:</label> <input type="text" name="address" value="{{ restaurant.address }}"> </li>
+			<li><label>cartType</label><input type="text" name="cartType" value="{{ restaurant.cartType }}"></li>
+			<input type="submit" name="submit">
+		</form>
+		</ul>
+	{% endfor %}
+
+{% endblock %}

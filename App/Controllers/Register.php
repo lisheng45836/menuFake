@@ -16,9 +16,14 @@ class Register extends \Core\Controller
 	public function registration(){
 
 		if ($_SERVER['REQUEST_METHOD'] == 'GET'){
-
-			$auth = Users::auth();
-			View::renderTemplate('Auth/registration.html',['auth'=>$auth]);
+			if(isset($_GET['customer'])){
+				$auth = Users::auth();
+				View::renderTemplate('Auth/registration.html',['auth'=>$auth]);
+			}
+			if(isset($_GET['partner'])){
+				$auth = Users::auth();
+				View::renderTemplate('Auth/registPartner.html',['auth'=>$auth]);
+			}
 		}
 
 		if ($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -28,22 +33,34 @@ class Register extends \Core\Controller
 			$userName 			= htmlspecialchars($_POST['userName']);
 			$email 				= htmlspecialchars($_POST['email']);
 			$address			= htmlspecialchars($_POST['address']);
+			$role				= htmlspecialchars($_POST['role']);
 			$password			= htmlspecialchars($_POST['password']);
 			$confirmPassword	= htmlspecialchars($_POST['confirmPassword']);
 
 			if($this->inputValidation($firstName,$lastName,$userName,$email,$address,$password,$confirmPassword)){
 
-				$validationCode = User::register($firstName,$lastName,$userName,$email,$password,$address);
+				$validationCode = User::register($firstName,$lastName,$userName,$email,$password,$address,$role);
 
-				$subject = "Activate Account";
-				$msg = " Please click the link below to activate your Account
-				http://localhost:8888//register/activateUser?email=$email&validationCode=$validationCode
-				";
+				if($role === "1"){
+					$subject = "Activate Account";
+					$msg = " Please click the link below to activate your Account
+					http://localhost:8888//register/activateUser?email=$email&validationCode=$validationCode";
+					Helper::sendMail($email, $subject, $msg);
+				}
+				if($role === "2"){
+					$subject = "Waitng Admin to activate your account";
+					$msg = " Dear partner Please Wait for Admin to activate your account
+					";
+					
+					Helper::sendMail($email, $subject, $msg);
+					// send to admin
+					$adminEmail = "jinfang1969@gmail.com";
+					$subject = "Partner $userName are waiting to be activate [$email]";
+					$msg = " Contact this partner ($email) OR activate account now:
+					http://localhost:8888//register/activateUser?email=$email&validationCode=$validationCode";
+					Helper::sendMail($adminEmail, $subject, $msg);
+				}
 
-
-				$headers = "From: jinfang1969@gmail.com";
-
-				Helper::sendMail($email, $subject, $msg, $headers);
 				Helper::redirect('/auth/users/login');
 
 			}else{

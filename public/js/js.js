@@ -33,7 +33,7 @@ function getRestaurant(){
 								'<li>image_path:'+ restaurant[i].image_path+'</li>'+
 								'<li>address:'+ restaurant[i].address+'</li>'+
 								'<li>cartType:'+ restaurant[i].cartType+ '</li>'+
-								'<a href="/restaurants/'+urlTitle+'">'+"See Menu"+'</a>';
+								'<a href="/restaurants/'+urlTitle+'/menus">'+"See Menu"+'</a>';
 					$(".main").append(content);
 				}
 			}
@@ -63,7 +63,6 @@ $(document).on('change','.cuisineNames',function(){
 
 		$(".main").empty().html(getRestaurant());
 	}
-
 
 });
 
@@ -161,4 +160,22 @@ $(document).ready(function(){
 
 	});
 
+	$(document).on('click','#submit',function(){
+		var foodList = JSON.parse(localStorage.getItem("list"));
+		
+		$.ajax({
+			type: 'POST',
+			url: '/restaurants/orders',
+			data: {orderList: foodList},
+			success:function(data){
+				console.log("yes");
+				console.log(data);
+			}
+		});
+	});
+
+	// var input = $('menuTitle').val();
+	// if(input.length == 0){
+	// 	console.log("empty");
+	// }
 });

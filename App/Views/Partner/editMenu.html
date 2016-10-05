@@ -1,0 +1,56 @@
+
+	<h1>Add new</h1>
+		<form action="/edit/addFood" method="POST">
+			<label>
+				choose menus
+			</label>
+			<select name="menuId">
+				{%for menu in menuTitle%}
+			  		<option  value="{{menu.id}}">{{ menu.menuTitle }}</option>
+				{%endfor%}
+			</select>
+			<label>
+				Add New food
+			</label>
+			<input type="text" name="foodTitle" value="">
+			<label>
+				price
+			</label>
+			<input type="text" name="price" value="">
+			<label>
+				description
+			</label>
+			<input type="text" name="description" value="">
+			<input type="hidden" name="title" value="{{title}}">
+			<input type="submit" value="add">
+		</form>
+
+
+	{%for menu in menus%}
+		
+		<h1>{{ menu.menuTitle }}</h1>
+		<ul>
+			<li>
+			<form action="/edit/editMenu" method="POST" >
+				<label>
+					food title
+				</label>
+				<input type="text" name="foodTitle" value="{{ menu.foodTitle }}"> <br>
+				<label>
+					price
+				</label>
+				<input type="text" name="price" value="{{ menu.price }}">
+				<label>
+					Description
+				</label>
+				<input type="text" name="description" value="{{ menu.description }}">
+
+				<input type="hidden" name="foodId" id="foodId" value="{{ menu.id }}">
+				<input type="hidden" name="title" value="{{title}}">
+				<input type="submit" name="edit" value="save">
+				<input type="submit" name="delete" value="delete">
+			</form>
+				
+			</li>
+		</ul>
+	{%endfor%}

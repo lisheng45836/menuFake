@@ -64,3 +64,15 @@ CREATE TABLE orderItem
 	FOREIGN KEY (order_id) REFERENCES orders(id)
 	
 )
+
+-- CREATE TABLE owner
+-- (
+-- 	id int(20) AUTO_INCREMENT PRIMARY KEY,
+--     firstName varchar(115) not null,
+--     lastName varchar(115) not null,
+--     email varchar(115) not null,
+--     restaurant_id int(20) not null,
+--     validationCode text,
+--     activate tinyint(1),
+--     FOREIGN KEY (restaurant_id) REFERENCES restaurant(id)
+-- )

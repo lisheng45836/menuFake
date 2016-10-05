@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %} Add menu {% endblock %}
+
+{% block body %}
+	<h1>Add menu</h1>
+
+	<form action="/edit/{{title}}/addMenus" method="POST">
+		<label>
+			Menu title
+		</label>
+		<input type="text" name="menuTitle" value=""> <br>
+
+		<label>
+			Food title
+		</label>
+		<input type="text" name="foodTitle" value=""> <br>
+		<label>
+			Food price
+		</label>
+		<input type="text" name="price" value=""> <br>
+
+		<label>
+			Food Description
+		</label>
+		<input type="text" name="description" value=""> <br>
+		<input type="hidden" name="title" value="{{title}}">
+		<input type="submit" name="submit" value="add">
+	</form>
+
+{% endblock %}
