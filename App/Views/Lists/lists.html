@@ -2,68 +2,97 @@
 {% block title %} MenuFake {% endblock %}
 {% block body %}
 
-	<h1>Restaurants</h1>
-	<h1>{{ location }} Delivery and Takeawy</h1>
-
-	<div>
-		<ul class="main">
-			{% for restaurant in result %}
-				<li><h2>{{ restaurant.title }}<h2></li>
-				<li>cuisineName: {{ restaurant.cuisineName }}</li>
-				<li>openTime: {{ restaurant.openTime }}</li>
-				<li>minOrder: {{ restaurant.minOrder }}</li>
-				<li>description: {{ restaurant.description }}</li>
-				<li>image_path: {{ restaurant.image_path }}</li>
-				<li>address: {{ restaurant.address }}</li>
-				<li>cartType: {{ restaurant.cartType }}</li>
-				<a href="/restaurants/{{restaurant.title}}/menus">See Menu</a>
-			{% endfor %}
-		</ul>
+	<div class="jumbotron listCover">
+	<h2 class="heading">{{ location }} Delivery and Takeaway</h2>
 	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="sideBar">
+					<div class="list-group">
+						<div class="list-group-item">
+							<ul class="list-inline side">
+								<li>
+								<div class="tag">
+									<label>Delivery</label>
+									<input type="radio" name="cartType" value="delivery" id="delivery" checked="checked">
+								</div>
+								</li>
+								<li>
+								<div class="tag">
+									<label>Pick-up</label>
+									<input type="radio" name="cartType" value="pickUp" id="pickUp">
+								</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<br>
 
-	<div class="sideBar">
-	<div>
-		<div>
-			<label>Delivery</label>
-			<input type="radio" name="cartType" value="delivery" id="delivery" checked="checked">
+					<div class="choose">
+						<form action="/search/{{location}}/refind" method="get" id="target">
+							<input type="hidden" name="cartType" id="cartType" value="delivery">
+
+							<div class="list-group">
+								<h4>Cuisines</h4>
+								<div class="list-group-item sideList">
+								<label>All cuisines</label>
+								<input type="checkbox" name="cuisineNames[]" value="all" id="all" checked="checked">
+								</div>
+								
+								<div class="list-group-item sideList">
+								<label>Chinese</label>
+								<input type="checkbox" name="cuisineNames[]" value="chinese" class="cuisineNames">
+								</div>
+
+								<div class="list-group-item sideList">
+								<label>Thai</label>
+								<input type="checkbox" name="cuisineNames[]" value="thai" class="cuisineNames">
+								</div>
+								
+								<div class="list-group-item sideList">
+								<label>Pizza</label>
+								<input type="checkbox" name="cuisineNames[]" value="pizza" class="cuisineNames">
+								</div>
+								
+								<div class="list-group-item sideList">
+								<label>Asian</label>
+								<input type="checkbox" name="cuisineNames[]" value="asian" class="cuisineNames">
+								</div>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-8">
+
+				<table class="table table-bordered">
+					<tbody class="main">
+						{% for restaurant in result %}
+						<tr>
+							<td>
+								<div class="row">
+									<div class="col-md-4">
+										<img class="img-rounded img" src="//www.menulog.com.au/generated_content/venue_images/takeaway_search_thumb/185433_ec3c411428f83918bb282fa725145a08/Bombay-Affair_Orderonline.jpeg">
+									</div>
+
+									<div class="col-md-8">
+										<h4>{{ restaurant.title }}</h4>
+										<span>{{ restaurant.cuisineName }} | </span>
+										<span>{{ restaurant.openTime }} | </span>
+										<span>${{ restaurant.minOrder }}</span> <br>
+										<span>{{ restaurant.address }}</span> <br>
+										<a class="btn btn-default pull-right" href="/restaurants/{{restaurant.title}}/menus" role="button">See Menu</a>
+									</div>
+								</div>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
 		</div>
-		<div>
-			<label>Pick-up</label>
-			<input type="radio" name="cartType" value="pickUp" id="pickUp">
-		</div>
-	</div>
-	<br>
-	<div>
-		<form action="/search/{{location}}/refind" method="get" id="target">
-			<input type="hidden" name="cartType" id="cartType" value="delivery">
-			<li>
-				<button type="submit"> Refind your search </button>
-			</li>
-			<li>
-				<label>All cuisines</label>
-				<input type="checkbox" name="cuisineNames[]" value="all" id="all" checked="checked">
-			</li>
-			<li>
-				<label>Chinese</label>
-				<input type="checkbox" name="cuisineNames[]" value="chinese" class="cuisineNames">
-			</li>
-			<li>
-				<label>Thai</label>
-				<input type="checkbox" name="cuisineNames[]" value="thai" class="cuisineNames">
-			</li>
-			<li>
-				<label>Pizza</label>
-				<input type="checkbox" name="cuisineNames[]" value="pizza" class="cuisineNames">
-			</li>
-			<li>
-				<label>Asian</label>
-				<input type="checkbox" name="cuisineNames[]" value="asian" class="cuisineNames">
-			</li>
-
-		</form>
-	</div>
-	<script type="text/javascript">
-		
-	</script>
 	</div>
 {% endblock %}

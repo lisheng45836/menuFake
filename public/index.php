@@ -23,6 +23,7 @@ $router->add('registration',['controller' => 'Register', 'action' => 'registrati
 $router->add('search',['controller' => 'Search', 'action' => 'index']);
 
 $router->add('auth/{controller}/{action}',['namespace' => 'Auth']);
+//$router->add('auth/{controller}/{name:\w+\_*}/{action}',['namespace'=>'Auth']);
 
 $router->add('{controller}/{action}');
 $router->add('{controller}/{name:\w+\_*}/{action}');

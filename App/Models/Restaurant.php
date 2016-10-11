@@ -10,7 +10,7 @@ class Restaurant extends \Core\Model
 	{
 		try{
 			$db = static::getDB();
-			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType FROM restaurant WHERE cartType = ? AND address LIKE ? ");
+			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType,owner FROM restaurant WHERE cartType = ? AND address LIKE ? ");
 			$stmt->execute(array($cartType,"%$search%"));
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $result;
@@ -36,8 +36,88 @@ class Restaurant extends \Core\Model
 	{
 		try{
 			$db = static::getDB();
-			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType FROM restaurant WHERE owner = ? ");
+			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType,owner FROM restaurant WHERE owner = ? ");
 			$stmt->execute(array($userId));
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return $result;
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public static function addRestaurant($title,$cuisineName,$openTime,$minOrder,$description,$image_path,$address,$cartType,$userId)
+	{
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("INSERT INTO restaurant(title,cuisineName,openTime,minOrder,description,image_path,address,cartType,owner)VALUES(:title,:cuisineName,:openTime,:minOrder,:description,:image_path,:address,:cartType,:owner)");
+
+			$stmt->bindParam(':title',$title);
+			$stmt->bindParam(':cuisineName',$cuisineName);
+			$stmt->bindParam(':openTime',$openTime);
+			$stmt->bindParam(':minOrder',$minOrder);
+			$stmt->bindParam(':description',$description);
+			$stmt->bindParam(':image_path',$image_path);
+			$stmt->bindParam(':address',$address);
+			$stmt->bindParam(':cartType',$cartType);
+			$stmt->bindParam(':owner',$userId);
+			$stmt->execute();
+
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public static function deleteRestaurant($restaurantName)
+	{
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("DELETE FROM restaurant WHERE title = ?");
+			$stmt->execute(array($restaurantName));
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public static function updateRestaurant($title,$cuisineName,$openTime,$minOrder,$description,$image_path,$address,$cartType,$restaurantName)
+	{
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("UPDATE restaurant SET title =:title,cuisineName =:cuisineName,openTime=:openTime, minOrder =:minOrder,description=:description,image_path=:image_path,address=:address,cartType=:cartType WHERE title =:restTitle");
+			$stmt->bindParam(':title',$title);
+			$stmt->bindParam(':cuisineName',$cuisineName);
+			$stmt->bindParam(':openTime',$openTime);
+			$stmt->bindParam(':minOrder',$minOrder);
+			$stmt->bindParam(':description',$description);
+			$stmt->bindParam(':image_path',$image_path);
+			$stmt->bindParam(':address',$address);
+			$stmt->bindParam(':cartType',$cartType);
+			$stmt->bindParam(':restTitle',$restaurantName);
+			$stmt->execute();
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public static function searchRestaurant($userID,$search)
+	{
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType,owner FROM restaurant WHERE owner = ? AND title LIKE ?");
+			$stmt->execute(array($userID,"%$search%"));
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return $result;
+
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public static function searchRestaurantAdmin($search)
+	{
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType,owner FROM restaurant WHERE title LIKE ? ");
+			$stmt->execute(array("%$search%"));
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $result;
 		}catch(PODException $e){

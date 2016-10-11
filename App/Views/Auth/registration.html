@@ -1,45 +1,71 @@
 {% extends "base.html" %}
 {% block title %} MenuFake {% endblock %}
 {% block body %}
+<div class="container">
+    	<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="panel panel-login">
+					<div class="panel-heading">
+						
+						<h3 style="text-align: center;">Customer Register</h3>
+						
+						<hr>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-12">
+								<form id="login-form" method="post" role="form" style="display: block;">
+									<div class="form-group">
+										<label>
+											First Name:
+										</label>
+										<input type="text" class="form-control" name="firstName" placeholder="First Name">
+										<label>
+											Last Name:
+										</label>
+										<input type="text" class="form-control" name="lastName" placeholder="Last Name">
+										<label>
+											User Name:
+										</label>
+										<input type="text" class="form-control" name="userName" placeholder="User Name">
+										<label>
+											E-mail:
+										</label>
+										<input type="text" class="form-control" name="email" placeholder="E-mail">
+										<label>
+											Address:
+										</label>
+										<input type="text" class="form-control" name="address" placeholder="Address">
+										<label>
+											Password:
+										</label>
 
-<h1>Customer registration</h1>
+										<input type="password" class="form-control" name="password" placeholder="Password">
+										<label>
+											Re-Password:
+										</label>
+										<input type="password" class="form-control" name="confirmPassword" placeholder="Password again">
+										<input type="hidden" name="role" value="1">
+									</div>
+								
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-6 col-sm-offset-3">
+												<div style="text-align: center;">
+													<input class="btn btn-default" type="submit"> <br>
+													<a href="/registration?partner">Partner registration</a>
+												</div>
+											</div>
+										</div>
+									</div>
 
-<div>
-	<form action="/registration" method="POST">
-		<label>
-			First Name:
-		</label>
-		<input type="text" name="firstName"> <br>
-		<label>
-			Last Name:
-		</label>
-		<input type="text" name="lastName"> <br>
-		<label>
-			User Name:
-		</label>
-		<input type="text" name="userName"> <br>
-		<label>
-			E-mail:
-		</label>
-		<input type="text" name="email"> <br>
-		<label>
-			Address:
-		</label>
-		<input type="text" name="address"> <br>
-		<label>
-			Password:
-		</label>
-		<input type="text" name="password"> <br>
-		<label>
-			Re-Password:
-		</label>
-		<input type="text" name="confirmPassword"> <br>
-		<input type="hidden" name="role" value="1">
-		<input type="submit">
-		
-		
-	</form>
-</div>
-<a href="/registration?partner">Partner registration</a>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 {% endblock %}

@@ -85,6 +85,48 @@ class User extends \Core\Model
 		}
 	}
 
+	public static function searchUser($search){
+		try{
+
+			$db = static::getDB();
+			$stmt = $db->prepare("SELECT id,firstName,lastName,userName,email,password,address,validationCode,activate,role FROM users WHERE userName LIKE ? OR email LIKE ? OR firstName LIKE ? OR lastName LIKE ?");
+			$stmt->execute(array("%$search%","%$search%","%$search%","%$search%"));
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return $result;
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public static function getAllUser(){
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("SELECT id, firstName,lastName,userName,email,address,validationCode,activate,role FROM users");
+			$stmt->execute();
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return $result;
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public static function updateUser($userId,$firstName,$lastName,$userName,$email,$address){
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("UPDATE users SET firstName = :firstName, lastName = :lastName, userName =:userName, email=:email, address = :address WHERE id = :userId");
+			$stmt->bindParam(':firstName',$firstName);
+			$stmt->bindParam(':lastName',$lastName);
+			$stmt->bindParam(':userName',$userName);
+			$stmt->bindParam(':email',$email);
+			$stmt->bindParam(':address',$address);
+			$stmt->bindParam(':userId',$userId);
+			$stmt->execute();
+			
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
 	public static function activate($email,$validationCode){
 
 		try{
@@ -96,4 +138,15 @@ class User extends \Core\Model
 			echo $e->getMessage();
 		}
 	}
+
+	public static function deactivate($email,$validationCode){
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("UPDATE users SET activate = 0, validationCode = 0 WHERE email = ? AND validationCode = ?");
+			$stmt->execute(array($email,$validationCode));
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
 }

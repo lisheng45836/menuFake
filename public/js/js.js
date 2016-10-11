@@ -25,15 +25,25 @@ function getRestaurant(){
 				for(i=0;i<restaurant.length;i++){
 					var title = restaurant[i].title;
 					var urlTitle = title.replace(/ /g,"_");
-					var content = '<li><h2>'+restaurant[i].title+'<h2></li>'+
-								'<li>cuisineName:'+restaurant[i].cuisineName+'</li>'+
-								'<li>openTime:'+ restaurant[i].openTime+'</li>'+
-								'<li>minOrder:'+ restaurant[i].minOrder+'</li>'+
-								'<li>description:'+ restaurant[i].description+'</li>'+
-								'<li>image_path:'+ restaurant[i].image_path+'</li>'+
-								'<li>address:'+ restaurant[i].address+'</li>'+
-								'<li>cartType:'+ restaurant[i].cartType+ '</li>'+
-								'<a href="/restaurants/'+urlTitle+'/menus">'+"See Menu"+'</a>';
+					var content =	'<tr>'+
+									'<td>'+
+										'<div class="row">'+
+											'<div class="col-md-4">' +
+								  				'<img class="img-rounded img" src="//www.menulog.com.au/generated_content/venue_images/takeaway_search_thumb/185433_ec3c411428f83918bb282fa725145a08/Bombay-Affair_Orderonline.jpeg">'+
+								  			'</div>'+
+
+								 			'<div class="col-md-8">'+
+												'<h4>'+restaurant[i].title+'</h4>'+
+												'<span>'+restaurant[i].cuisineName + '|</span>'+
+												'<span>'+restaurant[i].openTime+ '| </span>'+
+												'<span>$'+restaurant[i].minOrder+'</span> <br>'+
+												'<span>'+restaurant[i].address+'</span> <br>'+
+												'<a class="btn btn-default pull-right" href="/restaurants/'+urlTitle+'/menus" role="button">See Menu</a>'+
+											'</div>'+
+										'</div>'+
+									'</td>'+
+									'</tr>';
+						
 					$(".main").append(content);
 				}
 			}
@@ -124,15 +134,15 @@ $(document).ready(function(){
 		if(lists !== null){
 			for (i=0;i<lists.length;i++){
 				if(lists[i].restaurantId == restaurantId){
-					var data ='<li>'+ lists[i].foodTitle +'</li>'+
-								'<li>Price: '+lists[i].price+'</li>'+
-								'<li>QTY: '+lists[i].qty+'</li>'+
-								'<button class="removeFood" data-id="'+lists[i].foodId+'">'+"x"+'</button>';
+					var data ='<li class="list-group-item" >'+ '<strong>'+lists[i].foodTitle +'</strong>'+
+								'<button class="removeFood" data-id="'+lists[i].foodId+'">'+"x"+'</button>'+'</li>'+
+								'<li class="list-group-item" >Price: '+lists[i].price+'</li>'+
+								'<li class="list-group-item" >QTY: '+lists[i].qty+'</li>';
 					total += parseInt(lists[i].price);
 					$('.food').append(data);
 				}
 			}
-			$('#total').html('Total:'+total);
+			$('#total').html('<strong>Total:</strong>$'+total);
 		}
 	}
 
@@ -147,10 +157,11 @@ $(document).ready(function(){
 					foodList[i].price-=(foodList[i].price/foodList[i].qty)
 					foodList[i].qty -= 1;
 					localStorage.setItem("list",JSON.stringify(foodList));
+					console.log(localStorage.getItem("list"));
 					load();
 				}else if(foodList[i].qty == 1){
 					delete foodList[i];
-					foodList = JSON.stringify(foodList).replace(/null|null\,|\,null/,''); // escaping the null
+					foodList = JSON.stringify(foodList).replace(/null,|null|null\,|\,null/,''); // escaping the null
 					localStorage.setItem("list",foodList);
 					console.log(localStorage.getItem("list"));
 					load();
@@ -174,8 +185,43 @@ $(document).ready(function(){
 		});
 	});
 
-	// var input = $('menuTitle').val();
-	// if(input.length == 0){
-	// 	console.log("empty");
-	// }
+	$('#search').click(function(){
+		var search = $('#searchInput').val();
+		
+		$.ajax({
+			type: 'GET',
+			url: '/auth/users/searchUser',
+			data: {search: search},
+			success:function(data){
+				var user = JSON.parse(data);
+
+				for(i=0;i<user.length;i++){
+					$(".userTable").empty();
+					var content = '<tr>'+
+									'<td>'+user[i].id+'</td>'+
+									'<td>'+user[i].userName+'</td>'+
+									'<td>'+user[i].firstName+'</td>'+
+									'<td>'+user[i].lastName+'</td>'+
+									'<td>'+user[i].email+'</td>'+
+									'<td>'+user[i].address+'</td>'+
+
+									'<td><a href="/admin/'+user[i].id+'/editRestaurant">Show restaurant</a></td>'+
+									'<td>'+user[i].validationCode+'</td>'+
+									'<td>'+user[i].activate+'</td>'+
+									'<td>'+user[i].role+'</td>'+
+									'<td>'+
+										'<form action="/admin/activateUser" method="POST">'+
+											'<input type="hidden" name="email" value="'+user[i].email+'">'+
+											'<input type="hidden" name="validationCode" value="'+user[i].validationCode+'">'+
+											'<input class="btn btn-default" type="submit" name="activate" value="activate">'+
+											'<input class="btn btn-danger" type="submit" name="deactivate" value="Deactivate">'+
+										'</form>'
+									'</td>'+
+									'</tr>'
+					$(".userTable").append(content);
+				}
+				console.log(user);
+			}
+		});
+	});
 });

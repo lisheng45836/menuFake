@@ -56,8 +56,8 @@ class Users extends \Core\Controller
 				}
 			}else{
 				$data = Auth::getUserInfo($email);
-				$dbPassword = $data['password'];
-				$role = $data['role'];
+				$dbPassword = $data[0]['password'];
+				$role = $data[0]['role'];
 				session_start();
 				if(md5($password) === $dbPassword){ //md5()
 					if($remember == "on"){
@@ -92,9 +92,29 @@ class Users extends \Core\Controller
 
 	public static function getUser(){
 		
-			$email = $_SESSION['email'];
-			return Auth::getUserInfo($email);
+		$email = $_SESSION['email'];
+		return Auth::getUserInfo($email);
 		
+	}
+
+	public function updateUser(){
+
+		$userId = $this->route_params['name'];
+		$firstName = htmlspecialchars($_POST['firstName']);
+		$lastName = htmlspecialchars($_POST['lastName']);
+		$userName = htmlspecialchars($_POST['userName']);
+		$email = htmlspecialchars($_POST['email']);
+		$address = htmlspecialchars($_POST['address']);
+		
+		User::updateUser($userId,$firstName,$lastName,$userName,$email,$address);
+
+		Helper::redirect('/partner');
+	}
+
+	public function searchUser(){
+		$search = htmlspecialchars($_GET['search']);
+		$result = User::searchUser($search); 
+		echo json_encode($result);
 	}
 
 	public function logOut(){

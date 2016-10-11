@@ -1,0 +1,73 @@
+{% extends "panelBase.html" %}
+{% block title %} Search {% endblock %}
+
+{% block body %}
+
+<div class="container">
+ 		<div>
+		{% if userRole == 2%}
+			<a class="btn" href="/partner"><strong>Back</strong></a>
+		{% endif %}
+		{% if userRole == 3%}
+			<a class="btn" href="/admin"><strong>Back</strong></a>
+		{% endif %}
+		</div>
+{% for restaurant in result %}
+	<h3>{{ restaurant.title }}</h3>
+						<a class="btn btn-info" role="button" href="/edit/{{restaurant.title}}/menu">Edit Menu</a>
+						<a class="btn btn-warning" href="/edit/{{restaurant.title}}/addMenus">Add New menu</a>
+						<hr>
+						<form action="/edit/{{restaurant.title}}/editRestaurant" method="POST">
+						<ul class="list-inline">
+				  		<li>
+				  			<div class="form-group">
+					  			<label>Title</label>
+								<input class="form-control" type="text" name="title" value="{{ restaurant.title }}">
+								<label>cuisineName:</label>
+								<input class="form-control" type="text" name="cuisineName" value="{{ restaurant.cuisineName }}">
+							</div>
+						</li>
+						<li>
+							<div class="form-group">
+								<label>openTime:</label> 
+								<input class="form-control" type="text" name="openTime" value="{{ restaurant.openTime }}">
+								<label>minOrder:</label>
+								<input class="form-control" type="text" name="minOrder" value="{{ restaurant.minOrder }}">
+							</div>
+						</li>
+						<li>
+							<div class="form-group">
+								<label>description:</label> 
+								<input class="form-control" type="text" name="description" value="{{ restaurant.description }}">
+								<label>image_path:</label> 
+								<input class="form-control" type="text" name="image_path" value="{{ restaurant.image_path }}">
+							</div>
+						</li>
+						<li>
+							<div class="form-group">
+								<label>address:</label> 
+								<input class="form-control" type="text" name="address" value="{{ restaurant.address }}">
+								<label>cartType</label>
+								<input class="form-control" type="text" name="cartType" value="{{ restaurant.cartType }}">
+							</div>
+						</li>
+						<li>
+							<div class="form-group"> <br>
+								<input type="hidden" name="userId" value="{{restaurant.owner}}">
+								<input class="btn btn-primary" type="submit" name="save" value="save">
+							</div>
+						</li>
+						<li>
+							<div class="form-group">
+								
+							</div>
+						</li>
+						</ul>
+						</form>
+
+						<hr>
+{%endfor%}
+</div>
+	
+
+{% endblock %}

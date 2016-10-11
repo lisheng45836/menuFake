@@ -10,9 +10,9 @@ class Auth extends \Core\Model
 
 		try{
 			$db = static::getDB();
-			$stmt=$db->prepare("SELECT password,id,role FROM users WHERE email =? AND activate = 1");
+			$stmt=$db->prepare("SELECT id,firstName,lastName,userName,email,address,role,password FROM users WHERE email =? AND activate = 1");
 			$stmt->execute(array($email));
-			$result = $stmt->fetch();
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $result;
 
 		}catch(PODException $e){
@@ -49,6 +49,5 @@ class Auth extends \Core\Model
 		}catch(PODException $e){
 			echo $e->getMessage();
 		}
-
 	}
 }

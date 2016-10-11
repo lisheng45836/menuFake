@@ -15,7 +15,6 @@ class Restaurants extends \Core\Controller
 		$id	= $info[0]['id'];
 		$menu = Menu::getMenu($id);
 		$menus = Helper::uniqueArray($menu,'menuTitle');
-		//var_dump($menus);
 		$auth = Users::auth();
 		View::renderTemplate('Lists/restaurant.html',['restaurant' => $info,'menus' => $menus,'auth'=>$auth]);
 
@@ -29,7 +28,7 @@ class Restaurants extends \Core\Controller
 				$orderId = uniqid();
 				var_dump($orderId);
 				$user = Users::getUser();
-				$userID = $user['id'];
+				$userID = $user[0]['id'];
 				Menu::setOrder($orderId,$userID);
 				for($i=0;$i<count($data);$i++){
 					$foodId 		= $data[$i]['foodId'];
@@ -44,6 +43,24 @@ class Restaurants extends \Core\Controller
 				echo "not login, contiune";
 			}
 			
+		}
+	}
+
+	public function searchRestaurants(){
+		$search = htmlspecialchars($_GET['search']);
+		$auth = Users::auth();
+		if($auth){
+			$user = Users::getUser();
+			$userID = $user[0]['id'];
+			$userRole = $user[0]['role'];
+			if($userRole == 2){
+				$result = Restaurant::searchRestaurant($userID,$search);
+				View::renderTemplate('Search/ownerSearch.html',['result'=>$result,'auth'=>$auth,'userRole'=>$userRole]);
+			}
+			if($userRole == 3){
+				$result = Restaurant::searchRestaurantAdmin($search);
+				View::renderTemplate('Search/adminSearch.html',['result'=>$result,'auth'=>$auth,'userRole'=>$userRole]);
+			}
 		}
 	}
 

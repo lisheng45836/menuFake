@@ -1,17 +1,59 @@
-{% extends "base.html" %}
-{% block title %} Home {% endblock %}
-{% block body %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Menu Fake</title>
+</head>
+<body class="body">
+	<nav class="navbar navbar-default ">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="#">Brand</a>
+	    </div>
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav">
+	        <li><a href="/">Home</a></li>
+	      </ul>
+ 	      <ul class="nav navbar-nav navbar-right">
+ 	      	<li><a href="/registration?customer">Registration</a></li>
+	        {%if not (auth)%}
+	        <li><a href="/auth/users/login"> Login </a></li>
+	    	{%else%}
+	        <li><a href="/auth/users/logOut"> Logout </a> </li>
+	        {%endif%}
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
 
-	<h1>Welcome, MenuFake</h1>
-
-	<div>
-		<form action="/search" method="get">
-			<input type="text" name="location" placeholder="Enter your suburb or postcode">
-			<input type="hidden" name="cartType" value="delivery">
-			<button type="submit">
-				Let's Go
-			</button>
-		</form>
+	<div class="body">
+		<div class="jumbotron">
+			<div class="container main">
+				<h1>Welcome to MenuFake</h1>
+				<div class="search">
+					<form action="/search" method="get" class="form-inline">
+						<div class="form-group">
+							<input type="text" name="location" class="form-control" placeholder="Enter your suburb or postcode" size="35">
+							<input type="hidden" name="cartType" value="delivery">
+							<button class="btn btn-default" type="submit">
+								Let's Go
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 	</div>
+</body>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
-{% endblock %}
+<script type="text/javascript" src="http://localhost:8888/js/js.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+</html>

@@ -1,56 +1,90 @@
+{% extends "panelBase.html" %}
+{% block title %} Partner Panel {% endblock %}
 
-	<h1>Add new</h1>
-		<form action="/edit/addFood" method="POST">
-			<label>
-				choose menus
-			</label>
-			<select name="menuId">
-				{%for menu in menuTitle%}
-			  		<option  value="{{menu.id}}">{{ menu.menuTitle }}</option>
-				{%endfor%}
-			</select>
-			<label>
-				Add New food
-			</label>
-			<input type="text" name="foodTitle" value="">
-			<label>
-				price
-			</label>
-			<input type="text" name="price" value="">
-			<label>
-				description
-			</label>
-			<input type="text" name="description" value="">
-			<input type="hidden" name="title" value="{{title}}">
-			<input type="submit" value="add">
-		</form>
+{% block body %}
+	<div class="container">
+	<div>
+	{% if userRole == 2%}
+		<a class="btn" href="/partner"><strong>Back</strong></a>
+	{% endif %}
+	{% if userRole == 3%}
+		<a class="btn" href="/admin"><strong>Back</strong></a>
+	{% endif %}
+	</div>
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Add new Food</h3>
+		  </div>
+		  <div class="panel-body">
+		    <form action="/edit/addFood" method="POST">
+		    	<div class="form-group">
+		    		<label>Choose menus</label>
+					<select class="form-control" name="menuId">
+						{%for menu in menuTitle%}
+					  		<option  value="{{menu.id}}">{{ menu.menuTitle }}</option>
+						{%endfor%}
+					</select>
+		    	</div>
+		    	<div class="form-group">
+		    		<label>Add New food</label>
+					<input class="form-control" type="text" name="foodTitle" value="">
+		    	</div>
+		    	<div class="form-group">
+		    		<label>Price</label>
+					<input class="form-control" type="text" name="price" value="">
+		    	</div>
+		    	<div class="form-group">
+		    		<label>Description</label>
+					<input class="form-control" type="text" name="description" value="">
+					<input type="hidden" name="title" value="{{title}}">
+		    	</div>
+		    	<input class="btn pull-right" type="submit" value="add">
+		    </form>
+		  </div>
+		</div>
 
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{{title}} Menus</h3>
+				<strong><a href="/edit/{{title}}/addMenus">Add New menu</a></strong>
+			</div>
+			<div class="panel-body">
+					{%for menu in menus%}
+					<h3 style="background-color: yellow;">{{ menu.menuTitle }}</h3>
+					<hr>
+<!-- 					<form action="/edit/deleteTitle" method="POST">
+						<div class="form-group">
+						<h3>{{ menu.menuTitle }}</h3>
+						<input type="hidden" name="menuTitle" value="{{menu.menuTitle}}">
+						<input type="hidden" name="title" value="{{title}}">
+						<input type="submit" name="delTitle" value="delete">
+						</div>
+					</form> -->
+					<form action="/edit/editMenu" method="POST" >
+					
+						<div class="form-group">
+							<label>Food title</label>
+							<input class="form-control" type="text" name="foodTitle" value="{{ menu.foodTitle }}">
 
-	{%for menu in menus%}
-		
-		<h1>{{ menu.menuTitle }}</h1>
-		<ul>
-			<li>
-			<form action="/edit/editMenu" method="POST" >
-				<label>
-					food title
-				</label>
-				<input type="text" name="foodTitle" value="{{ menu.foodTitle }}"> <br>
-				<label>
-					price
-				</label>
-				<input type="text" name="price" value="{{ menu.price }}">
-				<label>
-					Description
-				</label>
-				<input type="text" name="description" value="{{ menu.description }}">
-
-				<input type="hidden" name="foodId" id="foodId" value="{{ menu.id }}">
-				<input type="hidden" name="title" value="{{title}}">
-				<input type="submit" name="edit" value="save">
-				<input type="submit" name="delete" value="delete">
-			</form>
-				
-			</li>
-		</ul>
-	{%endfor%}
+						</div>
+						<div class="form-group">
+							<label>Price</label>
+							<input class="form-control" type="text" name="price" value="{{ menu.price }}">
+						</div>
+						<div class="form-group">
+							<label>Description</label>
+							<input class="form-control" type="text" name="description" value="{{ menu.description }}">
+						</div>
+						<div class="form-group">
+							<input type="hidden" name="foodId" id="foodId" value="{{ menu.id }}">
+							<input type="hidden" name="title" value="{{title}}">
+							<input class="btn" type="submit" name="edit" value="save">
+							<input class="btn" type="submit" name="delete" value="delete">
+						</div>
+						
+					</form>
+					{%endfor%}
+			</div>
+		</div>
+	</div>
+{% endblock %}

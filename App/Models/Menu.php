@@ -92,6 +92,17 @@ class Menu extends \Core\Model
 		}
 	}
 
+	public static function deleteMenuByTitle($title){
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("DELETE FROM menu WHERE menuTitle = :title");
+			$stmt->bindParam(':title',$title);
+			$stmt->execute();
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
 	public static function deleteFood($foodId){
 		try{
 			$db = static::getDB();

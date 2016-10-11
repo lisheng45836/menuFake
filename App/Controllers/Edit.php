@@ -11,33 +11,80 @@ use App\Controllers\Auth\Helper;
 class Edit extends \Core\Controller
 {
 	public function menu(){
-		$title = $this->route_params['name'];
-		$menuTitle = Menu::getMenuTitle($title);
-		$id = $menuTitle[0]['restaurant_id'];
-		$menu = Menu::getMenu($id);
-		$menus = Helper::uniqueArray($menu,'menuTitle');
 		$auth = Users::auth();
-		View::renderTemplate('Partner/editMenu.html',['title'=>$title,'menuTitle' => $menuTitle,'auth'=>$auth,'menus'=>$menus]);
+		if($auth){
+			$user = Users::getUser();
+			$userRole = $user[0]['role'];
+			if($userRole == 2 || $userRole == 3){
+				$title = $this->route_params['name'];
+				$menuTitle = Menu::getMenuTitle($title);
+				$id = $menuTitle[0]['restaurant_id'];
+				$menu = Menu::getMenu($id);
+				$menus = Helper::uniqueArray($menu,'menuTitle');
+				View::renderTemplate('Partner/editMenu.html',['title'=>$title,'menuTitle' => $menuTitle,'auth'=>$auth,'userRole'=>$userRole,'menus'=>$menus]);
+			}else{
+				echo '<a href="/"> GO BACK </>';
+			}
+		}else{
+			Helper::redirect('/auth/users/login');
+		}
 	}
 
 	public function editMenu()
 	{
-		if($_SERVER['REQUEST_METHOD'] == 'POST'){
-			if(isset($_POST['edit'])){
-				$foodTitle = htmlspecialchars($_POST['foodTitle']);
-				$price = htmlspecialchars($_POST['price']);
-				$description = htmlspecialchars($_POST['description']);
-				$foodId = htmlspecialchars($_POST['foodId']);
-				$title = htmlspecialchars($_POST['title']);
-				Menu::updateMenu($foodTitle,$price,$description,$foodId);
-				Helper::redirect("/edit/$title/menu");
-			}else if(isset($_POST['delete'])){
-				$foodId = htmlspecialchars($_POST['foodId']);
-				$title = htmlspecialchars($_POST['title']);
-				Menu::deleteFood($foodId);
-				Helper::redirect("/edit/$title/menu");
+		$auth = Users::auth();
+		if($auth){
+			if($_SERVER['REQUEST_METHOD'] == 'POST'){
+				if(isset($_POST['edit'])){
+					$foodTitle = htmlspecialchars($_POST['foodTitle']);
+					$price = htmlspecialchars($_POST['price']);
+					$description = htmlspecialchars($_POST['description']);
+					$foodId = htmlspecialchars($_POST['foodId']);
+					$title = htmlspecialchars($_POST['title']);
+					Menu::updateMenu($foodTitle,$price,$description,$foodId);
+					Helper::redirect("/edit/$title/menu");
+				}else if(isset($_POST['delete'])){
+					$foodId = htmlspecialchars($_POST['foodId']);
+					$title = htmlspecialchars($_POST['title']);
+					Menu::deleteFood($foodId);
+					Helper::redirect("/edit/$title/menu");
+				}
 			}
-			
+		}
+	}
+
+	public function deleteTitle()
+	{
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			$menuTitle = htmlspecialchars($_POST['menuTitle']);
+			$title = htmlspecialchars($_POST['title']);
+			Menu::deleteMenuByTitle($menuTitle);
+			Helper::redirect("/edit/$title/menu");
+		}
+	}
+
+	public function editRestaurant(){
+		$auth = Users::auth();
+		if($auth){
+			if($_SERVER['REQUEST_METHOD'] == 'POST'){
+				$restaurantName = $this->route_params['name'];
+				$title			= htmlspecialchars($_POST['title']);
+				$cuisineName	= htmlspecialchars($_POST['cuisineName']);
+				$openTime		= htmlspecialchars($_POST['openTime']);
+				$minOrder		= htmlspecialchars($_POST['minOrder']);
+				$description	= htmlspecialchars($_POST['description']);
+				$image_path		= htmlspecialchars($_POST['image_path']);
+				$address		= htmlspecialchars($_POST['address']);
+				$cartType		= htmlspecialchars($_POST['cartType']);
+				$userId 		= htmlspecialchars($_POST['userId']);
+				if(isset($_POST['save'])){
+					Restaurant::updateRestaurant($title,$cuisineName,$openTime,$minOrder,$description,$image_path,$address,$cartType,$restaurantName);
+					Helper::redirect("http://localhost:8888/partner");
+					
+				}
+			}
+		}else{
+			Helper::redirect('/auth/users/login');
 		}
 	}
 
@@ -58,8 +105,13 @@ class Edit extends \Core\Controller
 	public function addMenus()
 	{
 		if($_SERVER['REQUEST_METHOD'] == 'GET'){
-			$title = $this->route_params['name'];
-			View::renderTemplate('Partner/addMenu.html',['title' => $title]);
+			$auth = Users::auth();
+			$user = Users::getUser();
+			$userRole = $user[0]['role'];
+			if($userRole == 2 || $userRole == 3){
+				$title = $this->route_params['name'];
+				View::renderTemplate('Partner/addMenu.html',['title' => $title,'userRole'=>$userRole,'auth'=>$auth]);
+			}
 		}
 
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){

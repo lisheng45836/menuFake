@@ -1,0 +1,117 @@
+.navbar-default {
+  background-color: rgba(48,149,244,0.3);
+  border-color: rgba(16,124,224,0.2);
+}
+.navbar-default .navbar-brand {
+  color: #ffffff;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #8bc2f6;
+}
+.navbar-default .navbar-text {
+  color: #ffffff;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #ffffff;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #8bc2f6;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #8bc2f6;
+  background-color: #107ce0;
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  color: #8bc2f6;
+  background-color: #107ce0;
+}
+.navbar-default .navbar-toggle {
+  border-color: #107ce0;
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: #107ce0;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #ffffff;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+  border-color: #ffffff;
+}
+.navbar-default .navbar-link {
+  color: #ffffff;
+}
+.navbar-default .navbar-link:hover {
+  color: #8bc2f6;
+}
+
+.navbar-brand,
+.navbar-nav li a {
+    line-height: 60px;
+    height: 60px;
+    padding-top: 0;
+}
+ .navbar{
+      border-radius: 0px;
+      margin-bottom: 0px;
+
+  }
+
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: #ffffff;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #8bc2f6;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #8bc2f6;
+    background-color: #107ce0;
+  }
+
+}
+.btn-default{
+	background-color: #8bc2f6;
+	color: white;
+	border: none;
+}
+
+.btn-default:hover{
+	background-color: #107ce0;
+	color: white;
+}
+
+.main{
+	margin-top: 150px;
+}
+
+h1{
+
+	text-align: center;
+
+}
+
+.search{
+	padding: 20px;
+	text-align: center;
+}
+body{
+	background-image: url("/img/cover/cover2.jpg");
+	background-size: cover;
+}
+
+.jumbotron{       
+	height: 100vh;
+	color: white;
+	background-color: transparent;
+}

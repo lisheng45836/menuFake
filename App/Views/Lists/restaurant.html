@@ -1,49 +1,73 @@
 {% extends "base.html" %}
 {% block title %} MenuFake {% endblock %}
 {% block body %}
+
+
 	{%for restaurant in restaurant %}
-	<h1>{{ restaurant.title }}</h1>
-	<ul>
-		<li>cuisineName: {{ restaurant.cuisineName }}</li>
-		<li>openTime: {{ restaurant.openTime }}</li>
-		<li>minOrder: {{ restaurant.minOrder }}</li>
-		<li>description: {{ restaurant.description }}</li>
-		<li>image_path: {{ restaurant.image_path }}</li>
-		<li>address: {{ restaurant.address }}</li>
-		<li>cartType: {{ restaurant.cartType }}</li>
-		<a id="restaurant" type="hidden" data-id ="{{ restaurant.id }}" ></a>
-	</ul>
-	{%endfor%}
-
-	{%for menu in menus%}
-		
-		<h1>{{ menu.menuTitle }}</h1>
-		<ul>
-			<li id ="{{ menu.id }}" >
-			<h2>{{ menu.foodTitle }} </h2>
-			<span> ${{ menu.price }} </span>
-				<form class="foods" method="POST" >
-					<input type="hidden" name="foodId" id="foodId" value="{{ menu.id }}">
-					<input type="hidden" name="restaurantId" id="restaurantId" value="{{ menu.restaurant_id }}">
-					<input type="hidden" name="price" id="price" value="{{ menu.price }}">
-					<input type="hidden" name="foodTitle" id="foodTitle" value="{{ menu.foodTitle }}">
-					<input type="hidden" name="qty" id="qty" value="1">
-					<input type="submit" class="addToCart" value="Add">
-				</form>
-				
-			</li>
-		</ul>
-	{%endfor%}
-
-
-	<div>
-		<ul>
-			<li><h1>Your Order</h1></li>
-			<li class="food"></li>
-			<li id="total"></li>
-			<span>Including GST</span>
-			<button type="submit" id="submit">Check Out </button>
-		</ul>
+	<div class="jumbotron restaurantCover">
+		<div class="container box">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 restaurantHeader">
+				<h2>{{ restaurant.title }}</h2>
+				{{ restaurant.address }}
+			</div>
+			<div class="row">
+				 <div class="col-xs-6 col-sm-4 restaurantInfo">
+				 	Type:{{ restaurant.cuisineName }} <br>
+				 	Min order: $ {{ restaurant.minOrder }}<br>
+				 	Open time: {{ restaurant.openTime }} 
+				 	<a id="restaurant" type="hidden" data-id ="{{ restaurant.id }}" ></a>
+				 </div>
+				 <div class="col-xs-6 col-sm-4">
+				 	About: <br>
+				 	{{ restaurant.description }}
+				 </div>
+				 <div class="col-xs-6 col-sm-4">
+				 	Review: <br> ******
+				 </div>
+			</div>
+		</div>
+		</div>
 	</div>
+	{%endfor%}
 
+	<div class="container">
+	<div class="row">
+		<div class="col-md-4">
+			<div>
+				<ul class="list-group">
+					<li class="list-group-item"><h1>Your Order</h1></li>
+					<div class="food"></div>
+					<li class="list-group-item" id="total"></li>
+					
+					<button class="btn btn-danger pull-right" type="submit" id="submit">Check Out </button>
+				</ul>
+			</div>
+		</div>
+
+		<div class="col-md-8">
+			<table class="table">
+				<tbody>
+					{%for menu in menus%}
+					<tr>
+						<td>
+							<h3 id ="{{ menu.id }}">{{ menu.menuTitle }}</h3>
+							<h4>{{ menu.foodTitle }} </h4>
+							<span> ${{ menu.price }} </span>
+							<form class="foods" method="POST" >
+								<input type="hidden" name="foodId" id="foodId" value="{{ menu.id }}">
+								<input type="hidden" name="restaurantId" id="restaurantId" value="{{ menu.restaurant_id }}">
+								<input type="hidden" name="price" id="price" value="{{ menu.price }}">
+								<input type="hidden" name="foodTitle" id="foodTitle" value="{{ menu.foodTitle }}">
+								<input type="hidden" name="qty" id="qty" value="1">
+								<input class="btn btn-default pull-right" type="submit" class="addToCart" value="Add">
+							</form>
+						</td>
+					</tr>
+					{%endfor%}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</div>
 {% endblock %}

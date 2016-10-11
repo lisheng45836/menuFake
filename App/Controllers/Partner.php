@@ -9,16 +9,19 @@ class Partner extends \Core\Controller
 {
 	public function index(){
 		$auth = Users::auth();
-		$user = Users::getUser();
-		$userId = $user['id'];
-		$userRole = $user['role'];
-		if($userRole == 2){
-		 	$restaurantData = Restaurant::getRestaurantByOwner($userId);
-		 	View::renderTemplate('Partner/panel.html',['auth'=>$auth,'restaurantData'=>$restaurantData]);
-		 }else{
-		 	Helper::redirect('/');
+		if($auth){
+			$user = Users::getUser();
+			$userId = $user[0]['id'];
+			$userRole = $user[0]['role'];
+			if($userRole == 2){
+			 	$restaurantData = Restaurant::getRestaurantByOwner($userId);
+			 	View::renderTemplate('Partner/panel.html',['auth'=>$auth,'restaurantData'=>$restaurantData,'user'=>$user,'userId'=>$userId,'userRole'=>$userRole]);
+			 }else{
+			 	Helper::redirect('/');
+			}
+		}else{
+			Helper::redirect('/auth/users/login');
 		}
-
 
 	}
 }
