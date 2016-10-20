@@ -1,5 +1,5 @@
 
-$(document).on('change','input[type="radio"]',function(){
+$(document).on('change','.listType',function(){
 
 	if($(this).prop('checked')==true){
 		var cartType = $(this).val();
@@ -10,6 +10,8 @@ $(document).on('change','input[type="radio"]',function(){
 		// document.location=url;
 	}
 });
+
+
 
 
 function getRestaurant(){
@@ -126,11 +128,37 @@ $(document).ready(function(){
 		}
 	}
 
+	$(document).on('change','.orderType',function(){
+
+		if($(this).prop('checked')==true){
+			var cartType = $(this).val();
+			$("#type").val(cartType);
+
+			if(cartType == "delivery"){
+				load();
+				$(".delivery").css("display","block");
+			}
+			if( cartType == "pickUp"){
+				load();
+				$(".delivery").css("display","none");
+			}
+
+		}
+	});
+	
 	function load(){
 		$('.food').empty();
+		$('.submitOrder').empty();
+		//console.log("ho"+localStorage.getItem("list"));
 		var lists = JSON.parse(localStorage.getItem("list"));
 		var restaurantId = $("#restaurant").attr("data-id");
-		var total = 0;
+		var cartType = $("#type").val();
+		if(cartType == "delivery"){
+			var total = 5;
+		}else{
+			var total = 0;
+		}
+		
 		if(lists !== null){
 			for (i=0;i<lists.length;i++){
 				if(lists[i].restaurantId == restaurantId){
@@ -138,11 +166,13 @@ $(document).ready(function(){
 								'<button class="removeFood" data-id="'+lists[i].foodId+'">'+"x"+'</button>'+'</li>'+
 								'<li class="list-group-item" >Price: '+lists[i].price+'</li>'+
 								'<li class="list-group-item" >QTY: '+lists[i].qty+'</li>';
-					total += parseInt(lists[i].price);
+					
+					total += parseInt(lists[i].price)*lists[i].qty;
 					$('.food').append(data);
 				}
 			}
-			$('#total').html('<strong>Total:</strong>$'+total);
+			$('#total').html('<h4>Total:$</h4>'+'<strong id="price">'+total+'</strong>');
+			$('#tPrice').append('<input type="hidden" name="totalPrice" value="'+total+'">');
 		}
 	}
 
@@ -172,18 +202,47 @@ $(document).ready(function(){
 	});
 
 	$(document).on('click','#submit',function(){
-		var foodList = JSON.parse(localStorage.getItem("list"));
+
+		if ($(".food").is(":empty")){
+			alert("Can't be empty. Please add food!! ");
+			return false;
+		}else{
+			return true;
+		}
 		
-		$.ajax({
-			type: 'POST',
-			url: '/restaurants/orders',
-			data: {orderList: foodList},
-			success:function(data){
-				console.log("yes");
-				console.log(data);
-			}
-		});
 	});
+
+	// getting order list  
+	var orderList = JSON.parse(localStorage.getItem("list"));
+	var getRestaurantId = $("#getRestaurantId").attr("data-id");
+
+	var cartType = $("#tp").val();
+		if(cartType == "delivery"){
+			var totalPrice = 5;
+		}else{
+			var totalPrice = 0;
+		}
+
+	for(i=0;i<orderList.length;i++){
+			if(orderList[i].restaurantId == getRestaurantId){
+				var food = '<li class="list-group-item" >'+ '<strong>'+orderList[i].foodTitle +'</strong>'+
+									'<li class="list-group-item" >Price: '+orderList[i].price+'</li>'+
+									'<li class="list-group-item" >QTY: '+orderList[i].qty+'</li>';
+
+				var dataSubmit = '<input type="hidden" name="foodTitle[]" value="'+orderList[i].foodTitle+'">'+
+									'<input type="hidden" name="foodId[]" value="'+orderList[i].foodId+'" >'+
+									'<input type="hidden" name="price[]" value="'+orderList[i].price+'">'+
+									'<input type="hidden" name="qty[]" value="'+orderList[i].qty+'">';
+				totalPrice += parseInt(orderList[i].price)*orderList[i].qty;
+				$('.submitOrder').append(dataSubmit);
+				$('#orders').append(food);
+			}
+		}
+	$('#totalPrice').html('<h4>Total:</h4>$'+'<strong id="prices">'+totalPrice+'</strong>');
+	$('.payment').append('<input type="hidden" name="totalPrice" value="'+totalPrice+'">');
+	$('.pay').val(totalPrice);
+
+
 
 	$('#search').click(function(){
 		var search = $('#searchInput').val();
@@ -225,3 +284,6 @@ $(document).ready(function(){
 		});
 	});
 });
+
+
+

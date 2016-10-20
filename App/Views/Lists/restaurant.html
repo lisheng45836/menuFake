@@ -36,11 +36,34 @@
 		<div class="col-md-4">
 			<div>
 				<ul class="list-group">
-					<li class="list-group-item"><h1>Your Order</h1></li>
+					<li class="list-group-item">
+					<div class="tag">
+						<label>Delivery</label>
+						<input class="orderType" type="radio" name="cartType" value="delivery" id="delivery" checked="checked">
+					</div>
+					</li>
+					<li class="list-group-item">
+					<div class="tag">
+						<label>Pick-up</label>
+						<input class="orderType" type="radio" name="cartType" value="pickUp" id="pickUp">
+					</div>
+					</li>
+					<li class="list-group-item">
+						<h1>Your Order</h1>
+					</li>
 					<div class="food"></div>
+					<div class="delivery"> 
+					<li class="list-group-item"><strong>Delivery: $5.00 </strong></li>
+					</div>
 					<li class="list-group-item" id="total"></li>
+					<form action="/restaurants/orders" method="POST">
+						<input type="hidden" name="cartType" id="type" value="delivery">
+						{%for restaurant in restaurant %}
+						<input type="hidden" name="restaurantId" value="{{restaurant.id}}">
+						{%endfor%}
+						<button class="btn btn-danger pull-right" type="submit" id="submit">Check Out </button>
+					</form>
 					
-					<button class="btn btn-danger pull-right" type="submit" id="submit">Check Out </button>
 				</ul>
 			</div>
 		</div>
@@ -55,6 +78,7 @@
 							<h4>{{ menu.foodTitle }} </h4>
 							<span> ${{ menu.price }} </span>
 							<form class="foods" method="POST" >
+								
 								<input type="hidden" name="foodId" id="foodId" value="{{ menu.id }}">
 								<input type="hidden" name="restaurantId" id="restaurantId" value="{{ menu.restaurant_id }}">
 								<input type="hidden" name="price" id="price" value="{{ menu.price }}">

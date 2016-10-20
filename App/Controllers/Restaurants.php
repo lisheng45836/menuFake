@@ -16,6 +16,7 @@ class Restaurants extends \Core\Controller
 		$menu = Menu::getMenu($id);
 		$menus = Helper::uniqueArray($menu,'menuTitle');
 		$auth = Users::auth();
+		
 		View::renderTemplate('Lists/restaurant.html',['restaurant' => $info,'menus' => $menus,'auth'=>$auth]);
 
 	}
@@ -23,26 +24,19 @@ class Restaurants extends \Core\Controller
 	public function orders(){
 
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
-			if(Users::auth()){
-				$data = $_POST['orderList'];
-				$orderId = uniqid();
-				var_dump($orderId);
-				$user = Users::getUser();
-				$userID = $user[0]['id'];
-				Menu::setOrder($orderId,$userID);
-				for($i=0;$i<count($data);$i++){
-					$foodId 		= $data[$i]['foodId'];
-					$restaurantId	= $data[$i]['restaurantId'];
-					$price			= $data[$i]['price'];
-					$foodTitle		= $data[$i]['foodTitle'];
-					$qty			= $data[$i]['qty'];
-					Menu::addOrder($orderId,$foodId,$restaurantId,$price,$foodTitle,$qty);
+
+				$auth = Users::auth();
+				$restaurantId	= $_POST['restaurantId'];
+				$cartType		= $_POST['cartType'];
+
+				if($auth){
+					$users = Users::getUser();
+					// jump to payment page .. 
+					View::renderTemplate('Payment/checkOut.html',['auth'=>$auth,'restaurantId'=>$restaurantId,'cartType'=>$cartType,'users'=>$users]);
 				}
-				echo "$userID";
-			}else{
-				echo "not login, contiune";
-			}
-			
+				if(!$auth){
+					View::renderTemplate('Payment/checkOut.html',['auth'=>$auth,'restaurantId'=>$restaurantId,'cartType'=>$cartType]);
+				}
 		}
 	}
 

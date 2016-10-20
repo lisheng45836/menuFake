@@ -202,8 +202,7 @@ class Users extends \Core\Controller
 					}
 			}else{echo "na";}
 
-			var_dump($_SESSION['token']);
-			var_dump($_POST['token']);
+			
 		}
 
 	}
