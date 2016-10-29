@@ -14,7 +14,7 @@
 			<div class="row">
 				 <div class="col-xs-6 col-sm-4 restaurantInfo">
 				 	Type:{{ restaurant.cuisineName }} <br>
-				 	Min order: $ {{ restaurant.minOrder }}<br>
+				 	<span id="minOrder" data-id="{{ restaurant.minOrder }}">Min order: $ {{ restaurant.minOrder }}</span><br>
 				 	Open time: {{ restaurant.openTime }} 
 				 	<a id="restaurant" type="hidden" data-id ="{{ restaurant.id }}" ></a>
 				 </div>
@@ -23,7 +23,15 @@
 				 	{{ restaurant.description }}
 				 </div>
 				 <div class="col-xs-6 col-sm-4">
-				 	Review: <br> ******
+				 	Review: <br> <a href="/restaurants/{{restaurant.title}}/reviews" style="text-decoration:none;">
+				 		<ul class="star list-inline" data-id="{{restaurant.overall}}">
+				 			<li class="empty"></li>
+				 			<li class="empty"></li>
+				 			<li class="empty"></li>
+				 			<li class="empty"></li>
+				 			<li class="empty"></li>
+				 		</ul>
+				 	</a>
 				 </div>
 			</div>
 		</div>

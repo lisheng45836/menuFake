@@ -170,3 +170,24 @@ tbody{
 .order{
   padding-top: 50px;
 }
+
+.input{
+  height:100px;
+}
+
+.empty{
+
+  height: 24px;
+  width: 24px;
+  background: url("/img/stars/empty.png");
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+}
+
+.full{
+  height: 24px;
+  width: 24px;
+  background: url("/img/stars/full.png");
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+}

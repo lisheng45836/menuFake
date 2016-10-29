@@ -3,6 +3,7 @@ namespace App\Controllers;
 use \Core\View;
 use App\Models\Restaurant;
 use App\Models\Menu;
+use App\Models\Review;
 use App\Controllers\Auth\Users;
 use App\Controllers\Auth\Helper;
 class Restaurants extends \Core\Controller
@@ -55,6 +56,27 @@ class Restaurants extends \Core\Controller
 				$result = Restaurant::searchRestaurantAdmin($search);
 				View::renderTemplate('Search/adminSearch.html',['result'=>$result,'auth'=>$auth,'userRole'=>$userRole]);
 			}
+		}
+	}
+
+	public function reviews(){
+		if($_SERVER['REQUEST_METHOD'] == 'GET'){
+			$auth = Users::auth();
+			$name = $this->route_params['name'];
+			$data = Restaurant::getRestaurantByName($name);
+			$id = $data[0]['id'];
+			$reviews = Review::getReview($id);
+			$overall = 0;
+			$all = count($reviews);
+			for($i=0; $i < $all; $i++){
+				$overall += $reviews[$i]['overall'];
+			}
+			if($all != 0){
+				$overall = $overall/$all;
+			}
+			
+			Restaurant::updateRestaurantReviews($name,intval($overall));
+			View::renderTemplate('Review/reviews.html',['name'=>$name,'reviews'=>$reviews,'overall'=>intval($overall),'auth'=>$auth]);
 		}
 	}
 

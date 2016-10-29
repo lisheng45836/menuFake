@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %} MenuFake {% endblock %}
+{% block body %}
+	
+	<div class="jumbotron restaurantCover">
+		<div class="container box">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 restaurantHeader">
+					<h2>{{ name }} Reviews</h2>
+					<h4>Overall Rating {{overall}}</h4>
+					<ul class="star list-inline" data-id="{{overall}}">
+						<li class="empty"></li>
+						<li class="empty"></li>
+						<li class="empty"></li>
+						<li class="empty"></li>
+						<li class="empty"></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="list-group">
+					<li class="list-group-item text-center">
+						<h4>
+							User Reviews
+						</h4>
+					</li>
+					<li class="list-group-item">
+						<div class="row">
+						{% for review in reviews %}
+							<div class="col-md-8">
+								<strong class="label label-default">Overall {{review.overall}} </strong>|<span class="label label-default">Food {{review.food}} </span>|<span class="label label-default"> Value {{review.value}} </span>|<span class="label label-default">Speed {{review.speed}}</span>
+								<p>{{review.comments}}</p>
+								<hr>
+							</div>
+
+							<div class="col-md-4">
+								<div class="pull-right">
+									<span>Date {{review.time}}</span>
+								</div>	 
+							</div>
+						
+						{% endfor %}
+						</div>
+					</li>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="list-group">
+					<li class="list-group-item text-center">
+						<h3>Add your review</h3>
+						<hr>
+						{%if auth%}
+						<form id="reviews">
+							<div id="el"></div>
+							<hr>
+							<label>Comments</label>
+							<input class="form-control input comment" type="text" name="comment" placeholder="Say something ...">
+							<hr>
+							<input class="valuev" type="hidden" name="value" value="">
+							<input class="restTitle" type="hidden" name="restTitle" value="{{name}}">
+							<input class="foodv" type="hidden" name="food" value="">
+							<input class="speedv" type="hidden" name="speed" value="">
+							<button class="btn btn-danger" type="submit" id="subReview">Send</button>
+						</form>
+						{%else%}
+							<a class="btn btn-default" href="/auth/users/login" role="button">Please Login</a>
+							<hr>
+						{% endif %}
+					</li>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}

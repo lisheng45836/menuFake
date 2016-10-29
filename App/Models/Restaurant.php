@@ -23,7 +23,7 @@ class Restaurant extends \Core\Model
 	{
 		try{
 			$db = static::getDB();
-			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType FROM restaurant WHERE title = ? ");
+			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType,overall FROM restaurant WHERE title = ? ");
 			$stmt->execute(array($name));
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $result;
@@ -36,7 +36,7 @@ class Restaurant extends \Core\Model
 	{
 		try{
 			$db = static::getDB();
-			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType,owner FROM restaurant WHERE owner = ? ");
+			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType,owner,overall FROM restaurant WHERE owner = ? ");
 			$stmt->execute(array($userId));
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $result;
@@ -92,6 +92,18 @@ class Restaurant extends \Core\Model
 			$stmt->bindParam(':address',$address);
 			$stmt->bindParam(':cartType',$cartType);
 			$stmt->bindParam(':restTitle',$restaurantName);
+			$stmt->execute();
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public static function updateRestaurantReviews($title,$overall){
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("UPDATE restaurant SET overall =:overall WHERE title =:title");
+			$stmt->bindParam(':overall',$overall);
+			$stmt->bindParam(':title',$title);
 			$stmt->execute();
 		}catch(PODException $e){
 			echo $e->getMessage();

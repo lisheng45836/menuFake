@@ -81,7 +81,7 @@
 							<input type="hidden" name="amount" class="pay" value="">
 							<input type="hidden" name="currency_code"  value="AUD">
 							<input type="image" name="submit" border="0"
-        src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" alt="PayPal - The safer, easier way to pay online">
+        src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/silver-pill-paypal-34px.png" alt="PayPal - The safer, easier way to pay online">
         <img alt="" border="0" width="1" height="1" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" >
 						</form>
 					</div>
@@ -98,6 +98,7 @@
 					</div>
 					<div class="panel-body">
 						<p> Please login for more </p>
+						<a class="btn btn-danger" href="/auth/users/login" role="button">Log in</a>
 					</div>
 				</div>
 			{% endif %}
@@ -106,7 +107,7 @@
 					
 					<div class="panel-heading">
 						<h2 class="panel-title">Order Info</h2>
-						<span>{{cartType}}</span>
+						<span class="label label-danger">{{cartType}}</span>
 						<a id="getRestaurantId" type="hidden" data-id ="{{restaurantId}}" ></a>
 					</div>
  

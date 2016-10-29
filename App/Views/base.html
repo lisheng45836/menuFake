@@ -38,6 +38,113 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 <script type="text/javascript" src="http://localhost:8888/js/js.js"></script>
+<link rel="stylesheet" href="http://localhost:8888/css/rating.css">
+	<script type="text/javascript" src="http://localhost:8888/js/rating.js"></script>
+	<script type="text/javascript">
+
+	(function() {
+
+    'use strict';
+
+    // SHOP ELEMENT
+    var review = document.querySelector('#el');
+
+    // DUMMY DATA
+    var data = [
+      {
+        title: "Value",
+        rating: 3
+      },
+      {
+        title: "Food",
+        rating: 2
+      },
+      {
+        title: "Speed",
+        rating: 0
+      }
+    ];
+
+    // INITIALIZE
+    (function init() {
+      for (var i = 0; i < data.length; i++) {
+        addRatingWidget(buildShopItem(data[i]), data[i]);
+      }
+    })();
+
+    
+    function buildShopItem(data) {
+      var shopItem = document.createElement('div');
+
+      var html = '<div class="c-shop-item__img"></div>' +
+        '<div>' +
+          '<label>' + data.title + '</label>' +
+          '<ul class="c-rating"></ul>' +
+          '<hr>'+
+        '</div>';
+
+      shopItem.classList.add('c-shop-item');
+      shopItem.innerHTML = html;
+      review.appendChild(shopItem);
+
+      return shopItem;
+    }
+
+    var d = [];
+    // ADD RATING WIDGET
+    function addRatingWidget(shopItem, data) {
+      var ratingElement = shopItem.querySelector('.c-rating');
+      var currentRating = 0;
+      var maxRating = 5;
+      var callback = function(rating){ 
+      	// alert(rating+data.title);
+      		if(data.title == "Value"){
+      			$(".valuev").val(rating); 
+      		}
+
+      		if(data.title == "Food"){
+      			$(".foodv").val(rating); 
+      		}
+
+      		if(data.title == "Speed"){
+      			$(".speedv").val(rating); 
+      		}
+      	
+      };
+      var r = rating(ratingElement, currentRating, maxRating, callback);
+
+    }
+
+    $(document).on('click','#subReview',function(){
+    	
+    	
+    	var food 		= $(".foodv").val();
+    	var value 		= $(".valuev").val();
+    	var speed 		= $(".speedv").val();
+    	var comment 	= $(".comment").val();
+    	var restTitle 	= $(".restTitle").val();
+
+      	$.ajax({
+      		type: 'POST',
+			url: '/Reviews/rating',
+			data: {
+				food: food,
+				value: value,
+				speed: speed,
+				comment: comment,
+				restTitle: restTitle
+			},
+			success:function(data){
+				console.log(data);
+			}
+      	});
+    });
+
+
+  })();
+
+
+	</script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="http://localhost:8888/css/style2.css">

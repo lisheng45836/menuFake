@@ -172,7 +172,7 @@ $(document).ready(function(){
 				}
 			}
 			$('#total').html('<h4>Total:$</h4>'+'<strong id="price">'+total+'</strong>');
-			$('#tPrice').append('<input type="hidden" name="totalPrice" value="'+total+'">');
+			$('#tPrice').append('<input type="hidden" id="t" name="totalPrice" value="'+total+'">');
 		}
 	}
 
@@ -203,13 +203,19 @@ $(document).ready(function(){
 
 	$(document).on('click','#submit',function(){
 
-		if ($(".food").is(":empty")){
+		var minOrder = $("#minOrder").attr("data-id");
+		var totalPrice = parseInt($("#price").html());
+		alert(totalPrice);
+		if($(".food").is(":empty")){
 			alert("Can't be empty. Please add food!! ");
 			return false;
-		}else{
-			return true;
 		}
-		
+
+		if(totalPrice < minOrder){
+			alert("min order is $"+minOrder);
+			return false;
+		}
+
 	});
 
 	// getting order list  
@@ -283,7 +289,18 @@ $(document).ready(function(){
 			}
 		});
 	});
+
+	//  reviews
+	var num = $(".star").attr("data-id");
+
+	var star = '<li class="full">'+'</li>';
+		$(".empty").each(function(i){
+			if(i!=num){
+				$(this).removeClass("empty").addClass("full");
+			}else{
+				return false;
+			}
+		});
+	
 });
-
-
 
