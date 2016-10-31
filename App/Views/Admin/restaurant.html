@@ -16,60 +16,69 @@
 		  </div>
 
 		  <div class="panel-body">
-			<form action="/admin/{{userId}}/addRestaurant" method="POST">
-			<ul class="list-inline">
-				<li>
-					<div class="form-group">
-						<label>
-						Title:
-						</label>
-						<input class="form-control" type="text" name="title" value="">
-						<label>
-						cuisineName:
-						</label>
-						<input class="form-control" type="text" name="cuisineName" value="{{ restaurant.cuisineName }}">
-					</div>
-				</li>
-				<li>
-					<div class="form-group">
-						<label>
-							openTime:
-						</label> 
-						<input class="form-control" type="text" name="openTime" value="{{ restaurant.openTime }}">
-						<label>
-							minOrder:
-						</label> 
-						<input class="form-control" type="text" name="minOrder" value="{{ restaurant.minOrder }}">
-					</div>
-				</li>
+			<form action="/admin/addRestaurant" method="POST" id="u" enctype="multipart/form-data">
+				<ul class="list-inline">
+					<li>
+						<div class="form-group">
+							<label>
+							Title:
+							</label>
+							<input class="form-control addTitle" type="text" name="title" value="">
+							<label>
+							cuisineName:
+							</label>
+							<input class="form-control addCuisineName" type="text" name="cuisineName" value="">
+						</div>
+					</li>
+					<li>
+						<div class="form-group">
+							<label>
+								openTime:
+							</label> 
+							<input class="form-control addOpenTime" type="text" name="openTime" value="">
+							<label>
+								minOrder:
+							</label> 
+							<input class="form-control addMinOrder" type="text" name="minOrder" value="">
+						</div>
+					</li>
 
-				<li>
-					<div class="form-group">
-						<label>
-							description:
-						</label> 
-						<input class="form-control" type="text" name="description" value="{{ restaurant.description }}">
-						<label>
-							image_path:
-						</label> 
-						<input class="form-control" type="text" name="image_path" value="{{ restaurant.image_path }}">
-					</div>
-				</li>
-				<li>
-					<div class="form-group">
-						<label>
-							address:
-						</label> 
-						<input type="text" class="form-control" name="address" value="{{ restaurant.address }}">
-						<label>
-							cartType
-						</label>
-						<input type="text" class="form-control" name="cartType" value="{{ restaurant.cartType }}">
-					</div>
-				</li>
-			</ul>
-				<input class="btn pull-right" type="submit" name="submit" value="submit">
+					<li>
+						<div class="form-group">
+							<label>
+								description:
+							</label> 
+							<input class="form-control addDescription" type="text" name="description" value="">
+							<label>
+								address:
+							</label> 
+							<input type="text" class="form-control addAddress" name="address" value="">
+						</div>
+					</li>
+					<li>
+						<div class="form-group">
+							
+							<label>
+								cartType
+							</label>
+							<input type="text" class="form-control addCartType" name="cartType" value="">
+						</div>
+					</li>
+				</ul>
+				<ul class="list-inline">
+					<li>
+						<label>Image Upload</label>
+						<input class="form-control" id="file" type="file"  name="ufile">
+						<input type="hidden" name="userId" class="userId" value="{{userId}}" />
+					</li>
+
+				</ul>
+				<div id="perview">
+					<img src="/img/cover/default.jpg" attr="default" width="120px">
+				</div>
+				<input class="btn btn-danger upload pull-right" type="submit" name="submit" value="Add">
 			</form>
+
 		  </div>
 	</div>
 
@@ -108,14 +117,13 @@
 							<div class="form-group">
 								<label>description:</label> 
 								<input class="form-control" type="text" name="description" value="{{ restaurant.description }}">
-								<label>image_path:</label> 
-								<input class="form-control" type="text" name="image_path" value="{{ restaurant.image_path }}">
+								<label>address:</label> 
+								<input class="form-control" type="text" name="address" value="{{ restaurant.address }}">
 							</div>
 						</li>
 						<li>
 							<div class="form-group">
-								<label>address:</label> 
-								<input class="form-control" type="text" name="address" value="{{ restaurant.address }}">
+								
 								<label>cartType</label>
 								<input class="form-control" type="text" name="cartType" value="{{ restaurant.cartType }}">
 							</div>
@@ -134,7 +142,22 @@
 							</div>
 						</li>
 						</ul>
+						<img src="{{restaurant.image_path}}" width="120px">
 					</form>
+						<form method="POST" class="uploadImage" action="/">
+							<ul class="list-inline">
+								<li>
+								<input class="form-control imageFile"  type="file" name="ufile">
+								<input type="hidden" name="restaurantId" class="restaurantId" value="{{restaurant.id}}" />
+								</li>
+								<li>
+									<input type="submit" class="btn" name="submit" value="Change image">
+								</li>
+								<div class="perview">
+									
+								</div>
+							</ul>
+						</form>
 					<hr>
 			  	{% endfor %}
 			  </div>

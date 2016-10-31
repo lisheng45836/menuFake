@@ -45,7 +45,7 @@ class Restaurant extends \Core\Model
 		}
 	}
 
-	public static function addRestaurant($title,$cuisineName,$openTime,$minOrder,$description,$image_path,$address,$cartType,$userId)
+	public static function addRestaurant($title,$cuisineName,$openTime,$minOrder,$description,$path,$address,$cartType,$userId)
 	{
 		try{
 			$db = static::getDB();
@@ -56,7 +56,7 @@ class Restaurant extends \Core\Model
 			$stmt->bindParam(':openTime',$openTime);
 			$stmt->bindParam(':minOrder',$minOrder);
 			$stmt->bindParam(':description',$description);
-			$stmt->bindParam(':image_path',$image_path);
+			$stmt->bindParam(':image_path',$path);
 			$stmt->bindParam(':address',$address);
 			$stmt->bindParam(':cartType',$cartType);
 			$stmt->bindParam(':owner',$userId);
@@ -78,17 +78,16 @@ class Restaurant extends \Core\Model
 		}
 	}
 
-	public static function updateRestaurant($title,$cuisineName,$openTime,$minOrder,$description,$image_path,$address,$cartType,$restaurantName)
+	public static function updateRestaurant($title,$cuisineName,$openTime,$minOrder,$description,$address,$cartType,$restaurantName)
 	{
 		try{
 			$db = static::getDB();
-			$stmt = $db->prepare("UPDATE restaurant SET title =:title,cuisineName =:cuisineName,openTime=:openTime, minOrder =:minOrder,description=:description,image_path=:image_path,address=:address,cartType=:cartType WHERE title =:restTitle");
+			$stmt = $db->prepare("UPDATE restaurant SET title =:title,cuisineName =:cuisineName,openTime=:openTime, minOrder =:minOrder,description=:description,address=:address,cartType=:cartType WHERE title =:restTitle");
 			$stmt->bindParam(':title',$title);
 			$stmt->bindParam(':cuisineName',$cuisineName);
 			$stmt->bindParam(':openTime',$openTime);
 			$stmt->bindParam(':minOrder',$minOrder);
 			$stmt->bindParam(':description',$description);
-			$stmt->bindParam(':image_path',$image_path);
 			$stmt->bindParam(':address',$address);
 			$stmt->bindParam(':cartType',$cartType);
 			$stmt->bindParam(':restTitle',$restaurantName);
@@ -104,6 +103,18 @@ class Restaurant extends \Core\Model
 			$stmt = $db->prepare("UPDATE restaurant SET overall =:overall WHERE title =:title");
 			$stmt->bindParam(':overall',$overall);
 			$stmt->bindParam(':title',$title);
+			$stmt->execute();
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public static function updateRestaurantImage($restaurantId,$imagePath){
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("UPDATE restaurant SET image_path =:imagePath WHERE id =:restaurantId");
+			$stmt->bindParam(':imagePath',$imagePath);
+			$stmt->bindParam(':restaurantId',$restaurantId);
 			$stmt->execute();
 		}catch(PODException $e){
 			echo $e->getMessage();

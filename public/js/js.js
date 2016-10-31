@@ -302,5 +302,72 @@ $(document).ready(function(){
 			}
 		});
 	
+	$("#upload").submit(function(){
+		event.preventDefault();
+
+		var fileInput = $('#file')[0];
+	    var data = new FormData();
+
+	    data.append('ufile',fileInput.files[0]);
+	 	
+	 	var title 			= $('.addTitle').val();
+	 	var cuisineName 	= $('.addCuisineName').val(); 	
+	 	var openTime 		= $('.addOpenTime').val();
+	 	var minOrder 		= $('.addMinOrder').val();
+	 	var description		= $('.addDescription').val();
+	 	var address 		= $('.addAddress').val();
+	 	var cartType 		= $('.addCartType').val();
+	 	var userId 			= $('.userId').val();
+
+	 	data.append('title',title);
+	 	data.append('cuisineName',cuisineName);
+	 	data.append('openTime',openTime);
+	 	data.append('minOrder',minOrder);
+	 	data.append('description',description);
+	 	data.append('address',address);
+	 	data.append('cartType',cartType);
+	 	data.append('userId',userId);
+	 	
+		$.ajax({
+			type: 'POST',
+			url: '/admin/addRestaurant',
+			data: data,
+			headers:{'Cache-Control':'no-cache'},
+			contentType:false,
+        	processData:false,
+			success:function(data){
+				console.log(data);
+				var img = '<img src="'+data+'" width="120px">';
+				$('#perview').html(img);
+			}
+		});
+	});
+
+	$(".uploadImage").submit(function(){
+		event.preventDefault();
+		var fileInput = $(this).find(".imageFile")[0];
+		var data = new FormData();
+		data.append('ufile',fileInput.files[0]);
+		
+		var restaurantId = $(this).find(".restaurantId").val();
+		data.append('restaurantId',restaurantId);
+		$.ajax({
+			type: 'POST',
+			url: '/upload/uploadPhoto',
+			data: data,
+			headers:{'Cache-Control':'no-cache'},
+			contentType:false,
+        	processData:false,
+			success:function(data){
+				console.log(data);
+				var img = '<img src="'+data+'" width="120px">';
+				$('.perview').html(img);
+			}
+		});
+		
+	});
+
+
 });
+	
 

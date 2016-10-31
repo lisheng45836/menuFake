@@ -66,12 +66,12 @@ class Admin extends \Core\Controller
 			$openTime		= htmlspecialchars($_POST['openTime']);
 			$minOrder		= htmlspecialchars($_POST['minOrder']);
 			$description	= htmlspecialchars($_POST['description']);
-			$image_path		= htmlspecialchars($_POST['image_path']);
+			
 			$address		= htmlspecialchars($_POST['address']);
 			$cartType		= htmlspecialchars($_POST['cartType']);
 			$userId 		= htmlspecialchars($_POST['userId']);
 			if(isset($_POST['save'])){
-				Restaurant::updateRestaurant($title,$cuisineName,$openTime,$minOrder,$description,$image_path,$address,$cartType,$restaurantName);
+				Restaurant::updateRestaurant($title,$cuisineName,$openTime,$minOrder,$description,$address,$cartType,$restaurantName);
 				Helper::redirect("/admin/$userId/editRestaurant");
 				
 
@@ -84,19 +84,32 @@ class Admin extends \Core\Controller
 	}
 
 	public function addRestaurant(){
-		if($_SERVER['REQUEST_METHOD'] == 'POST'){
-			$userId = $this->route_params['name'];
+		
+			$userId 		= htmlspecialchars($_POST['userId']);
 			$title			= htmlspecialchars($_POST['title']);
 			$cuisineName	= htmlspecialchars($_POST['cuisineName']);
 			$openTime		= htmlspecialchars($_POST['openTime']);
 			$minOrder		= htmlspecialchars($_POST['minOrder']);
 			$description	= htmlspecialchars($_POST['description']);
-			$image_path		= htmlspecialchars($_POST['image_path']);
 			$address		= htmlspecialchars($_POST['address']);
 			$cartType		= htmlspecialchars($_POST['cartType']);
-			Restaurant::addRestaurant($title,$cuisineName,$openTime,$minOrder,$description,$image_path,$address,$cartType,$userId);
-			Helper::redirect("/admin/$userId/editRestaurant");
-		}
+
+			if(isset($_FILES['ufile']['name'])){
+				$name = isset($_FILES['ufile']['name']);
+				$targetPath=$_SERVER['DOCUMENT_ROOT']."/img/cover/";
+				$imagePath = $targetPath.basename($name);
+				$path = "http://localhost:8888/img/cover/".$name;
+				if(move_uploaded_file($_FILES['ufile']['tmp_name'],$imagePath)){
+				//header('Location: ' . $_SERVER['HTTP_REFERER']);
+					Helper::redirect("/admin/$userId/editRestaurant");
+					echo $path;
+				}else{
+					echo "Nah";
+				}
+			}
+			Restaurant::addRestaurant($title,$cuisineName,$openTime,$minOrder,$description,$path,$address,$cartType,$userId);
+		
 	}
+
 	
 }

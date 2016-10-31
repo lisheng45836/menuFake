@@ -111,7 +111,7 @@
 								<label>description:</label> 
 								<input class="form-control" type="text" name="description" value="{{ restaurant.description }}">
 								<label>image_path:</label> 
-								<input class="form-control" type="text" name="image_path" value="{{ restaurant.image_path }}">
+								<input class="form-control" type="file" accept="image/*" name="image_path" value="{{ restaurant.image_path }}">
 							</div>
 						</li>
 						<li>
@@ -134,50 +134,6 @@
 							</div>
 						</li>
 						</ul>
-							<!-- <ul class="list-inline">
-								<li>
-									<div class="form-group restaurantForm">
-										<label class="labels">cuisineName:</label>
-										<input class="form-control" type="text" name="cuisineName" value="{{ restaurant.cuisineName }}">
-										<label class="labels">openTime:</label>
-										<input class="form-control" type="text" name="openTime" value="{{ restaurant.openTime }}">
-									</div>
-								</li>
-								<li>
-									<div class="form-group restaurantForm">
-										<label class="labels">minOrder:</label>
-										<input class="form-control" type="text" name="minOrder" value="{{ restaurant.minOrder }}">
-										<label class="labels">description:</label>
-										<input class="form-control" type="text" name="description" value="{{ restaurant.description }}">
-									</div>
-								</li>
-								<li>
-									<div class="form-group restaurantForm">
-										<label class="labels">image_path:</label>
-										<input class="form-control" type="text" name="image_path" value="{{ restaurant.image_path }}">
-										<label class="labels">address:</label> 
-										<input class="form-control" type="text" name="address" value="{{ restaurant.address }}">
-									</div>
-								</li>
-								<li>
-									<div class="form-group restaurantForm">
-										<label class="labels">cartType:</label>
-										<input class="form-control" type="text" name="cartType" value="{{ restaurant.cartType }}">
-										<label class="labels">
-											Title
-										</label>
-										<input class="form-control" type="text" name="title" value="{{restaurant.title}}">
-										<input type="hidden" name="userId" value="{{userId}}">
-										
-									</div>
-
-								</li>
-								<li>
-									<div class="form-group restaurantForm">
-										<input class="btn" type="submit" name="save" value="save">
-									</div>
-								</li>
-							</ul> -->
 						</form>
 
 						<hr>
