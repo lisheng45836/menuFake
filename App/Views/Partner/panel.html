@@ -134,8 +134,22 @@
 							</div>
 						</li>
 						</ul>
+						<img src="{{restaurant.image_path}}" width="120px">
 						</form>
-
+						<form method="POST" class="uploadImage" action="/">
+							<ul class="list-inline">
+								<li>
+								<input class="form-control imageFile"  type="file" name="ufile">
+								<input type="hidden" name="restaurantId" class="restaurantId" value="{{restaurant.id}}" />
+								</li>
+								<li>
+									<input type="submit" class="btn" name="submit" value="Change image">
+								</li>
+								<div class="perview">
+									
+								</div>
+							</ul>
+						</form>
 						<hr>
 					{% endfor %}
 				</div>

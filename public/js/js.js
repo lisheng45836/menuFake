@@ -351,6 +351,7 @@ $(document).ready(function(){
 		
 		var restaurantId = $(this).find(".restaurantId").val();
 		data.append('restaurantId',restaurantId);
+		
 		$.ajax({
 			type: 'POST',
 			url: '/upload/uploadPhoto',
