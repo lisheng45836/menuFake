@@ -11,7 +11,7 @@ class Restaurants extends \Core\Controller
 	public function menus(){
 
 		$name = $this->route_params['name'];
-		$name = preg_replace('/_/',' ',$name);
+		//$name = preg_replace('/_/',' ',$name);
 		$info = Restaurant::getRestaurantByName($name);
 		$id	= $info[0]['id'];
 		$menu = Menu::getMenu($id);
@@ -63,6 +63,7 @@ class Restaurants extends \Core\Controller
 		if($_SERVER['REQUEST_METHOD'] == 'GET'){
 			$auth = Users::auth();
 			$name = $this->route_params['name'];
+			
 			$data = Restaurant::getRestaurantByName($name);
 			$id = $data[0]['id'];
 			$reviews = Review::getReview($id);

@@ -19,10 +19,13 @@ class Router
 
 		// escape forward slashes
 		$route = preg_replace('/\//','\\/',$route);
+
 		// covert variables {**}
 		$route = preg_replace('/\{([a-z]+)\}/','(?P<\1>[a-z-]+)', $route); 
+
 		// convert variables with custom regular expressions e.g. {id:d+}
 		$route = preg_replace('/\{([a-z]+):([^\}]+)\}/', '(?P<\1>\2)', $route);
+
 		// add start and end delimiters and case insensitive
 		$route = '/^' . $route . '$/i';
 
@@ -98,6 +101,7 @@ class Router
 	{
 		return str_replace(' ','', ucwords(str_replace('-',' ',$string)));
 	}
+
 
 	/**
 	 * Convert the string with hyphens '-' to camelCase

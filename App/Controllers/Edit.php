@@ -71,17 +71,21 @@ class Edit extends \Core\Controller
 				$title			= htmlspecialchars($_POST['title']);
 				$cuisineName	= htmlspecialchars($_POST['cuisineName']);
 				$openTime		= htmlspecialchars($_POST['openTime']);
+				$closeTime		= htmlspecialchars($_POST['closeTime']);
 				$minOrder		= htmlspecialchars($_POST['minOrder']);
 				$description	= htmlspecialchars($_POST['description']);
-				$image_path		= htmlspecialchars($_POST['image_path']);
 				$address		= htmlspecialchars($_POST['address']);
 				$cartType		= htmlspecialchars($_POST['cartType']);
 				$userId 		= htmlspecialchars($_POST['userId']);
+
+				$title 			= Helper::spaceTodash($title); //
+				
 				if(isset($_POST['save'])){
-					Restaurant::updateRestaurant($title,$cuisineName,$openTime,$minOrder,$description,$image_path,$address,$cartType,$restaurantName);
+					Restaurant::updateRestaurant($title,$cuisineName,$openTime,$closeTime,$minOrder,$description,$address,$cartType,$restaurantName);
 					Helper::redirect("http://localhost:8888/partner");
 					
 				}
+				// echo $openTime;
 			}
 		}else{
 			Helper::redirect('/auth/users/login');

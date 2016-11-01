@@ -12,8 +12,6 @@ $(document).on('change','.listType',function(){
 });
 
 
-
-
 function getRestaurant(){
 
 	var url = $("#target").attr("action");
@@ -26,21 +24,27 @@ function getRestaurant(){
 				var restaurant = JSON.parse(data);
 				for(i=0;i<restaurant.length;i++){
 					var title = restaurant[i].title;
-					var urlTitle = title.replace(/ /g,"_");
+					var urlTitle = title.replace(/_/g," ");
+					var openTime = restaurant[i].openTime.replace(/(.*)\D\d+/, '$1');
+					var closeTime =restaurant[i].closeTime.replace(/(.*)\D\d+/, '$1');
 					var content =	'<tr>'+
 									'<td>'+
 										'<div class="row">'+
 											'<div class="col-md-4">' +
-								  				'<img class="img-rounded img" src="//www.menulog.com.au/generated_content/venue_images/takeaway_search_thumb/185433_ec3c411428f83918bb282fa725145a08/Bombay-Affair_Orderonline.jpeg">'+
+								  				'<img class="img-rounded img" src="'+restaurant[i].image_path+'" width="120px">'+
 								  			'</div>'+
 
 								 			'<div class="col-md-8">'+
-												'<h4>'+restaurant[i].title+'</h4>'+
-												'<span>'+restaurant[i].cuisineName + '|</span>'+
-												'<span>'+restaurant[i].openTime+ '| </span>'+
+												'<h3>'+urlTitle+'</h3>'+
+												'<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> '+
+												'<span class="tags">'+restaurant[i].cuisineName + '</span>'+
+												'<span class="glyphicon glyphicon-time" aria-hidden="true"></span> '+
+												'<span >'+openTime+'</span> - '+
+												'<span class="tags">'+closeTime+ '</span>'+
 												'<span>$'+restaurant[i].minOrder+'</span> <br>'+
-												'<span>'+restaurant[i].address+'</span> <br>'+
-												'<a class="btn btn-default pull-right" href="/restaurants/'+urlTitle+'/menus" role="button">See Menu</a>'+
+												'<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>'+
+												'<span class="tags">'+restaurant[i].address+'</span> <br>'+
+												'<a class="btn btn-default pull-right" href="/restaurants/'+title+'/menus" role="button">See Menu</a>'+
 											'</div>'+
 										'</div>'+
 									'</td>'+
@@ -77,6 +81,8 @@ $(document).on('change','.cuisineNames',function(){
 	}
 
 });
+
+
 
 $(document).ready(function(){
 	//localStorage.clear();
@@ -367,6 +373,7 @@ $(document).ready(function(){
 		});
 		
 	});
+
 
 
 });

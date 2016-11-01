@@ -8,7 +8,7 @@
 		<div class="container box">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3 restaurantHeader">
-				<h2>{{ restaurant.title }}</h2>
+				<h2>{{ restaurant.title | replace({'_' : ' '}) }}</h2>
 				{{ restaurant.address }}
 			</div>
 			<div class="row">

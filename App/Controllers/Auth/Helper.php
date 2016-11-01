@@ -44,4 +44,13 @@ HTML;
 		    //var_dump($tempArray); 
 		    return $tempArray; 
 	} 
+
+	public static function spaceTodash($value){
+
+		if(strpos($value, " ")){
+			return str_replace(" ","_",$value);
+		}else{
+			return $value;
+		}
+	}
 }

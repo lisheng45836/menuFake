@@ -35,11 +35,12 @@
 							<label>
 								openTime:
 							</label> 
-							<input class="form-control addOpenTime" type="text" name="openTime" value="">
+							<input class="form-control addOpenTime" type="time" name="openTime" value="">
 							<label>
-								minOrder:
+								closeTime:
 							</label> 
-							<input class="form-control addMinOrder" type="text" name="minOrder" value="">
+							<input class="form-control addCloseTime" type="time" name="closeTime" value="">
+							
 						</div>
 					</li>
 
@@ -61,7 +62,14 @@
 							<label>
 								cartType
 							</label>
-							<input type="text" class="form-control addCartType" name="cartType" value="">
+							<select class="form-control" name="cartType" required>
+								<option value="pickUp">pickUp</option>
+  								<option value="delivery">delivery</option>
+							</select>
+							<label>
+								minOrder:
+							</label> 
+							<input class="form-control addMinOrder" type="text" name="minOrder" value="">
 						</div>
 					</li>
 				</ul>
@@ -108,9 +116,10 @@
 						<li>
 							<div class="form-group">
 								<label>openTime:</label> 
-								<input class="form-control" type="text" name="openTime" value="{{ restaurant.openTime }}">
-								<label>minOrder:</label>
-								<input class="form-control" type="text" name="minOrder" value="{{ restaurant.minOrder }}">
+								<input class="form-control" type="time" name="openTime" value="{{ restaurant.openTime }}">
+								<label>closeTime:</label> 
+								<input class="form-control" type="time" name="closeTime" value="{{ restaurant.closeTime }}">
+								
 							</div>
 						</li>
 						<li>
@@ -125,7 +134,19 @@
 							<div class="form-group">
 								
 								<label>cartType</label>
-								<input class="form-control" type="text" name="cartType" value="{{ restaurant.cartType }}">
+								<select class="form-control" name="cartType">
+								{% if restaurant.cartType =="pickUp" %}
+									<option value="pickUp" selected>pickUp</option>
+									<option value="delivery">delivery</option>
+								{% endif %}
+								{% if restaurant.cartType =="delivery" %}
+									<option value="pickUp">pickUp</option>
+									<option value="delivery" selected>delivery</option>
+  								{% endif %}
+								</select>
+
+								<label>minOrder:</label>
+								<input class="form-control" type="text" name="minOrder" value="{{ restaurant.minOrder }}">
 							</div>
 						</li>
 						<li>

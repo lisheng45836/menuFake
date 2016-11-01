@@ -100,18 +100,20 @@
 						</li>
 						<li>
 							<div class="form-group">
-								<label>openTime:</label> 
-								<input class="form-control" type="text" name="openTime" value="{{ restaurant.openTime }}">
-								<label>minOrder:</label>
-								<input class="form-control" type="text" name="minOrder" value="{{ restaurant.minOrder }}">
+								<label>open Time:</label> 
+								<input class="form-control" type="time" name="openTime" value="{{ restaurant.openTime }}">
+								<label>close Time</label>
+								<input class="form-control" type="time" name="closeTime" value="{{ restaurant.closeTime }}">
+								
 							</div>
 						</li>
+			
 						<li>
 							<div class="form-group">
 								<label>description:</label> 
 								<input class="form-control" type="text" name="description" value="{{ restaurant.description }}">
-								<label>image_path:</label> 
-								<input class="form-control" type="file" accept="image/*" name="image_path" value="{{ restaurant.image_path }}">
+								<label>minOrder:</label>
+								<input class="form-control" type="text" name="minOrder" value="{{ restaurant.minOrder }}">
 							</div>
 						</li>
 						<li>

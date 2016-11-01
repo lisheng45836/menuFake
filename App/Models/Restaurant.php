@@ -10,7 +10,7 @@ class Restaurant extends \Core\Model
 	{
 		try{
 			$db = static::getDB();
-			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType,owner FROM restaurant WHERE cartType = ? AND address LIKE ? ");
+			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,closeTime,minOrder,description,image_path,address,cartType,owner FROM restaurant WHERE cartType = ? AND address LIKE ? ");
 			$stmt->execute(array($cartType,"%$search%"));
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $result;
@@ -36,7 +36,7 @@ class Restaurant extends \Core\Model
 	{
 		try{
 			$db = static::getDB();
-			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType,owner,overall FROM restaurant WHERE owner = ? ");
+			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,closeTime,minOrder,description,image_path,address,cartType,owner,overall FROM restaurant WHERE owner = ? ");
 			$stmt->execute(array($userId));
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $result;
@@ -45,15 +45,16 @@ class Restaurant extends \Core\Model
 		}
 	}
 
-	public static function addRestaurant($title,$cuisineName,$openTime,$minOrder,$description,$path,$address,$cartType,$userId)
+	public static function addRestaurant($title,$cuisineName,$openTime,$closeTime,$minOrder,$description,$path,$address,$cartType,$userId)
 	{
 		try{
 			$db = static::getDB();
-			$stmt = $db->prepare("INSERT INTO restaurant(title,cuisineName,openTime,minOrder,description,image_path,address,cartType,owner)VALUES(:title,:cuisineName,:openTime,:minOrder,:description,:image_path,:address,:cartType,:owner)");
+			$stmt = $db->prepare("INSERT INTO restaurant(title,cuisineName,openTime,closeTime,minOrder,description,image_path,address,cartType,owner)VALUES(:title,:cuisineName,:openTime,:closeTime,:minOrder,:description,:image_path,:address,:cartType,:owner)");
 
 			$stmt->bindParam(':title',$title);
 			$stmt->bindParam(':cuisineName',$cuisineName);
 			$stmt->bindParam(':openTime',$openTime);
+			$stmt->bindParam(':closeTime',$closeTime);
 			$stmt->bindParam(':minOrder',$minOrder);
 			$stmt->bindParam(':description',$description);
 			$stmt->bindParam(':image_path',$path);
@@ -78,14 +79,15 @@ class Restaurant extends \Core\Model
 		}
 	}
 
-	public static function updateRestaurant($title,$cuisineName,$openTime,$minOrder,$description,$address,$cartType,$restaurantName)
+	public static function updateRestaurant($title,$cuisineName,$openTime,$closeTime,$minOrder,$description,$address,$cartType,$restaurantName)
 	{
 		try{
 			$db = static::getDB();
-			$stmt = $db->prepare("UPDATE restaurant SET title =:title,cuisineName =:cuisineName,openTime=:openTime, minOrder =:minOrder,description=:description,address=:address,cartType=:cartType WHERE title =:restTitle");
+			$stmt = $db->prepare("UPDATE restaurant SET title =:title,cuisineName =:cuisineName,openTime=:openTime,closeTime =:closeTime ,minOrder =:minOrder,description=:description,address=:address,cartType=:cartType WHERE title =:restTitle");
 			$stmt->bindParam(':title',$title);
 			$stmt->bindParam(':cuisineName',$cuisineName);
 			$stmt->bindParam(':openTime',$openTime);
+			$stmt->bindParam(':closeTime',$closeTime);
 			$stmt->bindParam(':minOrder',$minOrder);
 			$stmt->bindParam(':description',$description);
 			$stmt->bindParam(':address',$address);
@@ -125,7 +127,7 @@ class Restaurant extends \Core\Model
 	{
 		try{
 			$db = static::getDB();
-			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType,owner FROM restaurant WHERE owner = ? AND title LIKE ?");
+			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,closeTime,minOrder,description,image_path,address,cartType,owner FROM restaurant WHERE owner = ? AND title LIKE ?");
 			$stmt->execute(array($userID,"%$search%"));
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $result;
@@ -139,7 +141,7 @@ class Restaurant extends \Core\Model
 	{
 		try{
 			$db = static::getDB();
-			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType,owner FROM restaurant WHERE title LIKE ? ");
+			$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,closeTime,minOrder,description,image_path,address,cartType,owner FROM restaurant WHERE title LIKE ? ");
 			$stmt->execute(array("%$search%"));
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $result;
@@ -156,11 +158,11 @@ class Restaurant extends \Core\Model
 			$cuisine = implode(',', array_fill(0, count($cuisineName), '?'));
 			if($cuisineName == "all"){
 
-				$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType FROM restaurant WHERE cartType = ? AND address LIKE ?");
+				$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,closeTime,minOrder,description,image_path,address,cartType FROM restaurant WHERE cartType = ? AND address LIKE ?");
 				$stmt->execute(array($cartType,"%$location%"));
 			}else{
 
-				$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,minOrder,description,image_path,address,cartType FROM restaurant WHERE cuisineName in ($cuisine) AND cartType = '$cartType' AND address LIKE '%$location%'");
+				$stmt = $db->prepare("SELECT id,title,cuisineName,openTime,closeTime,minOrder,description,image_path,address,cartType FROM restaurant WHERE cuisineName in ($cuisine) AND cartType = '$cartType' AND address LIKE '%$location%'");
 				$stmt->execute($cuisineName);
 			}
 

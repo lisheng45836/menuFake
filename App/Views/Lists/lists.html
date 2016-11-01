@@ -6,6 +6,7 @@
 	<h2 class="heading">{{ location }} Delivery and Takeaway</h2>
 	</div>
 	<div class="container">
+
 		<div class="row">
 			<div class="col-md-4">
 				<div class="sideBar">
@@ -75,16 +76,22 @@
 							<td>
 								<div class="row">
 									<div class="col-md-4">
-										<img class="img-rounded img" src="//www.menulog.com.au/generated_content/venue_images/takeaway_search_thumb/185433_ec3c411428f83918bb282fa725145a08/Bombay-Affair_Orderonline.jpeg">
+										<img class="img-rounded img" src="{{restaurant.image_path}}" width="120px">
 									</div>
 
 									<div class="col-md-8">
-										<h4>{{ restaurant.title }}</h4>
-										<span>{{ restaurant.cuisineName }} | </span>
-										<span>{{ restaurant.openTime }} | </span>
-										<span>${{ restaurant.minOrder }}</span> <br>
-										<span>{{ restaurant.address }}</span> <br>
-										<a class="btn btn-default pull-right" href="/restaurants/{{restaurant.title}}/menus" role="button">See Menu</a>
+										<h3>{{ restaurant.title | replace({'_' : ' '}) }}</h3>
+											<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> 
+											<span class="tags">{{ restaurant.cuisineName }}</span>
+											<span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+											<span class="openTime">{{ restaurant.openTime|date("H:i")}}</span>
+											-
+											<span class="tags closeTime">{{ restaurant.closeTime|date("H:i") }}</span>
+
+											<span class="tags">Min order ${{ restaurant.minOrder }}</span> <br>
+											<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> 
+											<span class="tags">{{ restaurant.address }}</span> <br>
+										<a class="btn btn-default pull-right seeMenu" href="/restaurants/{{restaurant.title}}/menus" role="button">See Menu</a>
 									</div>
 								</div>
 							</td>

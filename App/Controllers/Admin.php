@@ -64,14 +64,16 @@ class Admin extends \Core\Controller
 			$title			= htmlspecialchars($_POST['title']);
 			$cuisineName	= htmlspecialchars($_POST['cuisineName']);
 			$openTime		= htmlspecialchars($_POST['openTime']);
+			$closeTime		= htmlspecialchars($_POST['closeTime']);
 			$minOrder		= htmlspecialchars($_POST['minOrder']);
 			$description	= htmlspecialchars($_POST['description']);
 			
 			$address		= htmlspecialchars($_POST['address']);
 			$cartType		= htmlspecialchars($_POST['cartType']);
 			$userId 		= htmlspecialchars($_POST['userId']);
+			$title 			= Helper::spaceTodash($title); //
 			if(isset($_POST['save'])){
-				Restaurant::updateRestaurant($title,$cuisineName,$openTime,$minOrder,$description,$address,$cartType,$restaurantName);
+				Restaurant::updateRestaurant($title,$cuisineName,$openTime,$closeTime,$minOrder,$description,$address,$cartType,$restaurantName);
 				Helper::redirect("/admin/$userId/editRestaurant");
 				
 
@@ -89,10 +91,13 @@ class Admin extends \Core\Controller
 			$title			= htmlspecialchars($_POST['title']);
 			$cuisineName	= htmlspecialchars($_POST['cuisineName']);
 			$openTime		= htmlspecialchars($_POST['openTime']);
+			$closeTime		= htmlspecialchars($_POST['closeTime']);
 			$minOrder		= htmlspecialchars($_POST['minOrder']);
 			$description	= htmlspecialchars($_POST['description']);
 			$address		= htmlspecialchars($_POST['address']);
 			$cartType		= htmlspecialchars($_POST['cartType']);
+
+			$title 			= Helper::spaceTodash($title); // 
 
 			if(isset($_FILES['ufile']['name'])){
 				$name = isset($_FILES['ufile']['name']);
@@ -107,7 +112,7 @@ class Admin extends \Core\Controller
 					echo "Nah";
 				}
 			}
-			Restaurant::addRestaurant($title,$cuisineName,$openTime,$minOrder,$description,$path,$address,$cartType,$userId);
+			Restaurant::addRestaurant($title,$cuisineName,$openTime,$closeTime,$minOrder,$description,$path,$address,$cartType,$userId);
 		
 	}
 
