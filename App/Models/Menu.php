@@ -68,7 +68,7 @@ class Menu extends \Core\Model
 	public static function addMenu($menuTitle,$restaurantId){
 		try{
 			$db = $db = static::getDB();
-			$stmt = $db->prepare("INSERT INTO menu(menuTitle,restaurant_id)VALUES(:menuTitle,:restaurantId)");
+			$stmt = $db->prepare("INSERT INTO menu(menuTitle,restaurant_id)VALUES(:menuTitle,:description,:restaurantId)");
 			$stmt->bindParam(':menuTitle',$menuTitle);
 			$stmt->bindParam(':restaurantId',$restaurantId);
 			$stmt->execute();

@@ -85,6 +85,7 @@
 							<h3 id ="{{ menu.id }}">{{ menu.menuTitle }}</h3>
 							<h4>{{ menu.foodTitle }} </h4>
 							<span> ${{ menu.price }} </span>
+							<p>{{menu.description}}</p>
 							<form class="foods" method="POST" >
 								
 								<input type="hidden" name="foodId" id="foodId" value="{{ menu.id }}">

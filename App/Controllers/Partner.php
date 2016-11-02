@@ -7,7 +7,8 @@ use App\Controllers\Auth\Users;
 
 class Partner extends \Core\Controller
 {
-	public function index(){
+	public function index()
+	{
 		$auth = Users::auth();
 		if($auth){
 			$user = Users::getUser();

@@ -8,8 +8,8 @@ use App\Controllers\Auth\Users;
 use App\Controllers\Auth\Helper;
 class Restaurants extends \Core\Controller
 {
-	public function menus(){
-
+	public function menus()
+	{
 		$name = $this->route_params['name'];
 		//$name = preg_replace('/_/',' ',$name);
 		$info = Restaurant::getRestaurantByName($name);
@@ -22,8 +22,8 @@ class Restaurants extends \Core\Controller
 
 	}
 
-	public function orders(){
-
+	public function orders()
+	{
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 				$auth = Users::auth();
@@ -41,7 +41,8 @@ class Restaurants extends \Core\Controller
 		}
 	}
 
-	public function searchRestaurants(){
+	public function searchRestaurants()
+	{
 		$search = htmlspecialchars($_GET['search']);
 		$auth = Users::auth();
 		if($auth){
@@ -59,7 +60,8 @@ class Restaurants extends \Core\Controller
 		}
 	}
 
-	public function reviews(){
+	public function reviews()
+	{
 		if($_SERVER['REQUEST_METHOD'] == 'GET'){
 			$auth = Users::auth();
 			$name = $this->route_params['name'];

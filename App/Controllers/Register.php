@@ -13,7 +13,8 @@ class Register extends \Core\Controller
 	public $min = 3;
 	public $errors = [];
 	
-	public function registration(){
+	public function registration()
+	{
 
 		if ($_SERVER['REQUEST_METHOD'] == 'GET'){
 			if(isset($_GET['customer'])){
@@ -70,7 +71,8 @@ class Register extends \Core\Controller
 		}
 	}
 
-	public function inputValidation($firstName,$lastName,$userName,$email,$address,$password,$confirmPassword){
+	public function inputValidation($firstName,$lastName,$userName,$email,$address,$password,$confirmPassword)
+	{
 		if(strlen($firstName) < 3 ){
 			$this->errors[] = "Your first name must be lager then 3 characters";
 		}
@@ -114,7 +116,8 @@ class Register extends \Core\Controller
 	}
 
 
-	public function activateUser(){
+	public function activateUser()
+	{
 		if($_SERVER['REQUEST_METHOD'] == 'GET'){
 			$email 			= htmlspecialchars($_GET['email']);
 			$validationCode = htmlspecialchars($_GET['validationCode']);

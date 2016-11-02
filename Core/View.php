@@ -12,24 +12,6 @@ namespace Core;
 class View
 {
 	/**
-	 * Render a view
-	 */
-	// public static function render($view, $arguments = [])
-	// {
-	// 	extract($arguments,EXTR_SKIP);
-	// 	$file ="../App/Views/$view";
-
-	// 	if(is_readable($file)){
-	// 		require $file;
-	// 	}else{
-	// 		//echo "$file not found";
-	// 		throw new \Exception("$file not found");
-			
-	// 	}
-	// }
-
-
-	/**
 	 * Render a view using Twig
 	 */
 

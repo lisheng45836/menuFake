@@ -9,7 +9,8 @@ use App\Controllers\Auth\Helper;
 
 class Upload extends \Core\Controller
 {
-	public function uploadPhoto(){
+	public function uploadPhoto()
+	{
 
 		if(isset($_FILES['ufile']['name'])){
 

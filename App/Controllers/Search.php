@@ -10,9 +10,12 @@ class Search extends \Core\Controller
 	public function index()
 	{
 		if(isset($_GET["location"])&&isset($_GET["cartType"])){
-			$location = $_GET["location"];
+			$address = $_GET["location"];
 			$cartType = $_GET["cartType"];
-			$location = ucfirst($location); // first character uppercase
+			$locations = explode(",",$address);
+			$locations[0];
+
+			$location = ucfirst($locations[0]); // first character uppercase
 			$results = Restaurant::getLists($location,$cartType);
 			$auth = Users::auth();
 			View::renderTemplate('Lists/lists.html',['result' => $results ,'location' => $location,'auth'=>$auth]);

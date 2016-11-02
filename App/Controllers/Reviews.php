@@ -10,8 +10,8 @@ use App\Controllers\Auth\Helper;
 class Reviews extends \Core\Controller
 {
 	//  Set rating & comments
-	public function rating(){
-
+	public function rating()
+	{
 		$auth = Users::auth();
 		$user = Users::getUser();
 		$userID = $user[0]['id'];

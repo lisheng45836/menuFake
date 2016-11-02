@@ -35,6 +35,7 @@ class Users extends \Core\Controller
 				View::renderTemplate('Auth/login.html');
 			}else{
 				Helper::redirect('/');
+				//header('Location: ' . $_SERVER['HTTP_REFERER']);
 			}
 			
 		}
@@ -66,6 +67,7 @@ class Users extends \Core\Controller
 					$_SESSION['email'] = $email;
 					if($role == "1"){
 						Helper::redirect('/');
+						//header('Location: ' . $_SERVER['HTTP_REFERER']);
 					}
 					if($role == "2"){
 						Helper::redirect('/partner'); // issue penel.

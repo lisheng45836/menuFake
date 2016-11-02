@@ -8,7 +8,8 @@ use App\Controllers\Auth\Users;
 
 class Admin extends \Core\Controller
 {
-	public function index(){
+	public function index()
+	{
 		$auth = Users::auth();
 		if($auth){
 			$user = Users::getUser();
@@ -25,7 +26,8 @@ class Admin extends \Core\Controller
 		}
 	}
 
-	public function activateUser(){
+	public function activateUser()
+	{
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			if(isset($_POST['activate'])){
 				$email = htmlspecialchars($_POST['email']);
@@ -42,7 +44,8 @@ class Admin extends \Core\Controller
 		} 
 	}
 
-	public function editRestaurant(){
+	public function editRestaurant()
+	{
 		$auth = Users::auth();
 		if($auth){
 			$user = Users::getUser();
@@ -85,34 +88,34 @@ class Admin extends \Core\Controller
 		}
 	}
 
-	public function addRestaurant(){
+	public function addRestaurant()
+	{
 		
-			$userId 		= htmlspecialchars($_POST['userId']);
-			$title			= htmlspecialchars($_POST['title']);
-			$cuisineName	= htmlspecialchars($_POST['cuisineName']);
-			$openTime		= htmlspecialchars($_POST['openTime']);
-			$closeTime		= htmlspecialchars($_POST['closeTime']);
-			$minOrder		= htmlspecialchars($_POST['minOrder']);
-			$description	= htmlspecialchars($_POST['description']);
-			$address		= htmlspecialchars($_POST['address']);
-			$cartType		= htmlspecialchars($_POST['cartType']);
+		$userId 		= htmlspecialchars($_POST['userId']);
+		$title			= htmlspecialchars($_POST['title']);
+		$cuisineName	= htmlspecialchars($_POST['cuisineName']);
+		$openTime		= htmlspecialchars($_POST['openTime']);
+		$closeTime		= htmlspecialchars($_POST['closeTime']);
+		$minOrder		= htmlspecialchars($_POST['minOrder']);
+		$description	= htmlspecialchars($_POST['description']);
+		$address		= htmlspecialchars($_POST['address']);
+		$cartType		= htmlspecialchars($_POST['cartType']);
 
-			$title 			= Helper::spaceTodash($title); // 
+		$title 			= Helper::spaceTodash($title); // 
 
-			if(isset($_FILES['ufile']['name'])){
-				$name = isset($_FILES['ufile']['name']);
-				$targetPath=$_SERVER['DOCUMENT_ROOT']."/img/cover/";
-				$imagePath = $targetPath.basename($name);
-				$path = "http://localhost:8888/img/cover/".$name;
-				if(move_uploaded_file($_FILES['ufile']['tmp_name'],$imagePath)){
-				//header('Location: ' . $_SERVER['HTTP_REFERER']);
-					Helper::redirect("/admin/$userId/editRestaurant");
-					echo $path;
-				}else{
-					echo "Nah";
-				}
+		if(isset($_FILES['ufile']['name'])){
+			$name = isset($_FILES['ufile']['name']);
+			$targetPath=$_SERVER['DOCUMENT_ROOT']."/img/cover/";
+			$imagePath = $targetPath.basename($name);
+			$path = "http://localhost:8888/img/cover/".$name;
+			if(move_uploaded_file($_FILES['ufile']['tmp_name'],$imagePath)){
+				Helper::redirect("/admin/$userId/editRestaurant");
+				echo $path;
+			}else{
+				echo "Nah";
 			}
-			Restaurant::addRestaurant($title,$cuisineName,$openTime,$closeTime,$minOrder,$description,$path,$address,$cartType,$userId);
+		}
+		Restaurant::addRestaurant($title,$cuisineName,$openTime,$closeTime,$minOrder,$description,$path,$address,$cartType,$userId);
 		
 	}
 

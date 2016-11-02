@@ -3,7 +3,11 @@ namespace App\Controllers\Auth;
 
 class Helper{	
 
-	public static function errorHandle($error){
+	/*
+	* Error handle for input
+	*/
+	public static function errorHandle($error)
+	{
 		$error= <<<HTML
 	<div class="alert alert-danger alert-dismissible" role="alert">
 	  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -13,15 +17,28 @@ HTML;
 		return $error;
 	}
 
-	public static function redirect($url){
+	/*
+	* Helper function for redirect url
+	*/
+
+	public static function redirect($url)
+	{
 		return header('location:' .$url);
 		exit;
 	}
+
+	/*
+	* Helper function for send emails
+	*/
 
 	public static function sendMail($email, $subject, $msg){
 		$headers = "From: aliu45836@hotmail.com";
 		return mail($email, $subject, $msg, $headers);
 	}
+
+	/*
+	* Helper function for remove duplicated data from array
+	*/
 
 	public static function uniqueArray($array, $key) { 
 		    $tempArray = array(); 
@@ -45,8 +62,11 @@ HTML;
 		    return $tempArray; 
 	} 
 
-	public static function spaceTodash($value){
-
+	/*
+	* Helper function conver space to dash
+	*/
+	public static function spaceTodash($value)
+	{
 		if(strpos($value, " ")){
 			return str_replace(" ","_",$value);
 		}else{

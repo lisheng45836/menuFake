@@ -10,7 +10,8 @@ use App\Controllers\Auth\Helper;
 */
 class Edit extends \Core\Controller
 {
-	public function menu(){
+	public function menu()
+	{
 		$auth = Users::auth();
 		if($auth){
 			$user = Users::getUser();
@@ -63,7 +64,8 @@ class Edit extends \Core\Controller
 		}
 	}
 
-	public function editRestaurant(){
+	public function editRestaurant()
+	{
 		$auth = Users::auth();
 		if($auth){
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){
