@@ -1,13 +1,27 @@
 <?php
+/****************************************************/
+// Filename: Restaurants.php
+// Created: Lisheng Liu
+/****************************************************/
+
 namespace App\Controllers;
+
 use \Core\View;
 use App\Models\Restaurant;
 use App\Models\Menu;
 use App\Models\Review;
 use App\Controllers\Auth\Users;
 use App\Controllers\Auth\Helper;
+
+/**
+* Restaurants controller
+* Handler restaurant actions
+*/
 class Restaurants extends \Core\Controller
 {
+	/**
+	* @des get menus for each Restaurant
+	*/
 	public function menus()
 	{
 		$name = $this->route_params['name'];
@@ -19,28 +33,33 @@ class Restaurants extends \Core\Controller
 		$auth = Users::auth();
 		
 		View::renderTemplate('Lists/restaurant.html',['restaurant' => $info,'menus' => $menus,'auth'=>$auth]);
-
 	}
 
+	/**
+	* @des redirect orders information
+	*/
 	public function orders()
 	{
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-				$auth = Users::auth();
-				$restaurantId	= $_POST['restaurantId'];
-				$cartType		= $_POST['cartType'];
+			$auth = Users::auth();
+			$restaurantId	= $_POST['restaurantId'];
+			$cartType		= $_POST['cartType'];
 
-				if($auth){
-					$users = Users::getUser();
-					// jump to payment page .. 
-					View::renderTemplate('Payment/checkOut.html',['auth'=>$auth,'restaurantId'=>$restaurantId,'cartType'=>$cartType,'users'=>$users]);
-				}
-				if(!$auth){
-					View::renderTemplate('Payment/checkOut.html',['auth'=>$auth,'restaurantId'=>$restaurantId,'cartType'=>$cartType]);
-				}
+			if($auth){
+				$users = Users::getUser();
+				// jump to payment page .. 
+				View::renderTemplate('Payment/checkOut.html',['auth'=>$auth,'restaurantId'=>$restaurantId,'cartType'=>$cartType,'users'=>$users]);
+			}
+			if(!$auth){
+				View::renderTemplate('Payment/checkOut.html',['auth'=>$auth,'restaurantId'=>$restaurantId,'cartType'=>$cartType]);
+			}
 		}
 	}
 
+	/**
+	* @des search restaurants 
+	*/
 	public function searchRestaurants()
 	{
 		$search = htmlspecialchars($_GET['search']);
@@ -60,16 +79,20 @@ class Restaurants extends \Core\Controller
 		}
 	}
 
+	/**
+	* @des redirect to reviews page
+	*/
 	public function reviews()
 	{
 		if($_SERVER['REQUEST_METHOD'] == 'GET'){
 			$auth = Users::auth();
-			$name = $this->route_params['name'];
+			$name = $this->route_params['name']; //get restaurant name for URL
 			
 			$data = Restaurant::getRestaurantByName($name);
-			$id = $data[0]['id'];
-			$reviews = Review::getReview($id);
+			$id = $data[0]['id']; // restaurant id
+			$reviews = Review::getReview($id); //get reviews by restaurant id
 			$overall = 0;
+			//counting overall rating reviews
 			$all = count($reviews);
 			for($i=0; $i < $all; $i++){
 				$overall += $reviews[$i]['overall'];

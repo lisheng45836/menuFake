@@ -1,11 +1,27 @@
 <?php
+/****************************************************/
+// Filename: Payment.php
+// Created: Lisheng Liu
+/****************************************************/
+
 namespace App\Controllers;
+
 use \Core\View;
 use App\Controllers\Auth\Users;
 use App\Controllers\Auth\Helper;
 use App\Models\Menu;
+
+/**
+* Payment controller
+* Handler payment process
+* Issue: MISSING creidt card payment 
+*/
 class Payment extends \Core\Controller
 {
+	/**
+	* @des check out process. get payment information 
+	* and send Email shopping list to customer.
+	*/
 	public function checkOut()
 	{
 		$auth = Users::auth();
@@ -16,9 +32,8 @@ class Payment extends \Core\Controller
 		$address	= htmlspecialchars($_POST['address']);
 		$phone		= htmlspecialchars($_POST['phone']);
 		$totalPrice	= htmlspecialchars($_POST['totalPrice']);
-		// email
+		// email info
 		$subject = "Your Order Detail";
-
 		$str = [];
 		$food = $_POST['foodTitle'];
 		for($i=0;$i<count($food);$i++){
@@ -39,11 +54,11 @@ class Payment extends \Core\Controller
 		$headers .= "From: jinfang1969@gmail.com";
 		Helper::sendMail($email,$subject,$msg,$headers); 
 
-		if($auth){
-			$orderId = uniqid();
+		if($auth){	//if login save into database 
+			$orderId = uniqid();	//create unique order id
 			$user = Users::getUser();
 			$userID = $user[0]['id'];
-			Menu::setOrder($orderId,$userID);
+			Menu::setOrder($orderId,$userID);	//set new order 
 			for($i=0;$i<count($food);$i++){
 
 				$foodTitle 		= htmlspecialchars($_POST['foodTitle'][$i]);
@@ -59,14 +74,4 @@ class Payment extends \Core\Controller
 		echo $msg.'<a href="/">Go Back</a>';
 
 	}
-
-	public function show()
-	{
-
-		$data = json_encode($_POST);
-
-		echo $data;
-	}
-
-
 }

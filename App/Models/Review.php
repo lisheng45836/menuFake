@@ -1,12 +1,23 @@
 <?php
+/****************************************************/
+// Filename: Review.php
+// Created: Lisheng Liu
+/****************************************************/
 
 namespace App\Models;
 
 use PDO;
-
+/**
+* Review model
+*/
 class Review extends \Core\Model
 {
-	public static function setComment($food,$value,$speed,$comment,$overall,$id,$userID){
+	/**
+	* @des create new comment record
+	* @param $food,$value,$speed,$comment,$overall,$id,$userID
+	*/
+	public static function setComment($food,$value,$speed,$comment,$overall,$id,$userID)
+	{
 
 		try{
 			$db = static::getDB();
@@ -26,8 +37,13 @@ class Review extends \Core\Model
 		}
 	}
 
-	public static function getReview($id){
-
+	/**
+	* @des get all reviews by restaurant id
+	* @param $id, restraurant id
+	* @return comments data
+	*/
+	public static function getReview($id)
+	{
 		try{
 			$db = static::getDB();
 			$stmt = $db->prepare("SELECT food,value,speed,overall,comments,time FROM comments WHERE restaurantId=?");

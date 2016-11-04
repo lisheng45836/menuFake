@@ -1,13 +1,25 @@
 <?php
+/****************************************************/
+// Filename: Auth.php
+// Created: Lisheng Liu
+/****************************************************/
 
 namespace App\Models;
 
 use PDO;
 
+/**
+* Auth Model
+*/
 class Auth extends \Core\Model
 {
-	public static function getUserInfo($email){
-
+	/**
+	* @des get user information from database by user email
+	* @param $email
+	* @return $result, user data 
+	*/
+	public static function getUserInfo($email)
+	{
 		try{
 			$db = static::getDB();
 			$stmt=$db->prepare("SELECT id,firstName,lastName,userName,email,address,role,password FROM users WHERE email =? AND activate = 1");
@@ -21,10 +33,13 @@ class Auth extends \Core\Model
 
 	}
 
-	
-
-	public static function updateValidation($code,$email){
-
+	/**
+	* @des change validation code by email
+	* @param $code, $email
+	* @return bool
+	*/
+	public static function updateValidation($code,$email)
+	{
 		try{
 
 			$db = static::getDB();
@@ -38,7 +53,12 @@ class Auth extends \Core\Model
 		}
 	}
 
-	public static function updatePassword($newPassword,$email){
+	/**
+	* @des change password
+	* @param $newPassword, $email
+	*/
+	public static function updatePassword($newPassword,$email)
+	{
 		$newPassword = md5($newPassword);
 		try{
 			$db = static::getDB();

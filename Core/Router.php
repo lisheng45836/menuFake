@@ -1,4 +1,8 @@
 <?php
+/****************************************************/
+// Filename: Router.php
+// Created: Lisheng Liu
+/****************************************************/
 
 namespace Core;
 /**
@@ -12,7 +16,9 @@ class Router
 	protected $params = [];
 
 	/**
-	 * Add a route to routing table
+	 * @des Add a route to routing table
+	 * @param $route
+	 * @param $params = []
 	 */
 	public function add($route, $params = [])
 	{
@@ -34,7 +40,9 @@ class Router
 	}
 
 	/**
-	 * Match the route in the routing table
+	 * @des Match the route in the routing table
+	 * @param $url
+	 * @return bool 
 	 */
 
 	public function match($url)
@@ -58,7 +66,8 @@ class Router
 	}
 
 	/**
-	 * Dispatch the route, creating & call the controller object and action method.
+	 * @des Dispatch the route, creating & call the controller object and action method.
+	 * @param $url
 	 */
 
 	public function dispatch($url)
@@ -95,7 +104,9 @@ class Router
 	}
 
 	/**
-	 * Convert the string with hyphens '-' to StudlyCaps
+	 * @des Convert the string with hyphens '-' to StudlyCaps
+	 * @param $string 
+	 * @return converted StudlyCaps string
 	 */
 	protected function toStudlyCaps($string)
 	{
@@ -104,7 +115,9 @@ class Router
 
 
 	/**
-	 * Convert the string with hyphens '-' to camelCase
+	 * @des Convert the string with hyphens '-' to camelCase
+	 * @param $string
+	 * @return converted camelCase string
 	 */
 
 	protected function toCamelCase($string)
@@ -112,6 +125,10 @@ class Router
 		return lcfirst($this->toStudlyCaps($string));
 	}
 
+	/**
+	* @des remove Query String Variables
+	* @param $url
+	*/
 	protected function removeQueryStringVariables($url)
 	{
 		if($url != '')
@@ -128,22 +145,19 @@ class Router
 		return $url;
 	}
 
-
+	// get routes 
 	public function getRoutes()
 	{
 		return $this->routers; 
 	}
 
+	// get params
 	public function getParams()
 	{
 		return $this->params;
 	}
 
-	public function test()
-	{
-
-	}
-
+	// get namespace
 	protected function getNamespace()
 	{
 		$namespace = 'App\Controllers\\';

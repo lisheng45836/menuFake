@@ -1,15 +1,20 @@
 <?php
+/****************************************************/
+// Filename: Controller.php
+// Created: Lisheng Liu
+/****************************************************/
 
 namespace Core;
 
-/**
- * Base Controller
- */
+/** 
+* Base Controller.
+*/
 
 abstract class Controller
 {
 	protected $route_params = [];
 
+	// inital construct for Controller
 	public function __construct($route_params)
 	{
 		$this->route_params = $route_params;

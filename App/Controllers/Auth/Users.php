@@ -1,5 +1,6 @@
 <?php
 namespace App\Controllers\Auth;
+
 use \Core\View;
 use App\Controllers\Auth\Helper;
 use App\Models\Auth;
@@ -12,24 +13,12 @@ use App\Models\User;
 class Users extends \Core\Controller
 {
 	public $errors = [];
-	// protected function before()
-	// {
-	// 	echo "(before)";
-	// 	return false;
-	// }
 
-	// protected function after()
-	// {
-	// 	//echo "after";
-	// }
-
-	// public function indexAction()
-	// {
-	// 	echo 'Users';
-	// }
-
-	public function loginAction(){
-
+	/*
+	* 
+	*/
+	public function loginAction()
+	{
 		if($_SERVER['REQUEST_METHOD'] == 'GET'){
 			if(!$this->auth()){
 				View::renderTemplate('Auth/login.html');
@@ -37,8 +26,8 @@ class Users extends \Core\Controller
 				Helper::redirect('/');
 				//header('Location: ' . $_SERVER['HTTP_REFERER']);
 			}
-			
 		}
+
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 			$email 			= htmlspecialchars($_POST['email']);
@@ -83,7 +72,8 @@ class Users extends \Core\Controller
 		}
 	}
 
-	public static function auth(){
+	public static function auth()
+	{
 		session_start();
 		if(isset($_SESSION['email'])|| isset($_COOKIE['email'])){
 			return true;
@@ -92,15 +82,14 @@ class Users extends \Core\Controller
 		}
 	}
 
-	public static function getUser(){
-		
+	public static function getUser()
+	{	
 		$email = $_SESSION['email'];
-		return Auth::getUserInfo($email);
-		
+		return Auth::getUserInfo($email);	
 	}
 
-	public function updateUser(){
-
+	public function updateUser()
+	{
 		$userId = $this->route_params['name'];
 		$firstName = htmlspecialchars($_POST['firstName']);
 		$lastName = htmlspecialchars($_POST['lastName']);
@@ -113,13 +102,15 @@ class Users extends \Core\Controller
 		Helper::redirect('/partner');
 	}
 
-	public function searchUser(){
+	public function searchUser()
+	{
 		$search = htmlspecialchars($_GET['search']);
 		$result = User::searchUser($search); 
 		echo json_encode($result);
 	}
 
-	public function logOut(){
+	public function logOut()
+	{
 		session_start();
 		session_destroy();
 		if(isset($_COOKIE['email'])){
@@ -129,7 +120,8 @@ class Users extends \Core\Controller
 		Helper::redirect('/auth/users/login');
 	}
 
-	public function forgot(){
+	public function forgot()
+	{
 		if($_SERVER['REQUEST_METHOD'] == 'GET'){
 			session_start();
 			$token = $_SESSION['token'] =  md5(uniqid(mt_rand(), true));
@@ -158,7 +150,8 @@ class Users extends \Core\Controller
 		}
 	}
 
-	public function validation(){
+	public function validation()
+	{
 		if(isset($_COOKIE['tempCode'])){
 			if(!isset($_GET['email']) && !isset($_GET['validationCode']) || empty($_GET['email']) && empty($_GET['validationCode'])){
 				Helper::redirect('/auth/users/login');
@@ -178,8 +171,8 @@ class Users extends \Core\Controller
 		}
 	}
 
-	public function reset(){
-
+	public function reset()
+	{
 		if($_SERVER['REQUEST_METHOD'] == 'GET'){
 			session_start();
 			$token = $_SESSION['token'];

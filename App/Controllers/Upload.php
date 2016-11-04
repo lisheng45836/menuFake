@@ -1,5 +1,11 @@
 <?php
+/****************************************************/
+// Filename: Upload.php
+// Created: Lisheng Liu
+/****************************************************/
+
 namespace App\Controllers;
+
 use \Core\View;
 use App\Models\Restaurant;
 use App\Models\Menu;
@@ -7,11 +13,14 @@ use App\Models\Review;
 use App\Controllers\Auth\Users;
 use App\Controllers\Auth\Helper;
 
+/**
+* Upload controller
+* Handler image Upload action
+*/
 class Upload extends \Core\Controller
 {
 	public function uploadPhoto()
 	{
-
 		if(isset($_FILES['ufile']['name'])){
 
 			$name = $_FILES['ufile']['name'];
@@ -19,7 +28,7 @@ class Upload extends \Core\Controller
 	
 			$targetPath=$_SERVER['DOCUMENT_ROOT']."/img/cover/";
 			$imagePath = $targetPath.basename($name);
-			// $imageFileType = pathinfo($file,PATHINFO_EXTENSION);
+			// $imageFileType = pathinfo($file,PATHINFO_EXTENSION); // may use for file check
 			$path = "http://localhost:8888/img/cover/".$name;
 			Restaurant::updateRestaurantImage($restaurantId,$path);
 

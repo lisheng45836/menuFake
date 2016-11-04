@@ -1,11 +1,23 @@
 <?php
+/****************************************************/
+// Filename: Restaurant.php
+// Created: Lisheng Liu
+/****************************************************/
 
 namespace App\Models;
 
 use PDO;
 
+/**
+* Restaurant Model
+*/
 class Restaurant extends \Core\Model
-{
+{	
+	/**
+	* @des search and get restaurant lists by cart type and address
+	* @param $search, $cartType
+	* @return $result restaurant data
+	*/
 	public static function getLists($search,$cartType)
 	{
 		try{
@@ -19,6 +31,11 @@ class Restaurant extends \Core\Model
 		}
 	}
 
+	/**
+	* @des get Restaurant by title
+	* @param $name
+	* @return restaurant data
+	*/
 	public static function getRestaurantByName($name)
 	{
 		try{
@@ -32,6 +49,11 @@ class Restaurant extends \Core\Model
 		}
 	}
 
+	/**
+	* @des get Restaurant by owner id
+	* @param $userId
+	* @return restaurant data
+	*/
 	public static function getRestaurantByOwner($userId)
 	{
 		try{
@@ -45,6 +67,10 @@ class Restaurant extends \Core\Model
 		}
 	}
 
+	/**
+	* @des create new restaurant
+	* @param $title,$cuisineName,$openTime,$closeTime,$minOrder,$description,$path,$address,$cartType,$userId
+	*/
 	public static function addRestaurant($title,$cuisineName,$openTime,$closeTime,$minOrder,$description,$path,$address,$cartType,$userId)
 	{
 		try{
@@ -68,6 +94,10 @@ class Restaurant extends \Core\Model
 		}
 	}
 
+	/**
+	* @des delete restaurant by title
+	* @param $restaurantName
+	*/
 	public static function deleteRestaurant($restaurantName)
 	{
 		try{
@@ -79,6 +109,10 @@ class Restaurant extends \Core\Model
 		}
 	}
 
+	/**
+	* @des change restaurant information
+	* @param 
+	*/
 	public static function updateRestaurant($title,$cuisineName,$openTime,$closeTime,$minOrder,$description,$address,$cartType,$restaurantName)
 	{
 		try{
@@ -99,6 +133,10 @@ class Restaurant extends \Core\Model
 		}
 	}
 
+	/**
+	* @des change review rating
+	* @param $title,$overall
+	*/
 	public static function updateRestaurantReviews($title,$overall){
 		try{
 			$db = static::getDB();
@@ -111,6 +149,10 @@ class Restaurant extends \Core\Model
 		}
 	}
 
+	/**
+	* @des change image
+	* @param $restaurantId,$imagePath
+	*/
 	public static function updateRestaurantImage($restaurantId,$imagePath){
 		try{
 			$db = static::getDB();
@@ -123,6 +165,11 @@ class Restaurant extends \Core\Model
 		}
 	}
 
+	/**
+	* @des search restaurant by owner and title
+	* @param $userID,$search
+	* @return restaurant data
+	*/
 	public static function searchRestaurant($userID,$search)
 	{
 		try{
@@ -137,6 +184,11 @@ class Restaurant extends \Core\Model
 		}
 	}
 
+	/**
+	* @des search restaurant by title
+	* @param
+	* @return
+	*/
 	public static function searchRestaurantAdmin($search)
 	{
 		try{
@@ -150,6 +202,11 @@ class Restaurant extends \Core\Model
 		}
 	}
 
+	/**
+	* @des
+	* @param
+	* @return
+	*/
 	public static function getRefindSearch($cuisineName=[],$cartType,$location)
 	{
 		try{

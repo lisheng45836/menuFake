@@ -1,13 +1,12 @@
-
+/*
+* 
+*/
 $(document).on('change','.listType',function(){
 
 	if($(this).prop('checked')==true){
 		var cartType = $(this).val();
 		$("#cartType").val(cartType);
 		$(".main").empty().html(getRestaurant());
-		// var	str = document.location.href;
-		// var url = str.replace(/cartType\=[a-zA-Z]+/, "cartType="+cartType);
-		// document.location=url;
 	}
 });
 

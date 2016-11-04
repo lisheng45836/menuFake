@@ -1,17 +1,25 @@
 <?php 
+/****************************************************/
+// Filename: User.php
+// Created: Lisheng Liu
+/****************************************************/
 
 namespace App\Models;
 
 use PDO;
 
 /**
-* 
+* User model
 */
 class User extends \Core\Model
 {
-	
-
-	public static function register($firstName,$lastName,$userName,$email,$password,$address,$role){
+	/**
+	* @des create new user record into database
+	* @param $firstName,$lastName,$userName,$email,$password,$address,$role
+	* @return $validationCode
+	*/
+	public static function register($firstName,$lastName,$userName,$email,$password,$address,$role)
+	{
 		$password   	= md5($password);
 		$validationCode = md5($userName + microtime());
 
@@ -35,8 +43,13 @@ class User extends \Core\Model
 
 	}
 
-	public static function userExists($userName){
-
+	/**
+	* @des check if user exists
+	* @param $userName
+	* @return bool
+	*/
+	public static function userExists($userName)
+	{
 		try{
 			$db 	= static::getDB();
 			$stmt 	= $db->prepare("SELECT COUNT(userName) FROM users WHERE userName = ?");
@@ -51,7 +64,13 @@ class User extends \Core\Model
 		}
 	}
 
-	public static function emailExists($email){
+	/**
+	* @des check if email exists
+	* @param $email
+	* @return bool
+	*/
+	public static function emailExists($email)
+	{
 
 		try{
 			$db = static::getDB();
@@ -69,8 +88,13 @@ class User extends \Core\Model
 
 	}
 
-	public static function findUser($email,$validationCode){
-
+	/**
+	* @des find user by email and validationCode
+	* @param $email,$validationCode
+	* @return bool
+	*/
+	public static function findUser($email,$validationCode)
+	{
 		try{
 			$db = static::getDB();
 			$stmt = $db->prepare("SELECT COUNT(id) FROM users WHERE email = ? AND validationCode =?");
@@ -85,7 +109,13 @@ class User extends \Core\Model
 		}
 	}
 
-	public static function searchUser($search){
+	/**
+	* @des search for user and get user data
+	* @param $search
+	* @return users data
+	*/
+	public static function searchUser($search)
+	{
 		try{
 
 			$db = static::getDB();
@@ -98,7 +128,11 @@ class User extends \Core\Model
 		}
 	}
 
-	public static function getAllUser(){
+	/**
+	* @des get all user information 
+	*/
+	public static function getAllUser()
+	{
 		try{
 			$db = static::getDB();
 			$stmt = $db->prepare("SELECT id, firstName,lastName,userName,email,address,validationCode,activate,role FROM users");
@@ -110,7 +144,11 @@ class User extends \Core\Model
 		}
 	}
 
-	public static function updateUser($userId,$firstName,$lastName,$userName,$email,$address){
+	/**
+	* @des change user information
+	*/
+	public static function updateUser($userId,$firstName,$lastName,$userName,$email,$address)
+	{
 		try{
 			$db = static::getDB();
 			$stmt = $db->prepare("UPDATE users SET firstName = :firstName, lastName = :lastName, userName =:userName, email=:email, address = :address WHERE id = :userId");
@@ -127,8 +165,11 @@ class User extends \Core\Model
 		}
 	}
 
-	public static function activate($email,$validationCode){
-
+	/**
+	* @des change activate status to 1
+	*/
+	public static function activate($email,$validationCode)
+	{
 		try{
 			$db = static::getDB();
 			$stmt = $db->prepare("UPDATE users SET activate = 1, validationCode = 0 WHERE email = ? AND validationCode = ?");
@@ -139,7 +180,11 @@ class User extends \Core\Model
 		}
 	}
 
-	public static function deactivate($email,$validationCode){
+	/**
+	* @des change activate status to 2, deactivate
+	*/
+	public static function deactivate($email,$validationCode)
+	{
 		try{
 			$db = static::getDB();
 			$stmt = $db->prepare("UPDATE users SET activate = 0, validationCode = 0 WHERE email = ? AND validationCode = ?");

@@ -1,10 +1,19 @@
 <?php
+/****************************************************/
+// Filename: Partner.php
+// Created: Lisheng Liu
+/****************************************************/
+
 namespace App\Controllers;
+
 use App\Controllers\Auth\Helper;
 use \Core\View;
 use App\Models\Restaurant;
 use App\Controllers\Auth\Users;
 
+/**
+* Business partner controller
+*/
 class Partner extends \Core\Controller
 {
 	public function index()

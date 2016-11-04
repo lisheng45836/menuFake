@@ -1,13 +1,21 @@
 <?php
+/****************************************************/
+// Filename: Error.php
+// Created: Lisheng Liu
+/****************************************************/
 
 namespace Core;
 
 /**
-*  Error and Exception handler
+*  Error and Exception handler.
 */
 class Error
 {
-	
+	/**
+	* @des call ErrorException() method
+	* @param $level, $message, $file, $line
+	* @return exception
+	*/
 	public static function errorHandler($level, $message, $file, $line)
 	{
 		if(error_reporting() !== 0){
@@ -15,6 +23,10 @@ class Error
 		}
 	}
 
+	/**
+	* @des accept exception data and format into HTML layout msg
+	* @param $exception error information
+	*/
 	public static function exceptionHandler($exception)
 	{
 		$code = $exception->getCode();

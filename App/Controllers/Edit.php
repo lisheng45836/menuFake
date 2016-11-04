@@ -1,27 +1,40 @@
 <?php
+/****************************************************/
+// Filename: Edit.php
+// Created: Lisheng Liu
+/****************************************************/
+
 namespace App\Controllers;
+
 use \Core\View;
 use App\Controllers\Auth\Users;
 use App\Models\Menu;
 use App\Models\Restaurant;
 use App\Controllers\Auth\Helper;
+
 /**
+* Edit controller
+* Handler Menu Edit request.
 * 
 */
 class Edit extends \Core\Controller
 {
+	/**
+	 * @des render Menu Edit page view. 
+	 * 
+	 */
 	public function menu()
 	{
 		$auth = Users::auth();
-		if($auth){
+		if($auth){	//check if user is login
 			$user = Users::getUser();
 			$userRole = $user[0]['role'];
-			if($userRole == 2 || $userRole == 3){
+			if($userRole == 2 || $userRole == 3){	//check user Role (2 == partner 3 == admin)
 				$title = $this->route_params['name'];
 				$menuTitle = Menu::getMenuTitle($title);
 				$id = $menuTitle[0]['restaurant_id'];
 				$menu = Menu::getMenu($id);
-				$menus = Helper::uniqueArray($menu,'menuTitle');
+				$menus = Helper::uniqueArray($menu,'menuTitle');	//return unique menu array
 				View::renderTemplate('Partner/editMenu.html',['title'=>$title,'menuTitle' => $menuTitle,'auth'=>$auth,'userRole'=>$userRole,'menus'=>$menus]);
 			}else{
 				echo '<a href="/"> GO BACK </>';
@@ -31,22 +44,27 @@ class Edit extends \Core\Controller
 		}
 	}
 
+	/**
+	* @des edit menu fucntion 
+	*/
 	public function editMenu()
 	{
 		$auth = Users::auth();
 		if($auth){
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				if(isset($_POST['edit'])){
-					$foodTitle = htmlspecialchars($_POST['foodTitle']);
-					$price = htmlspecialchars($_POST['price']);
-					$description = htmlspecialchars($_POST['description']);
-					$foodId = htmlspecialchars($_POST['foodId']);
-					$title = htmlspecialchars($_POST['title']);
+					$foodTitle 		= htmlspecialchars($_POST['foodTitle']);
+					$price 			= htmlspecialchars($_POST['price']);
+					$description	= htmlspecialchars($_POST['description']);
+					$foodId 		= htmlspecialchars($_POST['foodId']);
+					$title 			= htmlspecialchars($_POST['title']);
+
 					Menu::updateMenu($foodTitle,$price,$description,$foodId);
 					Helper::redirect("/edit/$title/menu");
 				}else if(isset($_POST['delete'])){
-					$foodId = htmlspecialchars($_POST['foodId']);
-					$title = htmlspecialchars($_POST['title']);
+					$foodId 		= htmlspecialchars($_POST['foodId']);
+					$title 			= htmlspecialchars($_POST['title']);
+
 					Menu::deleteFood($foodId);
 					Helper::redirect("/edit/$title/menu");
 				}
@@ -54,6 +72,9 @@ class Edit extends \Core\Controller
 		}
 	}
 
+	/**
+	* @des delete menu by title name
+	*/
 	public function deleteTitle()
 	{
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -94,20 +115,26 @@ class Edit extends \Core\Controller
 		}
 	}
 
+	/**
+	* @des add food into menu
+	*/
 	public function addFood()
 	{
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
-			$foodTitle = htmlspecialchars($_POST['foodTitle']);
-			$price = htmlspecialchars($_POST['price']);
-			$description = htmlspecialchars($_POST['description']);
-			$menuId = htmlspecialchars($_POST['menuId']);
-			$title = htmlspecialchars($_POST['title']);
+			$foodTitle 		= htmlspecialchars($_POST['foodTitle']);
+			$price 			= htmlspecialchars($_POST['price']);
+			$description 	= htmlspecialchars($_POST['description']);
+			$menuId 		= htmlspecialchars($_POST['menuId']);
+			$title 			= htmlspecialchars($_POST['title']);
 			Menu::addFood($foodTitle,$price,$description,$menuId);
 			Helper::redirect("/edit/$title/menu");
 		}
 
 	}
 
+	/**
+	* @des add new menu
+	*/
 	public function addMenus()
 	{
 		if($_SERVER['REQUEST_METHOD'] == 'GET'){

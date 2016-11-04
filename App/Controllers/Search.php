@@ -1,10 +1,18 @@
 <?php
+/****************************************************/
+// Filename: Search.php
+// Created: Lisheng Liu
+/****************************************************/
 
 namespace App\Controllers;
+
 use \Core\View;
 use App\Models\Restaurant;
 use App\Controllers\Auth\Users;
 
+/**
+* Search controller (index page)
+*/
 class Search extends \Core\Controller
 {
 	public function index()
