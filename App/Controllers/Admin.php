@@ -34,7 +34,8 @@ class Admin extends \Core\Controller
 			$userRole = $user[0]['role'];
 			if($userRole == 3){
 			 	$userData = User::getAllUser();
-			 	View::renderTemplate('Admin/admin.html',['auth'=>$auth,'userData'=>$userData,'userRole'=>$userRole]);
+			 	$cuisines = Restaurant::getCuisines();
+			 	View::renderTemplate('Admin/admin.html',['auth'=>$auth,'userData'=>$userData,'userRole'=>$userRole,'cuisines'=>$cuisines]);
 			 }else{
 			 	Helper::redirect('/');
 			}
@@ -81,7 +82,8 @@ class Admin extends \Core\Controller
 				if($_SERVER['REQUEST_METHOD'] == 'GET'){
 					$userId = $this->route_params['name'];	// get URL name params (user id)
 					$restaurantData = Restaurant::getRestaurantByOwner($userId);	//get restaurant data by user id
-					View::renderTemplate('Admin/restaurant.html',['restaurantData' => $restaurantData,'userId'=>$userId,'userRole'=>$userRole,'auth'=>$auth]);
+					$cuisines = Restaurant::getCuisines(); //get cuisines
+					View::renderTemplate('Admin/restaurant.html',['restaurantData' => $restaurantData,'cuisines'=>$cuisines,'userId'=>$userId,'userRole'=>$userRole,'auth'=>$auth]);
 				}
 			}else{
 				Helper::redirect('/auth/users/login');

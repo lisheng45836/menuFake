@@ -27,7 +27,12 @@
 							<label>
 							cuisineName:
 							</label>
-							<input class="form-control addCuisineName" type="text" name="cuisineName" value="">
+							<!-- <input class="form-control addCuisineName" type="text" name="cuisineName" value=""> -->
+							<select class="form-control" name="cuisineName" required>
+								{% for cuisines in cuisines %}
+								<option value="{{cuisines.cuisineName}}">{{cuisines.cuisineName}}</option>
+  								{% endfor %}
+							</select>
 						</div>
 					</li>
 					<li>
@@ -110,7 +115,15 @@
 					  			<label>Title</label>
 								<input class="form-control" type="text" name="title" value="{{ restaurant.title }}">
 								<label>cuisineName:</label>
-								<input class="form-control" type="text" name="cuisineName" value="{{ restaurant.cuisineName }}">
+								<select class="form-control" name="cuisineName" required>
+									{% for cuisines in cuisines %}
+										{% if cuisines.cuisineName == restaurant.cuisineName%}
+										<option value="{{cuisines.cuisineName}}" selected>{{cuisines.cuisineName}}</option>
+										{% else %}
+										<option value="{{cuisines.cuisineName}}">{{cuisines.cuisineName}}</option>
+										{% endif %}
+	  								{% endfor %}
+								</select>
 							</div>
 						</li>
 						<li>

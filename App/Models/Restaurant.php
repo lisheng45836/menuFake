@@ -230,4 +230,44 @@ class Restaurant extends \Core\Model
 		}
 	}
 
+	/**
+	* @des getting cuisine list
+	*/
+	public static function getCuisines()
+	{
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("SELECT id,cuisineName FROM cuisines");
+			$stmt->execute();
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return $result;
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public static function setCuisines($cuisineName)
+	{
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("INSERT INTO cuisines(cuisineName)VALUES(:cuisineName)");
+			$stmt->bindParam(':cuisineName',$cuisineName);
+			$stmt->execute();
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public static function deleteCuisine($cuisineId)
+	{
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("DELETE FROM cuisines WHERE id = :id");
+			$stmt->bindParam(':id',$cuisineId);
+			$stmt->execute();
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
 }

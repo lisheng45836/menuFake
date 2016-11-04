@@ -40,6 +40,7 @@ function getRestaurant(){
 												'<span class="glyphicon glyphicon-time" aria-hidden="true"></span> '+
 												'<span >'+openTime+'</span> - '+
 												'<span class="tags">'+closeTime+ '</span>'+
+												'<span>Min order </sapn>'+
 												'<span>$'+restaurant[i].minOrder+'</span> <br>'+
 												'<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>'+
 												'<span class="tags">'+restaurant[i].address+'</span> <br>'+
@@ -210,7 +211,6 @@ $(document).ready(function(){
 
 		var minOrder = $("#minOrder").attr("data-id");
 		var totalPrice = parseInt($("#price").html());
-		alert(totalPrice);
 		if($(".food").is(":empty")){
 			alert("Can't be empty. Please add food!! ");
 			return false;

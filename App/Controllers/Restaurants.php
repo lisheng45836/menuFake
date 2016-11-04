@@ -80,6 +80,27 @@ class Restaurants extends \Core\Controller
 	}
 
 	/**
+	* @des add new cuisine
+	*/
+	public function addCuisines()
+	{
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			$cuisineName = htmlspecialchars($_POST['cuisineName']);
+			Restaurant::setCuisines($cuisineName);
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
+		}
+	}
+
+	public function deleteCuisine()
+	{
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			$cuisineId = htmlspecialchars($_POST['cuisineId']);
+			Restaurant::deleteCuisine($cuisineId);
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
+		}
+	}
+
+	/**
 	* @des redirect to reviews page
 	*/
 	public function reviews()

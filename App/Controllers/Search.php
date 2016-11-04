@@ -22,11 +22,12 @@ class Search extends \Core\Controller
 			$cartType = $_GET["cartType"];
 			$locations = explode(",",$address);
 			$locations[0];
-
 			$location = ucfirst($locations[0]); // first character uppercase
 			$results = Restaurant::getLists($location,$cartType);
+			$cuisines = Restaurant::getCuisines();
+			// $totalResults = count($results);
 			$auth = Users::auth();
-			View::renderTemplate('Lists/lists.html',['result' => $results ,'location' => $location,'auth'=>$auth]);
+			View::renderTemplate('Lists/lists.html',['result' => $results,'location' => $location,'cuisines'=>$cuisines,'auth'=>$auth]);
 		}
 	}
 

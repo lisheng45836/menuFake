@@ -40,26 +40,12 @@
 								<label>All cuisines</label>
 								<input type="checkbox" name="cuisineNames[]" value="all" id="all" checked="checked">
 								</div>
-								
+								{% for cuisines in cuisines %}
 								<div class="list-group-item sideList">
-								<label>Chinese</label>
-								<input type="checkbox" name="cuisineNames[]" value="chinese" class="cuisineNames">
+								<label>{{cuisines.cuisineName}}</label>
+								<input type="checkbox" name="cuisineNames[]" value="{{cuisines.cuisineName}}" class="cuisineNames">
 								</div>
-
-								<div class="list-group-item sideList">
-								<label>Thai</label>
-								<input type="checkbox" name="cuisineNames[]" value="thai" class="cuisineNames">
-								</div>
-								
-								<div class="list-group-item sideList">
-								<label>Pizza</label>
-								<input type="checkbox" name="cuisineNames[]" value="pizza" class="cuisineNames">
-								</div>
-								
-								<div class="list-group-item sideList">
-								<label>Asian</label>
-								<input type="checkbox" name="cuisineNames[]" value="asian" class="cuisineNames">
-								</div>
+								{% endfor %}
 							</div>
 
 						</form>
@@ -68,9 +54,11 @@
 			</div>
 
 			<div class="col-md-8">
-
 				<table class="table table-bordered">
 					<tbody class="main">
+						{% if result is empty%}
+							<h2>Sorry! No any restaurants in this area</h2>
+						{% else %}
 						{% for restaurant in result %}
 						<tr>
 							<td>
@@ -97,6 +85,7 @@
 							</td>
 						</tr>
 						{% endfor %}
+						{% endif %}
 					</tbody>
 				</table>
 			</div>
