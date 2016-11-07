@@ -200,4 +200,22 @@ class Menu extends \Core\Model
 			echo $e->getMessage();
 		}
 	}
+
+	/**
+	* @des get order history by user id
+	* @param $userId
+	*/
+	public static function getOrderList($userId)
+	{
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("SELECT orderId,foodTitle,qty,price FROM orderItem,cart WHERE  cartId = orderId AND userId = :userId");
+			$stmt->bindParam(':userId'		,$userId);
+			$stmt->execute();
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return $result;
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
 }

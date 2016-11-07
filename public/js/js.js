@@ -373,7 +373,14 @@ $(document).ready(function(){
 		
 	});
 
-
+	$('.listToggle').on('click',function(){
+		
+		if($(this).find('.ol').hasClass('hidden')){
+		 	$(this).find('.ol').removeClass('hidden');
+		}else{
+		 	$(this).find('.ol').addClass('hidden');
+		 }
+	});
 
 });
 	

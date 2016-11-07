@@ -27,7 +27,8 @@ class Search extends \Core\Controller
 			$cuisines = Restaurant::getCuisines();
 			// $totalResults = count($results);
 			$auth = Users::auth();
-			View::renderTemplate('Lists/lists.html',['result' => $results,'location' => $location,'cuisines'=>$cuisines,'auth'=>$auth]);
+			$user = Users::getUser();
+			View::renderTemplate('Lists/lists.html',['result' => $results,'location' => $location,'cuisines'=>$cuisines,'auth'=>$auth,'user'=>$user]);
 		}
 	}
 

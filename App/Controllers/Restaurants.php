@@ -31,8 +31,8 @@ class Restaurants extends \Core\Controller
 		$menu = Menu::getMenu($id);
 		$menus = Helper::uniqueArray($menu,'menuTitle');
 		$auth = Users::auth();
-		
-		View::renderTemplate('Lists/restaurant.html',['restaurant' => $info,'menus' => $menus,'auth'=>$auth]);
+		$user = Users::getUser();
+		View::renderTemplate('Lists/restaurant.html',['restaurant' => $info,'menus' => $menus,'auth'=>$auth,'user'=>$user]);
 	}
 
 	/**
@@ -47,9 +47,9 @@ class Restaurants extends \Core\Controller
 			$cartType		= $_POST['cartType'];
 
 			if($auth){
-				$users = Users::getUser();
+				$user = Users::getUser();
 				// jump to payment page .. 
-				View::renderTemplate('Payment/checkOut.html',['auth'=>$auth,'restaurantId'=>$restaurantId,'cartType'=>$cartType,'users'=>$users]);
+				View::renderTemplate('Payment/checkOut.html',['auth'=>$auth,'restaurantId'=>$restaurantId,'cartType'=>$cartType,'user'=>$user]);
 			}
 			if(!$auth){
 				View::renderTemplate('Payment/checkOut.html',['auth'=>$auth,'restaurantId'=>$restaurantId,'cartType'=>$cartType]);

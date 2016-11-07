@@ -144,6 +144,20 @@ class User extends \Core\Model
 		}
 	}
 
+	public static function getUserById($userId)
+	{
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("SELECT id, firstName,lastName,userName,email,address,validationCode,activate,role FROM users WHERE id = :userId");
+			$stmt->bindParam(':userId',$userId);
+			$stmt->execute();
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return $result;
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
 	/**
 	* @des change user information
 	*/

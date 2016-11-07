@@ -87,14 +87,15 @@
 }
 
 .heading{
+  margin-top: 60px;
 	text-align: center;
 
 }
 
 .listCover{
-	background-image: url("/img/cover/cover1.jpg");
+	background-image: url("/img/cover/cover1.png");
 	background-size: cover;
-	height: 220px;
+	height: 250px;
 	color: white;
 }
 
@@ -134,7 +135,7 @@ tbody{
 .restaurantCover{
 	background-image: url("/img/cover/cover3.png");
 	background-size: cover;
-	height: 220px;
+	height: 250px;
 	color: white;
 }
 

@@ -20,7 +20,18 @@
 	        <li><a href="/">Home</a></li>
 	      </ul>
  	      <ul class="nav navbar-nav navbar-right">
- 	      	<li><a href="/registration?customer">Registration</a></li>
+ 	      	{% if auth %}
+ 	      		{% for user in user %}
+ 	      			 {% if user.role == 1 %}
+ 	      			 	<li><a href="/auth/users/{{user.id}}/dash">{{user.userName}}</a></li>
+ 	      				{%else%}
+ 	      				<li><a href="/registration?customer">Registration</a></li> 
+ 	      			 {% endif %}
+ 	      		{% endfor %}
+ 	      	{% else %}
+ 	      		<li><a href="/registration?customer">Registration</a></li> 
+ 	      	{% endif %}
+
 	        {%if not (auth)%}
 	        <li><a href="/auth/users/login"> Login </a></li>
 	    	{%else%}

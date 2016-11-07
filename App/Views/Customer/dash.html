@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %} MenuFake {% endblock %}
+{% block body %}
+	
+	<div class="container">
+		{% for user in userData %}
+		<div class="panel panel-default" style="margin-top:20px;">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">{{user.userName}} Detail</h3>
+		  </div>
+
+		  <div class="panel-body">
+		  
+		  		<form action="/auth/users/{{user.id}}/updateUser" method="POST">
+		  			<div class="form-group">
+			  			<label>First Name</label>
+			  			<input class="form-control" type="text" name="firstName" value="{{user.firstName}}">
+		  			</div>
+		  			<div class="form-group">
+			  			<label>Last Name</label>
+			  			<input class="form-control" type="text" name="lastName" value="{{user.lastName}}">
+		  			</div>
+		  			<div class="form-group">
+			  			<label>User Name</label>
+			  			<input class="form-control" type="text" name="userName" value="{{user.userName}}">
+		  			</div>
+		  			<div class="form-group">
+			  			<label>Email</label>
+			  			<input class="form-control" type="text" name="email" value="{{user.email}}">
+		  			</div>
+		  			<div class="form-group">
+			  			<label>Address</label>
+			  			<input class="form-control" type="text" name="address" value="{{user.address}}">
+		  			</div>
+		  			<div class="form-group">
+			  			<input class="btn btn-danger" type="submit" name="submit" value="Update">
+		  			</div>
+		  		</form>
+		
+		  </div>
+		</div>
+		{% endfor %}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Purchase History</h3>
+			</div>
+			<div class="panel-body">
+						
+			{% for orders in orders %}
+					
+						{% if orders.orderId is empty %}
+					  	{% else %}
+					  		<li class="list-group-item list-group-item-success">Order# {{orders.orderId}}</li>
+					  	{% endif%}
+					  	<li class="list-group-item"> 
+					  		<div class="row">
+					  			<div class="col-md-8">
+					  			{{orders.foodTitle}}
+					  			</div>
+					  			<div class="col-md-4">
+					  				 Price: {{orders.price}}
+					  			</div>
+					  		</div>
+					  	</li>
+				  	
+			{% endfor %}
+			</div>
+		</div>
+	</div>
+
+	
+
+
+{% endblock %}

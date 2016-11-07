@@ -30,6 +30,7 @@ $router->add('registration',['controller' => 'Register', 'action' => 'registrati
 $router->add('search',['controller' => 'Search', 'action' => 'index']);
 // authtication router with namespace
 $router->add('auth/{controller}/{action}',['namespace' => 'Auth']);
+$router->add('auth/{controller}/{name:\w+\_*}/{action}',['namespace' => 'Auth']);
 //$router->add('auth/{controller}/{name:\w+\_*}/{action}',['namespace'=>'Auth']);
 // universal router
 $router->add('{controller}/{action}');

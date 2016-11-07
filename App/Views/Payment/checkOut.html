@@ -11,7 +11,7 @@
 					</div>
 					<div class="panel-body">
 						<form action="/payment/checkOut" method="POST">
-						{% for user in users %}
+						{% for user in user %}
 							<div class="form-group">
 								<label>First Name:</label> 
 								<input class="form-control" type="text" name="firstName" value="{{user.firstName}}">

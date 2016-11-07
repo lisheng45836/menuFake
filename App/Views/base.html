@@ -20,11 +20,16 @@
 	        <li><a href="/">Home</a></li>
 	      </ul>
  	      <ul class="nav navbar-nav navbar-right">
- 	      	
 	        {%if not (auth)%}
 	        <li><a href="/auth/users/login"> Login </a></li>
-	    	{%else%}
-	        <li><a href="/auth/users/logOut"> Logout </a> </li>
+	    	  {%else%}
+
+            {% for user in user %}
+              {% if user.role == 1 %}
+                <li><a href="/auth/users/{{user.id}}/dash">{{user.userName}}</a></li>
+              {% endif %}
+            {% endfor %}
+            <li><a href="/auth/users/logOut"> Logout </a> </li>
 	        {%endif%}
 	      </ul>
 	    </div>

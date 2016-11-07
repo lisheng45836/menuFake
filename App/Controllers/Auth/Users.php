@@ -5,7 +5,7 @@ use \Core\View;
 use App\Controllers\Auth\Helper;
 use App\Models\Auth;
 use App\Models\User;
-
+use App\Models\Menu;
 /**
 * 
 */
@@ -24,7 +24,6 @@ class Users extends \Core\Controller
 				View::renderTemplate('Auth/login.html');
 			}else{
 				Helper::redirect('/');
-				//header('Location: ' . $_SERVER['HTTP_REFERER']);
 			}
 		}
 
@@ -55,8 +54,8 @@ class Users extends \Core\Controller
 					}
 					$_SESSION['email'] = $email;
 					if($role == "1"){
-						Helper::redirect('/');
-						//header('Location: ' . $_SERVER['HTTP_REFERER']);
+						//Helper::redirect('/');
+						header('Location: ' . $_SERVER['HTTP_REFERER']);
 					}
 					if($role == "2"){
 						Helper::redirect('/partner'); // issue penel.
@@ -84,22 +83,28 @@ class Users extends \Core\Controller
 
 	public static function getUser()
 	{	
-		$email = $_SESSION['email'];
-		return Auth::getUserInfo($email);	
+		
+		if(isset($_SESSION['email'])){
+			$email = $_SESSION['email'];
+			return Auth::getUserInfo($email);
+		}else{
+			return false;
+		}
+			
 	}
 
 	public function updateUser()
 	{
 		$userId = $this->route_params['name'];
-		$firstName = htmlspecialchars($_POST['firstName']);
-		$lastName = htmlspecialchars($_POST['lastName']);
-		$userName = htmlspecialchars($_POST['userName']);
-		$email = htmlspecialchars($_POST['email']);
-		$address = htmlspecialchars($_POST['address']);
+		$firstName 	= htmlspecialchars($_POST['firstName']);
+		$lastName 	= htmlspecialchars($_POST['lastName']);
+		$userName 	= htmlspecialchars($_POST['userName']);
+		$email 		= htmlspecialchars($_POST['email']);
+		$address 	= htmlspecialchars($_POST['address']);
 		
 		User::updateUser($userId,$firstName,$lastName,$userName,$email,$address);
-
-		Helper::redirect('/partner');
+		header('Location: ' . $_SERVER['HTTP_REFERER']);
+		//Helper::redirect('/partner');
 	}
 
 	public function searchUser()
@@ -200,5 +205,21 @@ class Users extends \Core\Controller
 			
 		}
 
+	}
+
+	public function dash(){
+		if($_SERVER['REQUEST_METHOD'] == 'GET'){
+			$userId = $this->route_params['name'];
+			$userData = User::getUserById($userId);
+			$orderList = Menu::getOrderList($userId);
+			$orders = Helper::uniqueArray($orderList,'orderId');
+			$auth = Users::auth();
+			if($auth){
+				$user = Users::getUser();
+				View::renderTemplate('Customer/dash.html',['auth'=>$auth,'user'=>$user,'userData'=>$userData,'orders'=>$orders]);
+			}else{
+				Helper::redirect('/');
+			}
+		}
 	}
 }

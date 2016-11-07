@@ -19,8 +19,8 @@ class Home extends \Core\Controller
 	public function indexAction()
 	{
 		$auth = Users::auth();
-		View::renderTemplate('Home/index.html',['auth'=>$auth]);
-
+		$user = Users::getUser();
+		View::renderTemplate('Home/index.html',['auth'=>$auth,'user'=>$user]);
 	}
 
 

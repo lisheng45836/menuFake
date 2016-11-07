@@ -25,7 +25,8 @@ class Partner extends \Core\Controller
 			$userRole = $user[0]['role'];
 			if($userRole == 2){
 			 	$restaurantData = Restaurant::getRestaurantByOwner($userId);
-			 	View::renderTemplate('Partner/panel.html',['auth'=>$auth,'restaurantData'=>$restaurantData,'user'=>$user,'userId'=>$userId,'userRole'=>$userRole]);
+			 	$cuisines = Restaurant::getCuisines();
+			 	View::renderTemplate('Partner/panel.html',['auth'=>$auth,'restaurantData'=>$restaurantData,'cuisines'=>$cuisines,'user'=>$user,'userId'=>$userId,'userRole'=>$userRole]);
 			 }else{
 			 	Helper::redirect('/');
 			}
