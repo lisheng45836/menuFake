@@ -45,15 +45,9 @@ class Restaurants extends \Core\Controller
 			$auth = Users::auth();
 			$restaurantId	= $_POST['restaurantId'];
 			$cartType		= $_POST['cartType'];
-
-			if($auth){
-				$user = Users::getUser();
-				// jump to payment page .. 
-				View::renderTemplate('Payment/checkOut.html',['auth'=>$auth,'restaurantId'=>$restaurantId,'cartType'=>$cartType,'user'=>$user]);
-			}
-			if(!$auth){
-				View::renderTemplate('Payment/checkOut.html',['auth'=>$auth,'restaurantId'=>$restaurantId,'cartType'=>$cartType]);
-			}
+			$user = Users::getUser();
+			// jump to payment page .. 
+			View::renderTemplate('Payment/checkOut.html',['auth'=>$auth,'restaurantId'=>$restaurantId,'cartType'=>$cartType,'user'=>$user]);
 		}
 	}
 
@@ -108,7 +102,7 @@ class Restaurants extends \Core\Controller
 		if($_SERVER['REQUEST_METHOD'] == 'GET'){
 			$auth = Users::auth();
 			$name = $this->route_params['name']; //get restaurant name for URL
-			
+			$user = Users::getUser();
 			$data = Restaurant::getRestaurantByName($name);
 			$id = $data[0]['id']; // restaurant id
 			$reviews = Review::getReview($id); //get reviews by restaurant id
@@ -123,7 +117,7 @@ class Restaurants extends \Core\Controller
 			}
 			
 			Restaurant::updateRestaurantReviews($name,intval($overall));
-			View::renderTemplate('Review/reviews.html',['name'=>$name,'reviews'=>$reviews,'overall'=>intval($overall),'auth'=>$auth]);
+			View::renderTemplate('Review/reviews.html',['name'=>$name,'reviews'=>$reviews,'overall'=>intval($overall),'auth'=>$auth,'user'=>$user]);
 		}
 	}
 

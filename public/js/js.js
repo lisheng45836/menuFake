@@ -1,5 +1,11 @@
 /*
-* 
+* Filename: js.js
+* Created: Lisheng Liu
+*/
+
+/**
+* Change displayed restaurants between delivery and pick up.
+* list.html
 */
 $(document).on('change','.listType',function(){
 
@@ -10,7 +16,9 @@ $(document).on('change','.listType',function(){
 	}
 });
 
-
+/**
+* getRestaurant function use ajax to get restaurants data from database and append to webpage.
+*/
 function getRestaurant(){
 
 	var url = $("#target").attr("action");
@@ -23,10 +31,11 @@ function getRestaurant(){
 				var restaurant = JSON.parse(data);
 				for(i=0;i<restaurant.length;i++){
 					var title = restaurant[i].title;
-					var urlTitle = title.replace(/_/g," ");
-					var openTime = restaurant[i].openTime.replace(/(.*)\D\d+/, '$1');
-					var closeTime =restaurant[i].closeTime.replace(/(.*)\D\d+/, '$1');
-					var content =	'<tr>'+
+					var urlTitle = title.replace(/_/g," ");		//replace '_' with space in any title.
+					var openTime = restaurant[i].openTime.replace(/(.*)\D\d+/, '$1');	// remove sec from time format
+					var closeTime =restaurant[i].closeTime.replace(/(.*)\D\d+/, '$1');	//
+					// generated html with restaurant data
+					var content =	'<tr>'+	
 									'<td>'+
 										'<div class="row">'+
 											'<div class="col-md-4">' +
@@ -50,25 +59,29 @@ function getRestaurant(){
 									'</td>'+
 									'</tr>';
 						
-					$(".main").append(content);
+					$(".main").append(content);	// append into .main, list.html
 				}
 			}
 		});
 }
 
-
+/**
+* display restaurants by cuisine type, if tag "all" be clicked, set other to false.
+* list.html
+*/
 $(document).on('change','#all',function(){
 
 	if($("#all").prop('checked')==true){
-		
 		$(".cuisineNames").not(this).prop('checked', false); 
-		// $("#target").submit();
 		$(".main").empty().html(getRestaurant());
 	}
 
 });
 
-
+/**
+* display restaurants by cuisine type.
+*
+*/
 $(document).on('change','.cuisineNames',function(){
 
 	if($(this).prop('checked')==true){
@@ -76,45 +89,56 @@ $(document).on('change','.cuisineNames',function(){
 		//$("#target").submit();
 		$(".main").empty().html(getRestaurant());
 	}else{
-
 		$(".main").empty().html(getRestaurant());
 	}
 
 });
 
 
-
 $(document).ready(function(){
 	//localStorage.clear();
-	var list = [];
-	load();
+
+	/********* Start of order cart functions *********/
+
+	/**
+	* get data from html form, and save into list array.
+	*/
+	var list = []; // list array, contains order list
+	load();	// call load()
+
 	$(".foods").submit(function(e){
 		e.preventDefault();
 		var foodData = $(this).serializeArray();
 		var food = {};
 		
-		for(i=0;i<foodData.length;i++){
+		for(i=0;i<foodData.length;i++){		// loop thought the data and push into food array(object).
 			food[foodData[i].name]=foodData[i].value;
 		}
 		
-		addOrder(food);
+		addOrder(food);	// pass food object into addOrder function.
 		
 	});
 
+	/**
+	* set order food object into localStorage, named "list".
+	*/
 	function addOrder(food){ 
+		//if localStorage("list") is empty, push food object into "list" array and localStorage.
 		if(localStorage.getItem("list") === null){
-			list.push(food);
+			list.push(food); 
 			localStorage.setItem("list",JSON.stringify(list));
 			load();
 			
-		}else{
+		}else{ //else get current list and pass to check function
 			list = JSON.parse(localStorage.getItem("list")); //get current list
 			check(food);
 			load();
-			console.log(list);
 		}
 	}
 
+	/**
+	* check if data record is already exist in "list" array
+	*/
 	function check(food){
 		console.log(list);
 		var same = false;
@@ -122,9 +146,9 @@ $(document).ready(function(){
 		for(i=0;i<list.length;i++){
 			if(list[i].foodId == food.foodId)
 			{
-				list[i].qty++;
-				list[i].price=parseInt(list[i].price)+parseInt(food.price);
-				localStorage.setItem("list",JSON.stringify(list));
+				list[i].qty++; // add up qty num
+				list[i].price=parseInt(list[i].price)+parseInt(food.price); // add up price 
+				localStorage.setItem("list",JSON.stringify(list)); // save into localStorage
 				same = true;
 			}
 		}
@@ -134,6 +158,58 @@ $(document).ready(function(){
 		}
 	}
 
+	/**
+	* remove food from order list 
+	*/
+	$(document).on('click','.removeFood',function(){
+		var id = $(this).attr("data-id");
+		var foodList = JSON.parse(localStorage.getItem("list"));
+		for(i=0;i<foodList.length;i++){
+			if(foodList[i].foodId == id)
+			{
+				if(foodList[i].qty > 1){
+						
+					foodList[i].price-=(foodList[i].price/foodList[i].qty) // sub price
+					foodList[i].qty -= 1;
+					localStorage.setItem("list",JSON.stringify(foodList));
+					console.log(localStorage.getItem("list"));
+					load();
+				}else if(foodList[i].qty == 1){
+					delete foodList[i];
+					foodList = JSON.stringify(foodList).replace(/null,|null|null\,|\,null/,''); // escaping the null
+					localStorage.setItem("list",foodList);
+					console.log(localStorage.getItem("list"));
+					load();
+				}
+			}
+		}		
+
+	});
+
+
+	/**
+	* Checking the cart, see if is empty and minium order value before commit to submit.
+	*/
+	$(document).on('click','#submit',function(){
+
+		var minOrder = $("#minOrder").attr("data-id");
+		var totalPrice = parseInt($("#price").html());
+		if($(".food").is(":empty")){
+			alert("Can't be empty. Please add food!! ");
+			return false;
+		}
+		if(totalPrice < minOrder){
+			alert("min order is $"+minOrder);
+			return false;
+		}
+
+	});
+
+	/********* End of order cart functions *********/
+
+	/**
+	* display restaurants by order type, delivery,pick up.
+	*/
 	$(document).on('change','.orderType',function(){
 
 		if($(this).prop('checked')==true){
@@ -152,19 +228,24 @@ $(document).ready(function(){
 		}
 	});
 	
+
+	/**
+	* get restaurant data from localStorage and generate html.
+	*/
 	function load(){
 		$('.food').empty();
 		$('.submitOrder').empty();
 		//console.log("ho"+localStorage.getItem("list"));
 		var lists = JSON.parse(localStorage.getItem("list"));
 		var restaurantId = $("#restaurant").attr("data-id");
-		var cartType = $("#type").val();
-		if(cartType == "delivery"){
+		var cartType = $("#type").val(); // getting cart type
+
+		if(cartType == "delivery"){ // if is delivery, price add up 5 dollar.
 			var total = 5;
 		}else{
 			var total = 0;
 		}
-		
+
 		if(lists !== null){
 			for (i=0;i<lists.length;i++){
 				if(lists[i].restaurantId == restaurantId){
@@ -173,7 +254,7 @@ $(document).ready(function(){
 								'<li class="list-group-item" >Price: '+lists[i].price+'</li>'+
 								'<li class="list-group-item" >QTY: '+lists[i].qty+'</li>';
 					
-					total += parseInt(lists[i].price)*lists[i].qty;
+					total += parseInt(lists[i].price)*lists[i].qty; // total price
 					$('.food').append(data);
 				}
 			}
@@ -182,48 +263,10 @@ $(document).ready(function(){
 		}
 	}
 
-	$(document).on('click','.removeFood',function(){
-		var id = $(this).attr("data-id");
-		var foodList = JSON.parse(localStorage.getItem("list"));
-		for(i=0;i<foodList.length;i++){
-			if(foodList[i].foodId == id)
-			{
-				if(foodList[i].qty > 1){
-						
-					foodList[i].price-=(foodList[i].price/foodList[i].qty)
-					foodList[i].qty -= 1;
-					localStorage.setItem("list",JSON.stringify(foodList));
-					console.log(localStorage.getItem("list"));
-					load();
-				}else if(foodList[i].qty == 1){
-					delete foodList[i];
-					foodList = JSON.stringify(foodList).replace(/null,|null|null\,|\,null/,''); // escaping the null
-					localStorage.setItem("list",foodList);
-					console.log(localStorage.getItem("list"));
-					load();
-				}
-			}
-		}		
-
-	});
-
-	$(document).on('click','#submit',function(){
-
-		var minOrder = $("#minOrder").attr("data-id");
-		var totalPrice = parseInt($("#price").html());
-		if($(".food").is(":empty")){
-			alert("Can't be empty. Please add food!! ");
-			return false;
-		}
-
-		if(totalPrice < minOrder){
-			alert("min order is $"+minOrder);
-			return false;
-		}
-
-	});
-
-	// getting order list  
+	/**
+	* getting order list from localStorage and append into page
+	* checkOut.html
+	*/
 	var orderList = JSON.parse(localStorage.getItem("list"));
 	var getRestaurantId = $("#getRestaurantId").attr("data-id");
 
@@ -254,10 +297,11 @@ $(document).ready(function(){
 	$('.pay').val(totalPrice);
 
 
-
+	/**
+	* search for users
+	*/
 	$('#search').click(function(){
 		var search = $('#searchInput').val();
-		
 		$.ajax({
 			type: 'GET',
 			url: '/auth/users/searchUser',
@@ -295,7 +339,7 @@ $(document).ready(function(){
 		});
 	});
 
-	//  reviews
+	//reviews, star rating
 	var num = $(".star").attr("data-id");
 
 	var star = '<li class="full">'+'</li>';
@@ -307,53 +351,59 @@ $(document).ready(function(){
 			}
 		});
 	
-	$("#upload").submit(function(){
-		event.preventDefault();
+	/**
+	* new restaurant upload function with image upload
+	* Note: this function not in use
+	*/
+	// $("#upload").submit(function(){
+	// 	event.preventDefault();
 
-		var fileInput = $('#file')[0];
-	    var data = new FormData();
+	// 	var fileInput = $('#file')[0];
+	//     var data = new FormData();
 
-	    data.append('ufile',fileInput.files[0]);
+	//     data.append('ufile',fileInput.files[0]);
 	 	
-	 	var title 			= $('.addTitle').val();
-	 	var cuisineName 	= $('.addCuisineName').val(); 	
-	 	var openTime 		= $('.addOpenTime').val();
-	 	var minOrder 		= $('.addMinOrder').val();
-	 	var description		= $('.addDescription').val();
-	 	var address 		= $('.addAddress').val();
-	 	var cartType 		= $('.addCartType').val();
-	 	var userId 			= $('.userId').val();
+	//  	var title 			= $('.addTitle').val();
+	//  	var cuisineName 	= $('.addCuisineName').val(); 	
+	//  	var openTime 		= $('.addOpenTime').val();
+	//  	var minOrder 		= $('.addMinOrder').val();
+	//  	var description		= $('.addDescription').val();
+	//  	var address 		= $('.addAddress').val();
+	//  	var cartType 		= $('.addCartType').val();
+	//  	var userId 			= $('.userId').val();
 
-	 	data.append('title',title);
-	 	data.append('cuisineName',cuisineName);
-	 	data.append('openTime',openTime);
-	 	data.append('minOrder',minOrder);
-	 	data.append('description',description);
-	 	data.append('address',address);
-	 	data.append('cartType',cartType);
-	 	data.append('userId',userId);
+	//  	data.append('title',title);
+	//  	data.append('cuisineName',cuisineName);
+	//  	data.append('openTime',openTime);
+	//  	data.append('minOrder',minOrder);
+	//  	data.append('description',description);
+	//  	data.append('address',address);
+	//  	data.append('cartType',cartType);
+	//  	data.append('userId',userId);
 	 	
-		$.ajax({
-			type: 'POST',
-			url: '/admin/addRestaurant',
-			data: data,
-			headers:{'Cache-Control':'no-cache'},
-			contentType:false,
-        	processData:false,
-			success:function(data){
-				console.log(data);
-				var img = '<img src="'+data+'" width="120px">';
-				$('#perview').html(img);
-			}
-		});
-	});
+	// 	$.ajax({
+	// 		type: 'POST',
+	// 		url: '/admin/addRestaurant',
+	// 		data: data,
+	// 		headers:{'Cache-Control':'no-cache'},
+	// 		contentType:false,
+ //        	processData:false,
+	// 		success:function(data){
+	// 			console.log(data);
+	// 			var img = '<img src="'+data+'" width="120px">';
+	// 			$('#perview').html(img);
+	// 		}
+	// 	});
+	// });
 
+	/**
+	* image upload function via ajax
+	*/
 	$(".uploadImage").submit(function(){
 		event.preventDefault();
 		var fileInput = $(this).find(".imageFile")[0];
 		var data = new FormData();
 		data.append('ufile',fileInput.files[0]);
-		
 		var restaurantId = $(this).find(".restaurantId").val();
 		data.append('restaurantId',restaurantId);
 		
@@ -371,15 +421,6 @@ $(document).ready(function(){
 			}
 		});
 		
-	});
-
-	$('.listToggle').on('click',function(){
-		
-		if($(this).find('.ol').hasClass('hidden')){
-		 	$(this).find('.ol').removeClass('hidden');
-		}else{
-		 	$(this).find('.ol').addClass('hidden');
-		 }
 	});
 
 });
