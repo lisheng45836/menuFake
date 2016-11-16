@@ -35,6 +35,23 @@ class Restaurants extends \Core\Controller
 		View::renderTemplate('Lists/restaurant.html',['restaurant' => $info,'menus' => $menus,'auth'=>$auth,'user'=>$user]);
 	}
 
+	public function foodOption()
+	{
+		if($_SERVER['REQUEST_METHOD'] == 'GET'){
+			
+			$foodId = htmlspecialchars($_GET['foodId']);
+			$optionData = Menu::getFoodOption($foodId);
+			$optionData = Helper::uniqueArray($optionData,'optionMenuName');
+
+			if($optionData){
+				echo json_encode($optionData);
+			}else{
+				echo false;
+			}
+			
+		}
+	}
+
 	/**
 	* @des redirect orders information
 	*/

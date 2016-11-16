@@ -144,6 +144,7 @@ class User extends \Core\Model
 		}
 	}
 
+
 	public static function getUserById($userId)
 	{
 		try{

@@ -92,8 +92,10 @@ $(document).on('change','.cuisineNames',function(){
 		$(".main").empty().html(getRestaurant());
 	}
 
-});
+});	
 
+var click = false;
+		
 
 $(document).ready(function(){
 	//localStorage.clear();
@@ -107,15 +109,96 @@ $(document).ready(function(){
 	load();	// call load()
 
 	$(".foods").submit(function(e){
-		e.preventDefault();
+		event.preventDefault();
+		var foodId = parseInt($(this).find("#foodId").val());
+		var foodTitle = $(this).find("#foodTitle").val();
 		var foodData = $(this).serializeArray();
 		var food = {};
-		
-		for(i=0;i<foodData.length;i++){		// loop thought the data and push into food array(object).
-			food[foodData[i].name]=foodData[i].value;
-		}
-		
-		addOrder(food);	// pass food object into addOrder function.
+		$(".optionData").empty(); // empty the option panel
+		$.ajax({
+			type: 'GET',
+			url: "/restaurants/foodOption",
+			data: {foodId: foodId},
+			success:function(data){
+				if(data){
+					var options = JSON.parse(data);
+					for(i=0;i<options.length;i++){
+						var optionTitle ="";
+						var inputType ="";
+						if(options[i].optionMenuName != null){
+							optionTitle = '<h4>'+options[i].optionMenuName+'</h4>';
+						}
+						if(options[i].optionType == 1){
+							inputType = '<input type="radio" class="radio" name="'+options[i].id+'" value="'+options[i].optionName+'" id="'+options[i].optionName+'">';
+						}
+						if(options[i].optionType == 2){
+							inputType = '<input type="checkbox" class="radio" name="'+options[i].id+'" value="'+options[i].optionName+'" id="'+options[i].optionName+'">';
+						}
+					var data = 			
+										optionTitle+" "+
+										inputType+" "+
+										'<label for="'+options[i].optionName+'">'+
+											'<span class="optionName">'+options[i].optionName+'</span>'+
+											'<span class="optionPrice">$'+options[i].optionPrice+'</span>'+
+										'</label>';
+									
+						
+						$(".optionData").append(data);
+					}
+
+					$("#myModal").modal('show');
+					$(".modal-title").html(foodTitle);
+
+					$(document).on('submit','#optionForm',function(){ // choose options
+						//event.preventDefault();
+						if($(".radio").is(':checked')){
+							var optionName = [];
+							var optionPrice = [];
+							$(".radio:checked").each(function(){
+								var id = $(this).attr("id");
+								var optionN = $("label[for='"+id+"']").find(".optionName").text();
+		        				var optionP = $("label[for='"+id+"']").find(".optionPrice").text();
+		        				optionP = optionP.replace(/\$/g," ");
+		        				optionName.push(optionN);
+		        				if(optionP != ""){
+		        	 				optionPrice.push(parseInt(optionP));
+		        				}
+							});
+							var totalOptionPrice=0;
+							for(i=0; i < optionPrice.length; i++){
+								totalOptionPrice +=optionPrice[i];
+							}
+						 	
+							for(i=0;i<foodData.length;i++){		// loop thought the data and push into food array(object).
+								
+								if(foodData[i].name == "options"){
+									foodData[i].value = optionName.join(",");
+								}
+								if(foodData[i].name == "price"){
+									foodData[i].value = parseInt(foodData[i].value)+parseInt(totalOptionPrice);
+									
+								}
+
+								food[foodData[i].name]=foodData[i].value;
+							}
+							
+							addOrder(food);
+							//$("#myModal").modal('hide');
+						}else{
+							alert("Please choose one!");
+							return false;
+						}
+					});	
+
+				}else{
+					console.log("false");
+					for(i=0;i<foodData.length;i++){		// loop thought the data and push into food array(object).
+						food[foodData[i].name]=foodData[i].value;
+					}
+					addOrder(food);
+				}
+			}
+		});
 		
 	});
 
@@ -123,6 +206,7 @@ $(document).ready(function(){
 	* set order food object into localStorage, named "list".
 	*/
 	function addOrder(food){ 
+
 		//if localStorage("list") is empty, push food object into "list" array and localStorage.
 		if(localStorage.getItem("list") === null){
 			list.push(food); 
@@ -144,7 +228,7 @@ $(document).ready(function(){
 		var same = false;
 		
 		for(i=0;i<list.length;i++){
-			if(list[i].foodId == food.foodId)
+			if(list[i].foodId == food.foodId && list[i].options == food.options)
 			{
 				list[i].qty++; // add up qty num
 				list[i].price=parseInt(list[i].price)+parseInt(food.price); // add up price 
@@ -163,9 +247,10 @@ $(document).ready(function(){
 	*/
 	$(document).on('click','.removeFood',function(){
 		var id = $(this).attr("data-id");
+		var options = $(this).val();
 		var foodList = JSON.parse(localStorage.getItem("list"));
 		for(i=0;i<foodList.length;i++){
-			if(foodList[i].foodId == id)
+			if(foodList[i].foodId == id && foodList[i].options == options)
 			{
 				if(foodList[i].qty > 1){
 						
@@ -249,8 +334,17 @@ $(document).ready(function(){
 		if(lists !== null){
 			for (i=0;i<lists.length;i++){
 				if(lists[i].restaurantId == restaurantId){
-					var data ='<li class="list-group-item" >'+ '<strong>'+lists[i].foodTitle +'</strong>'+
-								'<button class="removeFood" data-id="'+lists[i].foodId+'">'+"x"+'</button>'+'</li>'+
+					var data ='<li class="list-group-item" >'+ 
+									'<div class="row">'+
+										'<div class="col-sm-8">'+
+											'<strong>'+lists[i].foodTitle +'</strong>'+'<br>'+
+											'<span>Options: '+lists[i].options+'</span>'+
+										'</div>'+
+										'<div class="col-sm-4">'+
+											'<button class="removeFood" data-id="'+lists[i].foodId+'" value="'+lists[i].options+'">'+"x"+'</button>'+
+										'</div>'+
+									'</div>'+
+								'</li>'+
 								'<li class="list-group-item" >Price: '+lists[i].price+'</li>'+
 								'<li class="list-group-item" >QTY: '+lists[i].qty+'</li>';
 					
@@ -276,22 +370,23 @@ $(document).ready(function(){
 		}else{
 			var totalPrice = 0;
 		}
+	if(orderList != null){
+		for(i=0;i<orderList.length;i++){
+				if(orderList[i].restaurantId == getRestaurantId){
+					var food = '<li class="list-group-item" >'+ '<strong>'+orderList[i].foodTitle +'</strong>'+
+										'<li class="list-group-item" >Price: '+orderList[i].price+'</li>'+
+										'<li class="list-group-item" >QTY: '+orderList[i].qty+'</li>';
 
-	for(i=0;i<orderList.length;i++){
-			if(orderList[i].restaurantId == getRestaurantId){
-				var food = '<li class="list-group-item" >'+ '<strong>'+orderList[i].foodTitle +'</strong>'+
-									'<li class="list-group-item" >Price: '+orderList[i].price+'</li>'+
-									'<li class="list-group-item" >QTY: '+orderList[i].qty+'</li>';
-
-				var dataSubmit = '<input type="hidden" name="foodTitle[]" value="'+orderList[i].foodTitle+'">'+
-									'<input type="hidden" name="foodId[]" value="'+orderList[i].foodId+'" >'+
-									'<input type="hidden" name="price[]" value="'+orderList[i].price+'">'+
-									'<input type="hidden" name="qty[]" value="'+orderList[i].qty+'">';
-				totalPrice += parseInt(orderList[i].price)*orderList[i].qty;
-				$('.submitOrder').append(dataSubmit);
-				$('#orders').append(food);
+					var dataSubmit = '<input type="hidden" name="foodTitle[]" value="'+orderList[i].foodTitle+'">'+
+										'<input type="hidden" name="foodId[]" value="'+orderList[i].foodId+'" >'+
+										'<input type="hidden" name="price[]" value="'+orderList[i].price+'">'+
+										'<input type="hidden" name="qty[]" value="'+orderList[i].qty+'">';
+					totalPrice += parseInt(orderList[i].price)*orderList[i].qty;
+					$('.submitOrder').append(dataSubmit);
+					$('#orders').append(food);
+				}
 			}
-		}
+	}
 	$('#totalPrice').html('<h4>Total:</h4>$'+'<strong id="prices">'+totalPrice+'</strong>');
 	$('.payment').append('<input type="hidden" name="totalPrice" value="'+totalPrice+'">');
 	$('.pay').val(totalPrice);
@@ -420,6 +515,13 @@ $(document).ready(function(){
 				$('.perview').html(img);
 			}
 		});
+		
+	});
+
+	$(document).on('click','.addOptionItem',function(){
+		var data = '<div>item: <input type="text" name="options[]">'+
+					'price: <input type="text" name="price"></div>';
+		$(".options").append(data);
 		
 	});
 

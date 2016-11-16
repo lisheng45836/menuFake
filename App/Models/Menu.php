@@ -45,9 +45,10 @@ class Menu extends \Core\Model
 			$db = static::getDB();
 			$stmt = $db->prepare("SELECT menu.id,menu.menuTitle,restaurant_id FROM menu,restaurant WHERE menu.restaurant_id = restaurant.id AND restaurant.title = ?");
 			$stmt->execute(array($title));
-			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $result;
+
 
 		}catch(PODException $e){
 			echo $e->getMessage();
@@ -102,7 +103,7 @@ class Menu extends \Core\Model
 	{
 		try{
 			$db = $db = static::getDB();
-			$stmt = $db->prepare("INSERT INTO menu(menuTitle,restaurant_id)VALUES(:menuTitle,:description,:restaurantId)");
+			$stmt = $db->prepare("INSERT INTO menu(menuTitle,restaurant_id)VALUES(:menuTitle,:restaurantId)");
 			$stmt->bindParam(':menuTitle',$menuTitle);
 			$stmt->bindParam(':restaurantId',$restaurantId);
 			$stmt->execute();
@@ -126,6 +127,62 @@ class Menu extends \Core\Model
 			$stmt->bindParam(':description',$description);
 			$stmt->bindParam(':menuId',$menuId);
 			$stmt->execute();
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public static function addOptionMenus($foodId,$optionMenuName,$optionType)
+	{
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("INSERT INTO optionMenu(optionMenuName,optionType,foodId)VALUES(:optionMenuName,:optionType,:foodId)");
+			$stmt->bindParam(':optionMenuName',$optionMenuName);
+			$stmt->bindParam(':optionType',$optionType);
+			$stmt->bindParam(':foodId',$foodId);
+			$stmt->execute();
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public static function addOptionItems($optionMenuId,$optionName,$optionPrice)
+	{
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("INSERT INTO optionItem(optionName,optionPrice,optionMenuId)VALUES(:optionName,:optionPrice,:optionMenuId)");
+			$stmt->bindParam(':optionName',$optionName);
+			$stmt->bindParam(':optionPrice',$optionPrice);
+			$stmt->bindParam(':optionMenuId',$optionMenuId);
+			$stmt->execute();
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public static function getOptionMenu($id)
+	{
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("SELECT id,optionMenuName From optionMenu WHERE foodId =:id ");
+			$stmt->bindParam(':id',$id);
+			$stmt->execute();
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return $result;
+		}catch(PODException $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public static function getFoodOption($foodId)
+	{
+		try{
+			$db = static::getDB();
+			$stmt = $db->prepare("SELECT optionItem.optionName,optionItem.optionPrice,optionMenu.optionMenuName,optionMenu.id,optionMenu.optionType FROM optionMenu,optionItem WHERE optionItem.optionMenuId = optionMenu.id AND foodId=:foodId");
+			$stmt->bindParam(':foodId',$foodId);
+			$stmt->execute();
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return $result;
 		}catch(PODException $e){
 			echo $e->getMessage();
 		}

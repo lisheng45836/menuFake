@@ -23,9 +23,10 @@ class Search extends \Core\Controller
 			$locations = explode(",",$address);
 			$locations[0];
 			$location = ucfirst($locations[0]); // first character uppercase
+			$location = preg_replace('/ /','_',$location);
 			$results = Restaurant::getLists($location,$cartType);
 			$cuisines = Restaurant::getCuisines();
-			// $totalResults = count($results);
+			$totalResults = count($results);
 			$auth = Users::auth();
 			$user = Users::getUser();
 			View::renderTemplate('Lists/lists.html',['result' => $results,'location' => $location,'cuisines'=>$cuisines,'auth'=>$auth,'user'=>$user]);
@@ -35,7 +36,8 @@ class Search extends \Core\Controller
 	public function refind()
 	{
 		$location = $this->route_params['name'];
-
+		
+		
 		if(isset($_GET["cuisineNames"])&&isset($_GET["cartType"])){
 			$cuisineName = $_GET["cuisineNames"];
 			if($cuisineName[0] === "all")

@@ -137,20 +137,26 @@ class Admin extends \Core\Controller
 		* upload image to server
 		*/
 		if(isset($_FILES['ufile']['name'])){
-			$name = isset($_FILES['ufile']['name']);
-			$targetPath=$_SERVER['DOCUMENT_ROOT']."/img/cover/"; //file location path
-			$imagePath = $targetPath.basename($name);	//image path
-			$path = "http://localhost:8888/img/cover/".$name;	//image server path(image URL)
-			if(move_uploaded_file($_FILES['ufile']['tmp_name'],$imagePath)){ // move file
-				Helper::redirect("/admin/$userId/editRestaurant");
-				echo $path;	// return image path (image URL).
+			if(!empty($_FILES['ufile']['name'])){
+				$name = isset($_FILES['ufile']['name']);
+				$targetPath=$_SERVER['DOCUMENT_ROOT']."/img/cover/"; //file location path
+				$imagePath = $targetPath.basename($name);	//image path
+				$path = "http://localhost:8888/img/cover/".$name;	//image server path(image URL)
+				if(move_uploaded_file($_FILES['ufile']['tmp_name'],$imagePath)){ // move file
+					//Create new Restaurant record in database
+					Restaurant::addRestaurant($title,$cuisineName,$openTime,$closeTime,$minOrder,$description,$path,$address,$cartType,$userId);
+					Helper::redirect("/admin/$userId/editRestaurant");
+					echo $path;	// return image path (image URL).
+				}else{
+					echo "image upload goes wrong";
+				}
 			}else{
-				echo "Nah";
+				$imagePath = "http://localhost:8888/img/cover/default.jpg";
+				Restaurant::addRestaurant($title,$cuisineName,$openTime,$closeTime,$minOrder,$description,$imagePath,$address,$cartType,$userId);
+				Helper::redirect("/admin/$userId/editRestaurant");
+				echo $imagePath;	// return image path (image URL).
 			}
 		}
-		//Create new Restaurant record in database
-		Restaurant::addRestaurant($title,$cuisineName,$openTime,$closeTime,$minOrder,$description,$path,$address,$cartType,$userId);
-		
 	}
 
 	

@@ -42,7 +42,14 @@
 		    </form>
 		  </div>
 		</div>
-
+		<div>
+		{% if userRole == 2%}
+			<a class="btn" href="/partner"><strong>Back</strong></a>
+		{% endif %}
+		{% if userRole == 3%}
+			<a class="btn" href="/admin"><strong>Back</strong></a>
+		{% endif %}
+		</div>
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">{{title}} Menus</h3>
@@ -52,7 +59,14 @@
 					{%for menu in menus%}
 					<h3 style="background-color: yellow;">{{ menu.menuTitle }}</h3>
 					<hr>
-
+					<div>
+						<h4>
+							<a href="/edit/{{ menu.id }}/optionMenu"> 
+							<span class="label label-danger"> ADD OPTIONS </span> 
+							</a>
+						</h4>
+					</div>
+					<hr>
 					<form action="/edit/editMenu" method="POST" >
 					
 						<div class="form-group">
@@ -76,7 +90,9 @@
 						</div>
 						
 					</form>
+					<hr>
 					{%endfor%}
+
 			</div>
 		</div>
 	</div>

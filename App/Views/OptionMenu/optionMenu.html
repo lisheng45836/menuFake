@@ -1,0 +1,38 @@
+{% extends "panelBase.html" %}
+{% block title %} Partner Panel {% endblock %}
+
+{% block body %}
+	<div class="container">					
+	<br>
+	<h4> Create new Option Menu </h4>
+	<form action="/edit/{{foodId}}/addOptionMenu" method="POST" >
+		<select name="optionType">
+			<option value="1">Single choose</option>
+			<option value="2">Multi choose</option>
+		</select>
+		<input type="text" name="optionMenuName" placeholder="Create new Option">
+		<input type="submit" name="submit" value="add">
+	</form>						
+	{% for optionData in optionData %}
+		{% if optionData.optionMenuName is empty %}
+		{% else %}
+			<h5> {{optionData.optionMenuName}} | {{optionData.optionType}}</h5>
+		{% endif %}
+
+		{{optionData.optionName}} ${{optionData.optionPrice}}<br>
+	{% endfor %}
+
+	<h4> Add item to Option Menu </h4>
+	<form action="/edit/addOptionItem" method="POST">
+		<select name="optionMenuId">
+		{% for optionMenu in optionMenus %}
+			<option  value="{{optionMenu.id}}">{{optionMenu.optionMenuName}}</option>
+		{% endfor %}
+		</select>
+		<input type="text" name="optionName" placeholder="option name">
+		<input type="text" name="optionPrice" placeholder="option price">
+		<input type="submit" name="submit" value="add">
+	</form>
+	</div>
+
+{% endblock %}

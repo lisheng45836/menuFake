@@ -32,10 +32,15 @@ class Edit extends \Core\Controller
 			if($userRole == 2 || $userRole == 3){	//check user Role (2 == partner 3 == admin)
 				$title = $this->route_params['name'];
 				$menuTitle = Menu::getMenuTitle($title);
-				$id = $menuTitle[0]['restaurant_id'];
-				$menu = Menu::getMenu($id);
-				$menus = Helper::uniqueArray($menu,'menuTitle');	//return unique menu array
-				View::renderTemplate('Partner/editMenu.html',['title'=>$title,'menuTitle' => $menuTitle,'auth'=>$auth,'userRole'=>$userRole,'menus'=>$menus]);
+				if($menuTitle){
+					$id = $menuTitle[0]['restaurant_id'];
+					$menu = Menu::getMenu($id);
+					
+					$menus = Helper::uniqueArray($menu,'menuTitle');	//return unique menu array
+					View::renderTemplate('Partner/editMenu.html',['title'=>$title,'menuTitle' => $menuTitle,'auth'=>$auth,'userRole'=>$userRole,'menus'=>$menus]);
+				}else{
+					echo '<h3> Empty,Please Add Menu First</h3>';
+				}
 			}else{
 				echo '<a href="/"> GO BACK </>';
 			}
@@ -162,6 +167,54 @@ class Edit extends \Core\Controller
 				Helper::redirect("/edit/$title/menu");
 			} 
 
+		}
+	}
+
+	public function optionMenu()
+	{
+		if($_SERVER['REQUEST_METHOD'] == 'GET'){
+
+			$foodId = $this->route_params['name'];
+			$optionMenus = Menu::getOptionMenu($foodId);
+			$optionData = Menu::getFoodOption($foodId);
+			$optionData = Helper::uniqueArray($optionData,'optionMenuName');
+			View::renderTemplate('OptionMenu/optionMenu.html',['optionMenus'=>$optionMenus,'optionData'=>$optionData,'foodId'=>$foodId]);
+		}
+	}
+
+	public function addOptionMenu()
+	{
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			$foodId = $this->route_params['name'];
+			$optionType		= htmlspecialchars($_POST['optionType']);
+			$optionMenuName = htmlspecialchars($_POST['optionMenuName']);
+			Menu::addOptionMenus($foodId,$optionMenuName,$optionType);
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
+		}
+	}
+
+	public function addOptionItem()
+	{
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			$optionMenuId 	= htmlspecialchars($_POST['optionMenuId']);
+			$optionName 	= htmlspecialchars($_POST['optionName']);
+			$optionPrice 	= htmlspecialchars($_POST['optionPrice']);
+			Menu::addOptionItems($optionMenuId,$optionName,$optionPrice);
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
+		}
+	}
+
+	public function addFoodOptions()
+	{
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			$foodId = $this->route_params['name'];
+			$options = $_POST['options'];
+			$price = $_POST['price'];
+			for($i=0;$i<count($options);$i++){
+				echo "$options[$i] + $price[$i]<br>";
+			}
+			
+			
 		}
 	}
 }

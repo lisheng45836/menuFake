@@ -3,7 +3,7 @@
 {% block body %}
 
 	<div class="jumbotron listCover">
-	<h2 class="heading">{{ location }} Delivery and Takeaway</h2>
+	<h2 class="heading">{{ location | replace({'_':' '}) }} Delivery and Takeaway</h2>
 	</div>
 	<div class="container">
 

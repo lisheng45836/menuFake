@@ -196,3 +196,6 @@ tbody{
   background-size: 24px 24px;
   background-repeat: no-repeat;
 }
+.optionName,.optionPrice{
+  padding-right: 5px;
+}

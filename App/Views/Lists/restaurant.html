@@ -77,6 +77,7 @@
 		</div>
 
 		<div class="col-md-8">
+		<a class="btn" href="/"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span><strong >Home</strong></a>
 			<table class="table">
 				<tbody>
 					{%for menu in menus%}
@@ -93,6 +94,7 @@
 								<input type="hidden" name="price" id="price" value="{{ menu.price }}">
 								<input type="hidden" name="foodTitle" id="foodTitle" value="{{ menu.foodTitle }}">
 								<input type="hidden" name="qty" id="qty" value="1">
+								<input type="hidden" name="options" id="options" value="">
 								<input class="btn btn-default pull-right" type="submit" class="addToCart" value="Add">
 							</form>
 						</td>
@@ -102,5 +104,25 @@
 			</table>
 		</div>
 	</div>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">title</h4>
+		      </div>
+		      <form id="optionForm" class="form-inline" method="POST" >
+			      <div class="modal-body">
+			      	<div class="optionData">
+			      		
+			      	</div>
+			      </div>
+			      <div class="modal-footer">
+				        <input type="submit" class="btn btn-primary" id="continue" value="Continue">
+			      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
 	</div>
 {% endblock %}

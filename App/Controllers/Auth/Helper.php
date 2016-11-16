@@ -55,7 +55,7 @@ HTML;
 		        	unset($val[$key]);
 		        	$tempArray[$i] = $val; 
 		        	//var_dump($i);
-		        	$i++;
+		        	// $i++;
 		        }   
 		    }
 		    //var_dump($tempArray); 
